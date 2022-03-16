@@ -1,0 +1,11 @@
+Game: Boom(zing)
+Name: The Boomer
+Gameplay:
+	Game sẽ có 3 màn chơi ( bao gồm 2 màn thường và 1 màn boss)
+	Game 1 người chơi kiểu 2D, nhiệm vụ của người chơi là đặt bom để bom nổ sau một khoảng thời gian 
+		sao cho nổ để tiêu diệt các quái trong game
+	Người chơi sẽ dùng wasd để du chuyển và space để đặt bom 
+	Khi người chơi tiêu diệt hết quái người chơi sẽ qua màn
+	Người chơi có thể dùng bom để phá đồ vật(có thể phá) sẽ có tỉ lệ ngẫu nhiên rơi ra item
+		và khi người dùng va chạm với item sẽ được hiệu ứng tương ứng với item đấy
+	  
