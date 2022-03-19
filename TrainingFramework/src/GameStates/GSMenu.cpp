@@ -33,6 +33,27 @@ void GSMenu::Init()
 		});
 	m_listButton.push_back(button);
 
+	// setting button
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_settings.tga");
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 + 200);
+	button->SetSize(100, 100);
+	button->SetOnClick([]() {
+		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_SETTING);
+		});
+	m_listButton.push_back(button);
+
+	// infor button
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_settings_1.tga");
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 + 300);
+	button->SetRotation(Vector3(0, 0, 0));
+	button->SetSize(100, 100);
+	button->SetOnClick([]() {
+		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_PLAY);
+		});
+	m_listButton.push_back(button);
+
 	// exit button
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	button = std::make_shared<GameButton>(model, shader, texture);
