@@ -33,7 +33,6 @@ void GSSetting::Init()
 	m_listButton.push_back(button);
 
 	// volumn turn on button
-	// must set in last button because this button has setName
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->SetName("btn_volumn");
 	button->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
@@ -41,7 +40,7 @@ void GSSetting::Init()
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->changeMute();
 		if (GameStateMachine::GetInstance()->isMute()) {
-			ResourceManagers::GetInstance()->StopSound("Alarm01.wav");
+			ResourceManagers::GetInstance()->StopSound("soundMenu.wav");
 		}
 		});
 	m_listButton.push_back(button);
