@@ -71,7 +71,11 @@ void GSMenu::Init()
 	m_textGameName->Set2DPosition(Vector2(60, 200));
 
 	std::string name = "Alarm01.wav";
-	ResourceManagers::GetInstance()->PlaySound(name);
+	if (!GameStateMachine::GetInstance()->isMute())
+	{
+		ResourceManagers::GetInstance()->PlaySound(name, true);
+	}
+	
 }
 
 void GSMenu::Exit()

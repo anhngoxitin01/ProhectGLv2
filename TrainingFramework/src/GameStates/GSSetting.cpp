@@ -21,23 +21,28 @@ void GSSetting::Init()
 	m_background->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
 	m_background->SetSize(Globals::screenWidth, Globals::screenHeight);
 
-	// volumn turn on button
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_prev.tga");
-	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
-	button->SetSize(200, 200);
-	button->SetOnClick([]() {
-		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_PLAY);
-		});
-	m_listButton.push_back(button);
-
 	// turn back button
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_prev.tga");
-	button = std::make_shared<GameButton>(model, shader, texture);
+	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
+	button->SetName("btn_turnBack");
 	button->Set2DPosition(Globals::screenWidth - 50, 50);
 	button->SetSize(50, 50);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->ChangeState(StateType::STATE_MENU);
+	});
+	m_listButton.push_back(button);
+
+	// volumn turn on button
+	// must set in last button because this button has setName
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->SetName("btn_volumn");
+	button->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	button->SetSize(200, 200);
+	button->SetOnClick([]() {
+		GameStateMachine::GetInstance()->changeMute();
+		if (GameStateMachine::GetInstance()->isMute()) {
+			ResourceManagers::GetInstance()->StopSound("Alarm01.wav");
+		}
 		});
 	m_listButton.push_back(button);
 
@@ -47,6 +52,7 @@ void GSSetting::Init()
 	m_textGameName = std::make_shared< Text>(shader, font, "Setting", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
 	m_textGameName->Set2DPosition(Vector2(60, 200));
 
+	//sound
 }
 
 
@@ -100,6 +106,15 @@ void GSSetting::Draw()
 	m_background->Draw();
 	for (auto it : m_listButton)
 	{
+		if (it->GetName().compare("btn_volumn") == 0)
+		{
+			if (GameStateMachine::GetInstance()->isMute())
+			{
+				it->SetTexture(ResourceManagers::GetInstance()->GetTexture("btn_sfx_off.tga"));
+			}
+			else 
+				it->SetTexture(ResourceManagers::GetInstance()->GetTexture("btn_sfx.tga"));
+		}
 		it->Draw();
 	}
 	m_textGameName->Draw();

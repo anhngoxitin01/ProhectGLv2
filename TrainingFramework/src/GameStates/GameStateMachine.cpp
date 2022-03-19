@@ -2,7 +2,7 @@
 #include "GameStateMachine.h"
 #include "GameStateBase.h"
 
-GameStateMachine::GameStateMachine() : m_running(true), m_pActiveState(nullptr), m_pNextState(nullptr), m_fullscreen(false)
+GameStateMachine::GameStateMachine() : m_running(true), m_pActiveState(nullptr), m_pNextState(nullptr), m_fullscreen(false) , m_isMute(false)
 {
 }
 
@@ -83,4 +83,9 @@ void  GameStateMachine::PerformStateChange()
 	}
 
 	m_pNextState = 0;
+}
+
+void GameStateMachine::changeMute()
+{
+	m_isMute = !m_isMute;
 }

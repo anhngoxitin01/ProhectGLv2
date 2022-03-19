@@ -30,6 +30,9 @@ public:
 	bool	isRunning() { return m_running; }
 	void	Quit() { m_running = false; }
 	void	PerformStateChange();
+	void	changeMute();
+	bool	isMute() { return m_isMute; }
+
 
 	inline std::shared_ptr<GameStateBase> CurrentState()const
 	{
@@ -51,6 +54,7 @@ private:
 	std::shared_ptr<GameStateBase>				m_pActiveState;
 	std::shared_ptr<GameStateBase>				m_pNextState;
 	bool	m_running;
+	bool	m_isMute;
 	bool	m_fullscreen;
 };
 
