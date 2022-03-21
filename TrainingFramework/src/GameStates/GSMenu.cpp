@@ -44,7 +44,7 @@ void GSMenu::Init()
 	m_listButton.push_back(button);
 
 	// infor button
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_settings_1.tga");
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_infor.tga");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2 + 300);
 	button->SetRotation(Vector3(0, 0, 0));

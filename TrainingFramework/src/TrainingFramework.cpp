@@ -2,7 +2,7 @@
 #include "Shader.h"
 #include "Application.h"
 #include "utilities.h" 
-#include "vld.h"
+//#include "vld.h"
 
 int Globals::screenWidth = 1000;
 int Globals::screenHeight = 800;
