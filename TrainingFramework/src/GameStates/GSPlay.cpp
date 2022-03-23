@@ -27,18 +27,23 @@ void GSPlay::Init()
 {
 	m_Test = 1;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play1.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
 
 	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	m_background = std::make_shared<Sprite2D>(model, shader, texture);
-	m_background->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
-	m_background->SetSize(Globals::screenWidth, Globals::screenHeight);
+	//m_background->Set2DPosition(((float)Globals::screenWidth - 300 )/ 2, (float)Globals::screenHeight / 2);
+	m_background->Set2DPosition(700/2 , 700/2);
+	//m_background->SetSize(Globals::screenWidth -50, Globals::screenHeight - 50);
+	m_background->SetSize(Globals::item_size  * 12, Globals::item_size * 12);
+
+	
+	
 
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(Globals::screenWidth - 50, 50);
+	button->Set2DPosition((float)Globals::screenWidth -25 , 25);
 	button->SetSize(50, 50);
 	button->SetOnClick([this]() {
 			GameStateMachine::GetInstance()->PopState();
@@ -49,7 +54,7 @@ void GSPlay::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
-	m_score->Set2DPosition(Vector2(5, 25));
+	m_score->Set2DPosition(Vector2(Globals::screenWidth - Globals::menuGPWidth + 50, 25));
 
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
@@ -115,6 +120,12 @@ void GSPlay::Draw()
 {
 	m_background->Draw();
 	m_score->Draw();
+
+	for (auto it : m_list_items_map)
+	{
+		it->Draw();
+	}
+
 	for (auto it : m_listButton)
 	{
 		it->Draw();

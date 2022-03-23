@@ -1,0 +1,94 @@
+code for add item in map
+
+// items_map
+	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
+
+	// border corner
+	model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	texture = ResourceManagers::GetInstance()->GetTexture("bottom_left_corner.tga");
+	item_map = std::make_shared<Sprite2D>(model, shader, texture);
+	item_map->Set2DPosition(25, Globals::screenHeight - Globals::item_size / 2);
+	item_map->SetSize(Globals::item_size, Globals::item_size);
+	m_list_items_map.push_back(item_map);
+
+	texture = ResourceManagers::GetInstance()->GetTexture("bottom_right_corner.tga");
+	item_map = std::make_shared<Sprite2D>(model, shader, texture);
+	item_map->Set2DPosition((Globals::screenWidth - Globals::menuGPWidth + Globals::item_size/2) 
+		, Globals::screenHeight - Globals::item_size / 2);
+	item_map->SetSize(Globals::item_size, Globals::item_size);
+	m_list_items_map.push_back(item_map);
+
+	//border top
+	for (int i = 0; i < 14; i++)
+	{
+		//if corner
+		if (i == 0)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("top_left_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size / 2, Globals::item_size / 2);
+		}
+		else if (i == 13)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("top_right_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * i + Globals::item_size / 2
+				, Globals::item_size / 2);
+		}
+		else 
+		{
+			//other border
+			texture = ResourceManagers::GetInstance()->GetTexture("top_border.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			// plus with range of border corner
+			item_map->Set2DPosition(Globals::item_size * i + Globals::item_size / 2
+				, Globals::item_size / 2);
+		}
+		item_map->SetSize(Globals::item_size, Globals::item_size);
+		m_list_items_map.push_back(item_map);
+	}
+
+	//border bottom
+	for (int i = 0; i < 14; i++)
+	{
+		//if corner
+		if (i == 0)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("bottom_left_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size / 2, 
+				Globals::screenHeight - Globals::item_size / 2);
+		}
+		else if (i == 13)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("bottom_right_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * i + Globals::item_size / 2
+				, Globals::screenHeight - Globals::item_size / 2);
+		}
+		else
+		{
+			//other border
+			texture = ResourceManagers::GetInstance()->GetTexture("bottom_border.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			// plus with range of border corner
+			item_map->Set2DPosition(Globals::item_size * i + Globals::item_size / 2
+				, Globals::screenHeight - Globals::item_size / 2);
+		}
+		item_map->SetSize(Globals::item_size, Globals::item_size);
+		m_list_items_map.push_back(item_map);
+	}
+
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
