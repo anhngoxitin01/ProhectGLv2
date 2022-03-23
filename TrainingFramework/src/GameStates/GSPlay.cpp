@@ -29,24 +29,111 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	m_Test = 1;
+	// create model , texture and shader
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-
-	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	m_background = std::make_shared<Sprite2D>(model, shader, texture);
-	//m_background->Set2DPosition(((float)Globals::screenWidth - 300 )/ 2, (float)Globals::screenHeight / 2);
-	m_background->Set2DPosition(700/2 , 700/2);
-	//m_background->SetSize(Globals::screenWidth -50, Globals::screenHeight - 50);
-	m_background->SetSize(Globals::item_size  * 12, Globals::item_size * 12);
 
+	//draw background
+	prepareForDrawingBackground(model , texture , shader);
+	//draw Map
+	prepareForDrawingMap(model, texture, shader);
+	//draw Button
+	prepareForDrawingButton(model, texture, shader);
+	//draw Text
+	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+	prepareForDrawingText(model, texture, shader);
+	//draw Animation
+	prepareForDrawingAnimation(model, texture, shader);
+}
+
+void GSPlay::Exit()
+{
+	printf("%d", m_Test);
+}
+
+
+void GSPlay::Pause()
+{
+}
+
+void GSPlay::Resume()
+{
+}
+
+
+void GSPlay::HandleEvents()
+{
+}
+
+void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
+{
+}
+
+void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
+{
+	for (auto button : m_listButton)
+	{
+		if(button->HandleTouchEvents(x, y, bIsPressed))
+		{
+			break;
+		}
+	}
+}
+
+void GSPlay::HandleMouseMoveEvents(int x, int y)
+{
+}
+
+void GSPlay::Update(float deltaTime)
+{
+	for (auto it : m_listButton)
+	{
+		it->Update(deltaTime);
+	}
+	for (auto it : m_listAnimation)
+	{
+		it->Update(deltaTime);
+	}
+}
+
+void GSPlay::Draw()
+{
+	m_background->Draw();
+	m_score->Draw();
+
+	for (auto it : m_list_items_map)
+	{
+		it->Draw();
+	}
+
+	for (auto it : m_listButton)
+	{
+		it->Draw();
+	}
+
+	for (auto it : m_listAnimation)
+	{
+		it->Draw();
+	}
+}
+
+void GSPlay::prepareForDrawingBackground(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+{
+	m_background = std::make_shared<Sprite2D>(model, shader, texture);
+	m_background->Set2DPosition(700 / 2, 700 / 2);
+	m_background->SetSize(Globals::item_size * 12, Globals::item_size * 12);
+}
+
+void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+{
 
 	//read file
 	ResourceManagers::GetInstance()->readMapFromFile(PATHFILE_MAP_1, m_map);
-
+	//check map in cmd
 	for (int i = 0; i < Globals::rowMap * Globals::colMap; i++)
 	{
-		if (i % 14 == 0) 
+		if (i % 14 == 0)
 			printf("\n");
 		printf("%d", m_map[i]);
 	}
@@ -161,100 +248,37 @@ void GSPlay::Init()
 			break;
 		}
 	}
+}
 
+void GSPlay::prepareForDrawingButton(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+{
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition((float)Globals::screenWidth -25 , 25);
+	button->Set2DPosition((float)Globals::screenWidth - 25, 25);
 	button->SetSize(50, 50);
 	button->SetOnClick([this]() {
-			GameStateMachine::GetInstance()->PopState();
+		GameStateMachine::GetInstance()->PopState();
 		});
 	m_listButton.push_back(button);
+}
 
-	// score
-	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+void GSPlay::prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+{
+	//score
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
 	m_score->Set2DPosition(Vector2(Globals::screenWidth - Globals::menuGPWidth + 50, 25));
+}
 
+void GSPlay::prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+{
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
 	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 5, 0.1f);
-	
+
 	obj->Set2DPosition(240, 400);
 	obj->SetSize(334, 223);
 	//obj->SetRotation(Vector3(0.0f, 3.14f, 0.0f));
 	m_listAnimation.push_back(obj);
-}
-
-void GSPlay::Exit()
-{
-	printf("%d", m_Test);
-}
-
-
-void GSPlay::Pause()
-{
-}
-
-void GSPlay::Resume()
-{
-}
-
-
-void GSPlay::HandleEvents()
-{
-}
-
-void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
-{
-}
-
-void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
-{
-	for (auto button : m_listButton)
-	{
-		if(button->HandleTouchEvents(x, y, bIsPressed))
-		{
-			break;
-		}
-	}
-}
-
-void GSPlay::HandleMouseMoveEvents(int x, int y)
-{
-}
-
-void GSPlay::Update(float deltaTime)
-{
-	for (auto it : m_listButton)
-	{
-		it->Update(deltaTime);
-	}
-	for (auto it : m_listAnimation)
-	{
-		it->Update(deltaTime);
-	}
-}
-
-void GSPlay::Draw()
-{
-	m_background->Draw();
-	m_score->Draw();
-
-	for (auto it : m_list_items_map)
-	{
-		it->Draw();
-	}
-
-	for (auto it : m_listButton)
-	{
-		it->Draw();
-	}
-
-	for (auto it : m_listAnimation)
-	{
-		it->Draw();
-	}
 }
