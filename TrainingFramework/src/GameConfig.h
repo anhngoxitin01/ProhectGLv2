@@ -25,6 +25,8 @@ public:
 	static int Globals::screenHeight;
 	static int Globals::item_size;
 	static int Globals::menuGPWidth;
+	static int Globals::colMap;
+	static int Globals::rowMap;
 };
 
 // define value
@@ -36,6 +38,21 @@ public:
 #define VETEX_BITTANGEN		(char*)0+2*(sizeof(Vector3))
 #define VETEX_TANGEN		(char*)0+3*(sizeof(Vector3))
 #define VETEX_UV			(char*)0+4*(sizeof(Vector3))
+
+//define map
+#define PATHFILE_MAP_1			"..\\Data\\Map\\map1.txt"
+#define MAP_TOP_LEFT_CORNER		48					//so 0
+#define MAP_TOP_RIGHT_CORNER	49					//so 1
+#define MAP_BOTTOM_LEFT_CORNER	50					//so 2
+#define MAP_BOTTOM_RIGHT_CORNER	51					//so 3
+#define MAP_TOP_BORDER			52					//so 4
+#define MAP_LEFT_BORDER			53					//so 5
+#define MAP_BOTTOM_BORDER		54					//so 6
+#define MAP_RIGHT_BORDER		55					//so 7
+#define MAP_ITEM_TREE			56					//so 8
+#define MAP_ITEM_BUSH			57					//so 9
+#define MAP_NOTHING				111					//ki tu o
+
 
 // define type of Models
 #define NONE	111 

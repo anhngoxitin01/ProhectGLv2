@@ -9,6 +9,7 @@
 #include "GameObject/Text.h"
 
 
+
 ResourceManagers::ResourceManagers()
 {
 	std::string dataPath = "..\\Data\\";
@@ -205,4 +206,31 @@ void ResourceManagers::StopSound(const std::string& name)
 		wave = it->second;
 	}
 	m_Soloud.stopAudioSource(*wave);
+}
+
+void ResourceManagers::readMapFromFile(char* namePath, int* arr)
+{
+	char c[10];
+	FILE* fptr;
+
+	if ((fptr = fopen(namePath, "r")) == NULL)
+	{
+		printf("Error! opening file");
+		// Program exits if file pointer returns NULL.
+		exit(1);
+	}
+	else
+	{
+		for (int i = 0; i < 14; i++)
+		{
+			for (int j = 0; j < 14; j++)
+			{
+				fscanf(fptr, "%c", c);
+				arr[i * 14 + j] = toascii(c[0]);
+			}
+			fscanf(fptr, "\n");
+		}
+	}
+
+	fclose(fptr);
 }

@@ -92,3 +92,137 @@ code for add item in map
 ===============================================================================================================
 ===============================================================================================================
 ===============================================================================================================
+//test read file 
+	//create a array
+	int row = 14; 
+	int col = 2;
+	char* namePath = "C:/Users/han.glschool/Desktop/New folder/ProjectGLv2/test.txt";
+
+	char** arr = new char* [row];
+	for (int i = 0; i < row; i++)
+		arr[i] = new char[col];
+
+	//read file
+	FILE* f = fopen(namePath, "r");
+	// one line just have 14c
+	if (f == NULL)
+		perror("Cannot open file");
+	char buffer[14];
+	fgets(buffer, 14, f);
+	int index = 0; // index for col
+	while (!feof(f))
+	{
+		for (int i = 0; i < row; i++)
+		{
+			arr[index][i] = buffer[i];
+			printf("buffer[%d] = %d ", i, buffer[i]);
+		}
+		printf("\n");
+		index++;
+		fgets(buffer, 14, f);
+	}
+	fclose(f);
+
+	// draw map
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			switch (arr[i][j])
+			{
+			case 1: /// tuong
+				//draw tuong
+				break;
+			case 2: // nam
+				//draw nam
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+//draw map and item
+	//create item_map shader
+	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
+	item_map->SetSize(Globals::item_size, Globals::item_size);
+	//get map from file 
+	m_map = ResourceManagers::GetInstance()->getMapFromPathWithConstCR(PATHFILE_MAP_1);
+	for (int i = 0; i < Globals::rowMap; i++)
+	{
+		for (int j = 0; j < Globals::colMap; j++)
+		{
+			switch (arr[i][j])
+			{
+				case MAP_TOP_LEFT_CORNER:	
+				{
+					texture = ResourceManagers::GetInstance()->GetTexture("map_top_left_corner.tga");
+					item_map = std::make_shared<Sprite2D>(model, shader, texture);
+					item_map->Set2DPosition(Globals::item_size * j + Globals::item_size / 2
+						, Globals::item_size * i + Globals::item_size / 2);
+					m_list_items_map.push_back(item_map);
+					break;
+				}
+				case MAP_TOP_RIGHT_CORNER:
+				{
+					texture = ResourceManagers::GetInstance()->GetTexture("map_top_right_corner.tga");
+					item_map = std::make_shared<Sprite2D>(model, shader, texture);
+					item_map->Set2DPosition(Globals::item_size * j + Globals::item_size / 2
+						, Globals::item_size * i + Globals::item_size / 2);
+					m_list_items_map.push_back(item_map);
+					break;
+				}
+				case MAP_BOTTOM_LEFT_CORNER:
+				{
+					texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_left_corner.tga");
+					item_map = std::make_shared<Sprite2D>(model, shader, texture);
+					item_map->Set2DPosition(Globals::item_size * j + Globals::item_size / 2
+						, Globals::item_size * i + Globals::item_size / 2);
+					m_list_items_map.push_back(item_map);
+					break;
+				}
+				case MAP_BOTTOM_RIGHT_CORNER:
+				{
+					texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_right_corner.tga");
+					item_map = std::make_shared<Sprite2D>(model, shader, texture);
+					item_map->Set2DPosition(Globals::item_size * j + Globals::item_size / 2
+						, Globals::item_size * i + Globals::item_size / 2);
+					m_list_items_map.push_back(item_map);
+					break;
+				}
+				case MAP_TOP_BORDER:
+				{
+					texture = ResourceManagers::GetInstance()->GetTexture("map_top_border.tga");
+					item_map = std::make_shared<Sprite2D>(model, shader, texture);
+					item_map->Set2DPosition(Globals::item_size * j + Globals::item_size / 2
+						, Globals::item_size * i + Globals::item_size / 2);
+					m_list_items_map.push_back(item_map);
+					break;
+				}
+				/*case MAP_BOTTOM_BORDER:
+				{
+					texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_border.tga");
+					item_map = std::make_shared<Sprite2D>(model, shader, texture);
+					item_map->Set2DPosition(Globals::item_size * j + Globals::item_size / 2
+						, Globals::item_size * i + Globals::item_size / 2);
+					m_list_items_map.push_back(item_map);
+					break;
+				}*/
+				default:
+					break;
+			}
+		}
+		
+	}
+	printf("============Draw border done");
