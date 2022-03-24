@@ -1,15 +1,15 @@
 #include"Player.h"
 
-Player::Player(): p_speed(3) , p_status_live(PLAYER_STATUS_LIVE) , p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
+Player::Player() : p_speed(3), p_status_live(PLAYER_STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false)
 {
 	//NOT GOOD SOLUTION
-	p_texture[PLAYER_MOVE_DOWN]		= "bomber_down.tga";
-	p_texture[PLAYER_MOVE_LEFT]		= "bomber_left.tga";
-	p_texture[PLAYER_MOVE_UP]		= "bomber_up.tga";
-	p_texture[PLAYER_MOVE_RIGHT]	= "bomber_right.tga";
+	p_texture[PLAYER_MOVE_DOWN] = "bomber_down.tga";
+	p_texture[PLAYER_MOVE_LEFT] = "bomber_left.tga";
+	p_texture[PLAYER_MOVE_UP] = "bomber_up.tga";
+	p_texture[PLAYER_MOVE_RIGHT] = "bomber_right.tga";
 }
 
-Player::~Player(){}
+Player::~Player() {}
 
 void Player::setPlayerDirection(int direction)
 {

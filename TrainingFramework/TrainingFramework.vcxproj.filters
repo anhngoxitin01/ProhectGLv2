@@ -75,8 +75,8 @@
     <ClCompile Include="src\GameStates\GSSetting.cpp">
       <Filter>TrainingFramework\src\GameStates</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameManager\Player.cpp">
-      <Filter>TrainingFramework\src\GameManager</Filter>
+    <ClCompile Include="src\GameObject\Player.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,8 +143,8 @@
     <ClInclude Include="src\GameStates\GSSetting.h">
       <Filter>TrainingFramework\src\GameStates</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameManager\Player.h">
-      <Filter>TrainingFramework\src\GameManager</Filter>
+    <ClInclude Include="src\GameObject\Player.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
