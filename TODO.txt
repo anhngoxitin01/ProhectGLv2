@@ -1,0 +1,18 @@
+Lưu ý :
+	+) object Map is not good when create two object map_items and map_items_texture.
+		Suggestion: How about create struct??? 
+	+) May be the player do not need isMoving in draw func in GSPlay.cpp
+		because when it was moving done , the texture was already updated before by the direction
+
+Mục tiêu:
+	Phải làm:
+		+)Tạo collisionManager
+		+)Tạo object enermy
+		+)Tạo object Boom
+		+)Tạo object itemMap
+		+)Tạo object itemPlayer
+	Nên làm:
+		+)Tạo menu tính điểm trong game screen
+		+)Tạo pause game
+		+)Tạo GSInfor 
+		+)Tạo animation

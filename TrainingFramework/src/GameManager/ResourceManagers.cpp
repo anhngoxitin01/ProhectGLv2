@@ -209,32 +209,9 @@ void ResourceManagers::StopSound(const std::string& name)
 }
 
 //============ MAP ================
-
-void ResourceManagers::readMapFromFile(char* namePath, int* arr)
+Map* ResourceManagers::managerMap()
 {
-	char c[10];
-	FILE* fptr;
-
-	if ((fptr = fopen(namePath, "r")) == NULL)
-	{
-		printf("Error! opening file");
-		// Program exits if file pointer returns NULL.
-		exit(1);
-	}
-	else
-	{
-		for (int i = 0; i < 14; i++)
-		{
-			for (int j = 0; j < 14; j++)
-			{
-				fscanf(fptr, "%c", c);
-				arr[i * 14 + j] = toascii(c[0]);
-			}
-			fscanf(fptr, "\n");
-		}
-	}
-
-	fclose(fptr);
+	return &m_map;
 }
 
 //============ PLAYER ================
@@ -242,4 +219,12 @@ void ResourceManagers::readMapFromFile(char* namePath, int* arr)
 Player* ResourceManagers::managerPlayer()
 {
 	return &m_player;
+}
+
+void ResourceManagers::autoSetSponToPlayerFromMap()
+{
+	int player_x;
+	int player_y;
+	m_map.getSponPlayerByValue(player_x, player_y);
+	m_player.setPlayerLocation(player_x, player_y);
 }

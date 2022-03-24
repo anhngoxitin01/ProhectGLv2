@@ -13,6 +13,7 @@
 #include "soloud.h"
 #include "soloud_wav.h"
 #include "Player.h"
+#include "Map.h"
 
 class ResourceManagers : public CSingleton<ResourceManagers>
 {
@@ -42,12 +43,11 @@ public:
 	void StopSound(const std::string& name);
 
 	//Map
-	void readMapFromFile(char* namePath, int* arr);
+	Map* managerMap();
 
 	//Player
 	Player* managerPlayer();
-
-	//void createPlayer();
+	void autoSetSponToPlayerFromMap();
 
 private:
 	std::map<std::string, std::shared_ptr<Shader>> m_MapShader;
@@ -59,6 +59,9 @@ private:
 	std::string m_TexturePath;
 	std::string m_ModelsPath;
 	std::string m_FontPath;
+
+	//Map
+	Map m_map;
 
 	//Player
 	Player m_player;

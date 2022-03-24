@@ -1,11 +1,4 @@
 
-Lưu ý :
-	+) solution for add texture to player is not good 
-		(suggestion:auto read file tga in folder with 
-		filter string and auto gennerate variable  
-	+) May be the player do not need isMoving in draw func in GSPlay.cpp
-		because when it was moving done , the texture was already updated before by the direction
-
 **********************************************
 **********************************************
 **********************************************
@@ -272,3 +265,145 @@ switch (ResourceManagers::GetInstance()->getDirectionPlayer())
 		default:
 			break;
 		}
+
+
+
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+//read map through file
+
+//read file
+	ResourceManagers::GetInstance()->readMapFromFile(PATHFILE_MAP_1, m_map);
+	//check map in cmd
+	for (int i = 0; i < Globals::rowMap * Globals::colMap; i++)
+	{
+		if (i % Globals::colMap == 0)
+			printf("\n");
+		printf("%d", m_map[i]);
+	}
+	//create item_map shader
+	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
+	//run for to add item map
+	for (int i = 0; i < Globals::rowMap * Globals::colMap; i++)
+	{
+		switch (m_map[i])
+		{
+		case MAP_TOP_LEFT_CORNER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_top_left_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_TOP_RIGHT_CORNER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_top_right_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_BOTTOM_LEFT_CORNER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_left_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_BOTTOM_RIGHT_CORNER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_right_corner.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_TOP_BORDER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_top_border.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_BOTTOM_BORDER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_border.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_LEFT_BORDER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_left_border.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_RIGHT_BORDER:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_right_border.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_ITEM_TREE:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_item_tree.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_ITEM_BUSH:
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture("map_item_bush.tga");
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_list_items_map.push_back(item_map);
+			break;
+		}
+		case MAP_PLAYER_SPON:
+		{
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerLocation(Globals::item_size* (i% Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size* (i / Globals::rowMap) + (PLAYER_SIZE_Y - Globals::item_size)/2);
+			break;
+		}
+		default:
+			break;
+		}
+	}

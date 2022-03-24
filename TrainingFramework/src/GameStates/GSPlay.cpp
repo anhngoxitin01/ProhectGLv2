@@ -230,133 +230,28 @@ void GSPlay::prepareForDrawingBackground(std::shared_ptr<Model> model, std::shar
 
 void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
 {
-
-	//read file
-	ResourceManagers::GetInstance()->readMapFromFile(PATHFILE_MAP_1, m_map);
-	//check map in cmd
-	for (int i = 0; i < Globals::rowMap * Globals::colMap; i++)
-	{
-		if (i % Globals::colMap == 0)
-			printf("\n");
-		printf("%d", m_map[i]);
-	}
-	//create item_map shader
+	//read map from file
+	ResourceManagers::GetInstance()->managerMap()->initMap(MAP_LEVEL_1);
+	//create item_map sprite2D
 	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
-	//run for to add item map
-	for (int i = 0; i < Globals::rowMap * Globals::colMap; i++)
+	//create pathTexture
+	std::string pathTexture;
+	//use for to add texture to m_list_item_map
+	for (int i = 0; i < MAP_SIZE_Y * MAP_SIZE_Y; i++)
 	{
-		switch (m_map[i])
-		{
-		case MAP_TOP_LEFT_CORNER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_top_left_corner.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_TOP_RIGHT_CORNER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_top_right_corner.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_BOTTOM_LEFT_CORNER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_left_corner.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_BOTTOM_RIGHT_CORNER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_right_corner.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_TOP_BORDER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_top_border.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_BOTTOM_BORDER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_bottom_border.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_LEFT_BORDER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_left_border.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_RIGHT_BORDER:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_right_border.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_ITEM_TREE:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_item_tree.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_ITEM_BUSH:
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture("map_item_bush.tga");
-			item_map = std::make_shared<Sprite2D>(model, shader, texture);
-			item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
-			item_map->SetSize(Globals::item_size, Globals::item_size);
-			m_list_items_map.push_back(item_map);
-			break;
-		}
-		case MAP_PLAYER_SPON:
-		{
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerLocation(Globals::item_size* (i% Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size* (i / Globals::rowMap) + (PLAYER_SIZE_Y - Globals::item_size)/2);
-			break;
-		}
-		default:
-			break;
-		}
+			pathTexture = ResourceManagers::GetInstance()->managerMap()->getTextureMapItem(i);
+			if (pathTexture.compare("") != 0)
+			{
+				texture = ResourceManagers::GetInstance()->GetTexture(pathTexture);
+				item_map = std::make_shared<Sprite2D>(model, shader, texture);
+				item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
+					, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+				item_map->SetSize(Globals::item_size, Globals::item_size);
+				m_list_items_map.push_back(item_map);
+			}
 	}
+	//set spon for player through var (get from read text) to player
+	ResourceManagers::GetInstance()->autoSetSponToPlayerFromMap();
 }
 
 void GSPlay::prepareForDrawingButton(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
@@ -382,8 +277,8 @@ void GSPlay::prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr
 
 void GSPlay::prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
 {
-	double playerX = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationX();
-	double playerY = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationY();
+	int playerX = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationX();
+	int playerY = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationY();
 
 	texture = ResourceManagers::GetInstance()->GetTexture("bomber_down.tga");
 	m_player = std::make_shared<GameButton>(model, shader, texture);
