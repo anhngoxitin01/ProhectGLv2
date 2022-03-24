@@ -239,22 +239,7 @@ void ResourceManagers::readMapFromFile(char* namePath, int* arr)
 
 //============ PLAYER ================
 
-void ResourceManagers::updateDirectionPlayer(int direction)
+Player* ResourceManagers::managerPlayer()
 {
-	m_player.setPlayerDirection(direction);
-}
-
-int ResourceManagers::getDirectionPlayer()
-{
-	return m_player.getPlayerDirection();
-}
-
-bool ResourceManagers::isPlayerRunning()
-{
-	return m_player.isPlayerMoving();
-}
-
-std::string ResourceManagers::getPlayerTextureStading(int direction)
-{
-	return m_player.getPlayerTextureStading(direction);
+	return &m_player;
 }

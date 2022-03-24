@@ -45,11 +45,7 @@ public:
 	void readMapFromFile(char* namePath, int* arr);
 
 	//Player
-	void	updateDirectionPlayer(int direction);
-
-	int			getDirectionPlayer();
-	bool		isPlayerRunning();
-	std::string getPlayerTextureStading(int direction);
+	Player* managerPlayer();
 
 	//void createPlayer();
 

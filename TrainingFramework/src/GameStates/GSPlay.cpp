@@ -76,19 +76,19 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		{
 		case KEY_DOWN:
 			printf("press down\n");
-			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_DOWN);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
 			break;
 		case KEY_UP:
 			printf("press up\n");
-			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_UP);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
 			break;
 		case KEY_RIGHT:
 			printf("press right\n");
-			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_RIGHT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
 			break;
 		case KEY_LEFT:
 			printf("press left\n");
-			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_LEFT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
 			break;
 		default:
 			break;
@@ -148,25 +148,25 @@ void GSPlay::Draw()
 	m_score->Draw();
 
 	//Player 
-	if (!ResourceManagers::GetInstance()->isPlayerRunning())
+	if (!ResourceManagers::GetInstance()->managerPlayer()->isPlayerMoving())
 	{
 		std::string texture;
-		switch (ResourceManagers::GetInstance()->getDirectionPlayer())
+		switch (ResourceManagers::GetInstance()->managerPlayer()->getPlayerDirection())
 		{
 		case PLAYER_MOVE_DOWN:
-			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_DOWN);
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_DOWN);
 			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
 			break;
 		case PLAYER_MOVE_UP:
-			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_UP);
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_UP);
 			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
 			break;
 		case PLAYER_MOVE_RIGHT:
-			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_RIGHT);
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_RIGHT);
 			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
 			break;
 		case PLAYER_MOVE_LEFT:
-			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_LEFT);
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_LEFT);
 			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
 			break;
 		default:
