@@ -102,7 +102,9 @@ void GSSetting::Update(float deltaTime)
 
 void GSSetting::Draw()
 {
+	//background
 	m_background->Draw();
+	//buttons
 	for (auto it : m_listButton)
 	{
 		if (it->GetName().compare("btn_volumn") == 0)
@@ -116,5 +118,6 @@ void GSSetting::Draw()
 		}
 		it->Draw();
 	}
+	//text
 	m_textGameName->Draw();
 }
