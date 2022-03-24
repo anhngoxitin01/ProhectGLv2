@@ -1,4 +1,5 @@
 #include"Player.h"
+#include "Texture.h"
 
 Player::Player() : p_speed(3), p_status_live(PLAYER_STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
 					, p_location_x(25) , p_location_y(75)
@@ -22,7 +23,7 @@ void Player::setPlayerIsMoving(bool isMoving)
 	p_is_move = isMoving;
 }
 
-void Player::setPlayerLocation(double x, double y)
+void Player::setPlayerLocation(int x, int y)
 {
 	p_location_x = x;
 	p_location_y = y;
@@ -48,31 +49,41 @@ std::string Player::getPlayerTextureStading(int direction)
 	return p_texture[direction];
 }
 
-double Player::getPlayerLocationX()
+int Player::getPlayerLocationX()
 {
 	return p_location_x;
 }
 
-double Player::getPlayerLocationY()
+int Player::getPlayerLocationY()
 {
 	return p_location_y;
 }
 
 void Player::movePlayer(int direction)
 {
+	int newLocation;
+
 	switch (direction)
 	{
 	case PLAYER_MOVE_RIGHT:
-		p_location_x += p_speed;
+		newLocation = p_location_x + p_speed;
+		if (newLocation < Globals::item_size * (Globals::colMap - 1) - Globals::item_size / 2)
+			p_location_x = newLocation;
 		break;
 	case PLAYER_MOVE_LEFT:
-		p_location_x -= p_speed;
+		newLocation = p_location_x - p_speed;
+		if (newLocation > Globals::item_size + Globals::item_size / 2)
+			p_location_x = newLocation;
 		break;
 	case PLAYER_MOVE_UP:
-		p_location_y -= p_speed;
+		newLocation = p_location_y - p_speed;
+		if (newLocation > Globals::item_size)
+			p_location_y = newLocation;
 		break;
 	case PLAYER_MOVE_DOWN:
-		p_location_y += p_speed;
+		newLocation = p_location_y + p_speed;
+		if (newLocation < Globals::item_size * (Globals::rowMap - 1) - PLAYER_SIZE_Y/2)
+			p_location_y = newLocation;
 		break;
 	default:
 		printf("Something wrong in movePlayer");

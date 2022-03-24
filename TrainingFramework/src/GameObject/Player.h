@@ -13,6 +13,8 @@
 #define PLAYER_MOVE_RIGHT				3
 #define PLAYER_TEXTURE_EACH_DIRECTION	1
 #define PLAYER_BASE_SPEED				2
+#define PLAYER_SIZE_X					Globals::item_size
+#define PLAYER_SIZE_Y					Globals::item_size + 25
 
 class Sprite2D;
 
@@ -29,7 +31,7 @@ public:
 	void setPlayerLengthBomb(int lengthBomb);
 	void setPlayerStatusLive(int statusLive);
 	void setPlayerIsMoving(bool isMoving);
-	void setPlayerLocation(double x, double y);
+	void setPlayerLocation(int x, int y);
 
 	int			getPlayerDirection();
 	int			getPlayerSpeed();
@@ -37,9 +39,9 @@ public:
 	int			getPlayerLengthBomb();
 	int			getPlayerStatusLive();
 	bool		isPlayerMoving();
+	int			getPlayerLocationX();
+	int			getPlayerLocationY();
 	std::string	getPlayerTextureStading(int direction);
-	double		getPlayerLocationX();
-	double		getPlayerLocationY();
 
 	void		movePlayer(int direction);
 
@@ -48,7 +50,9 @@ private:
 	int											p_status_live;			// 1: live , 2: is bubbles , 3:is dead
 	int											p_direction;			// 1: up , 2: left , 3:down , 4: right
 	bool										p_is_move;				// true: isRunning, false:isStanding
-	double										p_location_x;
-	double										p_location_y;
+	int											p_location_x;
+	int											p_location_y;
 	std::string									p_texture[PLAYER_TEXTURE_EACH_DIRECTION * 4];
+	int											p_size_x;
+	int											p_size_y;
 };

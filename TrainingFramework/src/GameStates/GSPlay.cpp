@@ -188,8 +188,8 @@ void GSPlay::Draw()
 	}
 	else 
 	{
-		double playerX = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationX();
-		double playerY = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationY();
+		int playerX = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationX();
+		int playerY = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationY();
 		std::string texture;
 		switch (ResourceManagers::GetInstance()->managerPlayer()->getPlayerDirection())
 		{
@@ -350,7 +350,7 @@ void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<
 		case MAP_PLAYER_SPON:
 		{
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerLocation(Globals::item_size* (i% Globals::colMap) + Globals::item_size / 2
-				, Globals::item_size* (i / Globals::rowMap) + Globals::item_size / 2);
+				, Globals::item_size* (i / Globals::rowMap) + (PLAYER_SIZE_Y - Globals::item_size)/2);
 			break;
 		}
 		default:
@@ -389,7 +389,7 @@ void GSPlay::prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_p
 	m_player = std::make_shared<GameButton>(model, shader, texture);
 	m_player->Set2DPosition(playerX, playerY);
 	// must change it
-	m_player->SetSize(Globals::item_size, Globals::item_size + 25);
+	m_player->SetSize(PLAYER_SIZE_X, PLAYER_SIZE_Y);
 }
 
 void GSPlay::prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
