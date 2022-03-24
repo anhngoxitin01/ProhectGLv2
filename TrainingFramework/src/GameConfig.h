@@ -53,7 +53,6 @@ public:
 #define MAP_ITEM_BUSH			57					//so 9
 #define MAP_NOTHING				111					//ki tu o
 
-
 // define type of Models
 #define NONE	111 
 #define RAW		222 

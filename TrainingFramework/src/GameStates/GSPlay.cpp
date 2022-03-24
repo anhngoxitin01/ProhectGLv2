@@ -38,6 +38,8 @@ void GSPlay::Init()
 	prepareForDrawingBackground(model , texture , shader);
 	//draw Map
 	prepareForDrawingMap(model, texture, shader);
+	//draw PLayer
+	prepareForDrawingPlayer(model, texture, shader);
 	//draw Button
 	prepareForDrawingButton(model, texture, shader);
 	//draw Text
@@ -68,6 +70,30 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
+	if(bIsPressed)
+	{
+		switch (key)
+		{
+		case KEY_DOWN:
+			printf("press down\n");
+			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_DOWN);
+			break;
+		case KEY_UP:
+			printf("press up\n");
+			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_UP);
+			break;
+		case KEY_RIGHT:
+			printf("press right\n");
+			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_RIGHT);
+			break;
+		case KEY_LEFT:
+			printf("press left\n");
+			ResourceManagers::GetInstance()->updateDirectionPlayer(PLAYER_MOVE_LEFT);
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
@@ -99,9 +125,10 @@ void GSPlay::Update(float deltaTime)
 
 void GSPlay::Draw()
 {
+	//background
 	m_background->Draw();
-	m_score->Draw();
-
+	
+	//map
 	for (auto it : m_list_items_map)
 	{
 		it->Draw();
@@ -116,6 +143,38 @@ void GSPlay::Draw()
 	{
 		it->Draw();
 	}
+
+	//text
+	m_score->Draw();
+
+	//Player 
+	if (!ResourceManagers::GetInstance()->isPlayerRunning())
+	{
+		std::string texture;
+		switch (ResourceManagers::GetInstance()->getDirectionPlayer())
+		{
+		case PLAYER_MOVE_DOWN:
+			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_DOWN);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			break;
+		case PLAYER_MOVE_UP:
+			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_UP);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			break;
+		case PLAYER_MOVE_RIGHT:
+			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_RIGHT);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			break;
+		case PLAYER_MOVE_LEFT:
+			texture = ResourceManagers::GetInstance()->getPlayerTextureStading(PLAYER_MOVE_LEFT);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			break;
+		default:
+			break;
+		}
+	}
+
+	m_player->Draw();
 }
 
 void GSPlay::prepareForDrawingBackground(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
@@ -133,7 +192,7 @@ void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<
 	//check map in cmd
 	for (int i = 0; i < Globals::rowMap * Globals::colMap; i++)
 	{
-		if (i % 14 == 0)
+		if (i % Globals::colMap == 0)
 			printf("\n");
 		printf("%d", m_map[i]);
 	}
@@ -269,6 +328,15 @@ void GSPlay::prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
 	m_score->Set2DPosition(Vector2(Globals::screenWidth - Globals::menuGPWidth + 50, 25));
+}
+
+void GSPlay::prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+{
+	texture = ResourceManagers::GetInstance()->GetTexture("bomber_down.tga");
+	m_player = std::make_shared<GameButton>(model, shader, texture);
+	m_player->Set2DPosition(50, 50);
+	// must change it
+	m_player->SetSize(Globals::item_size, Globals::item_size + 25);
 }
 
 void GSPlay::prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)

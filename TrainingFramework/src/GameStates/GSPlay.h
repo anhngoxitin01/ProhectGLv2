@@ -31,6 +31,7 @@ public:
 	void	prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
 	void	prepareForDrawingButton(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
 	void	prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
+	void	prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
 	void	prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
     int m_Test;
 
@@ -43,6 +44,9 @@ private:
 	//map
 	std::list<std::shared_ptr<Sprite2D>>		m_list_items_map;
 	int											m_map[14*14];
+
+	//player
+	std::shared_ptr<Sprite2D>					m_player;
 
 };
 

@@ -8,8 +8,8 @@ int Globals::screenWidth = 1000;
 int Globals::screenHeight = 700;
 int Globals::item_size = 50;
 int Globals::menuGPWidth = 350;
-int Globals::colMap = 14;
-int Globals::rowMap = 14;
+int Globals::colMap = 14;			//must change m_map in GSPlay too
+int Globals::rowMap = 14;			//must change m_map in GSPlay too
 
 GLint Init(ESContext* esContext)
 {

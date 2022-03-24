@@ -208,6 +208,8 @@ void ResourceManagers::StopSound(const std::string& name)
 	m_Soloud.stopAudioSource(*wave);
 }
 
+//============ MAP ================
+
 void ResourceManagers::readMapFromFile(char* namePath, int* arr)
 {
 	char c[10];
@@ -233,4 +235,26 @@ void ResourceManagers::readMapFromFile(char* namePath, int* arr)
 	}
 
 	fclose(fptr);
+}
+
+//============ PLAYER ================
+
+void ResourceManagers::updateDirectionPlayer(int direction)
+{
+	m_player.setPlayerDirection(direction);
+}
+
+int ResourceManagers::getDirectionPlayer()
+{
+	return m_player.getPlayerDirection();
+}
+
+bool ResourceManagers::isPlayerRunning()
+{
+	return m_player.isPlayerMoving();
+}
+
+std::string ResourceManagers::getPlayerTextureStading(int direction)
+{
+	return m_player.getPlayerTextureStading(direction);
 }

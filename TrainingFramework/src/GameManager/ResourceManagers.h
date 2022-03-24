@@ -12,6 +12,7 @@
 #include "GameObject/Text.h"
 #include "soloud.h"
 #include "soloud_wav.h"
+#include "Player.h"
 
 class ResourceManagers : public CSingleton<ResourceManagers>
 {
@@ -43,6 +44,15 @@ public:
 	//Map
 	void readMapFromFile(char* namePath, int* arr);
 
+	//Player
+	void	updateDirectionPlayer(int direction);
+
+	int			getDirectionPlayer();
+	bool		isPlayerRunning();
+	std::string getPlayerTextureStading(int direction);
+
+	//void createPlayer();
+
 private:
 	std::map<std::string, std::shared_ptr<Shader>> m_MapShader;
 	std::map<std::string, std::shared_ptr<Texture>> m_MapTexture;
@@ -53,6 +63,9 @@ private:
 	std::string m_TexturePath;
 	std::string m_ModelsPath;
 	std::string m_FontPath;
+
+	//Player
+	Player m_player;
 
 	//Sound
 	std::string m_SoundPath;
