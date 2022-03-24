@@ -46,6 +46,7 @@ void GSPlay::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	prepareForDrawingText(model, texture, shader);
 	//draw Animation
+	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	prepareForDrawingAnimation(model, texture, shader);
 }
 
@@ -75,24 +76,36 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		switch (key)
 		{
 		case KEY_DOWN:
-			printf("press down\n");
+			//printf("press down\n");
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
 			break;
 		case KEY_UP:
-			printf("press up\n");
+			//printf("press up\n");
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
 			break;
 		case KEY_RIGHT:
-			printf("press right\n");
+			//printf("press right\n");
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
 			break;
 		case KEY_LEFT:
-			printf("press left\n");
+			//printf("press left\n");
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
 			break;
 		default:
 			break;
 		}
+	}
+	else
+	{
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(false);
 	}
 }
 
@@ -168,6 +181,37 @@ void GSPlay::Draw()
 		case PLAYER_MOVE_LEFT:
 			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_LEFT);
 			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			break;
+		default:
+			break;
+		}
+	}
+	else 
+	{
+		double playerX = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationX();
+		double playerY = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationY();
+		std::string texture;
+		switch (ResourceManagers::GetInstance()->managerPlayer()->getPlayerDirection())
+		{
+		case PLAYER_MOVE_DOWN:
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_DOWN);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			m_player->Set2DPosition(playerX, playerY);
+			break;
+		case PLAYER_MOVE_UP:
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_UP);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			m_player->Set2DPosition(playerX, playerY);
+			break;
+		case PLAYER_MOVE_RIGHT:
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_RIGHT);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			m_player->Set2DPosition(playerX, playerY);
+			break;
+		case PLAYER_MOVE_LEFT:
+			texture = ResourceManagers::GetInstance()->managerPlayer()->getPlayerTextureStading(PLAYER_MOVE_LEFT);
+			m_player->SetTexture(ResourceManagers::GetInstance()->GetTexture(texture));
+			m_player->Set2DPosition(playerX, playerY);
 			break;
 		default:
 			break;
@@ -303,6 +347,12 @@ void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<
 			m_list_items_map.push_back(item_map);
 			break;
 		}
+		case MAP_PLAYER_SPON:
+		{
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerLocation(Globals::item_size* (i% Globals::colMap) + Globals::item_size / 2
+				, Globals::item_size* (i / Globals::rowMap) + Globals::item_size / 2);
+			break;
+		}
 		default:
 			break;
 		}
@@ -332,16 +382,18 @@ void GSPlay::prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr
 
 void GSPlay::prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
 {
+	double playerX = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationX();
+	double playerY = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationY();
+
 	texture = ResourceManagers::GetInstance()->GetTexture("bomber_down.tga");
 	m_player = std::make_shared<GameButton>(model, shader, texture);
-	m_player->Set2DPosition(50, 50);
+	m_player->Set2DPosition(playerX, playerY);
 	// must change it
 	m_player->SetSize(Globals::item_size, Globals::item_size + 25);
 }
 
 void GSPlay::prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
 {
-	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
 	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 5, 0.1f);
 

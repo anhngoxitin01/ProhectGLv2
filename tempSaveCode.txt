@@ -3,7 +3,8 @@ Lưu ý :
 	+) solution for add texture to player is not good 
 		(suggestion:auto read file tga in folder with 
 		filter string and auto gennerate variable  
-
+	+) May be the player do not need isMoving in draw func in GSPlay.cpp
+		because when it was moving done , the texture was already updated before by the direction
 
 **********************************************
 **********************************************
@@ -106,6 +107,8 @@ code for add item in map
 ===============================================================================================================
 ===============================================================================================================
 ===============================================================================================================
+// code for read file by text
+
 //test read file 
 	//create a array
 	int row = 14; 
@@ -167,6 +170,8 @@ code for add item in map
 ===============================================================================================================
 ===============================================================================================================
 ===============================================================================================================
+//code for draw map not through the reading text
+
 //draw map and item
 	//create item_map shader
 	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
@@ -253,6 +258,7 @@ code for add item in map
 ===============================================================================================================
 ===============================================================================================================
 ===============================================================================================================
+//code for update texture player when get key
 
 
 switch (ResourceManagers::GetInstance()->getDirectionPlayer())

@@ -51,6 +51,7 @@ public:
 #define MAP_RIGHT_BORDER		55					//so 7
 #define MAP_ITEM_TREE			56					//so 8
 #define MAP_ITEM_BUSH			57					//so 9
+#define MAP_PLAYER_SPON			63					//ki tu ?
 #define MAP_NOTHING				111					//ki tu o
 
 // define type of Models
