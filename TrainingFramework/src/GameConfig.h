@@ -62,6 +62,12 @@
 #define COLL_NOT_OK					0				// khong va cham
 #define	COLL_OK						1				// va cham
 
+//define rectangle
+#define	REC_IS_LINE					-1				// hcn la mot duong thang
+#define REC_ABOVE					0				// hai hcn de nhau
+#define	REC_NOT_ABOVE				1				// hai hcn ko de nhau
+#define	REC_OVER_LAP				2				// hai hcn trung nhau
+
 class Globals
 {
 public:
