@@ -2,19 +2,7 @@
 
 #include<list>
 #include<string>
-
-//Player
-#define PLAYER_STATUS_LIVE				0
-#define PLAYER_STATUS_BUBBLE			1
-#define PLAYER_STATUS_DEAD				2
-#define PLAYER_MOVE_DOWN				0
-#define PLAYER_MOVE_LEFT				1
-#define PLAYER_MOVE_UP					2
-#define PLAYER_MOVE_RIGHT				3
-#define PLAYER_TEXTURE_EACH_DIRECTION	1
-#define PLAYER_BASE_SPEED				2
-#define PLAYER_SIZE_X					Globals::item_size
-#define PLAYER_SIZE_Y					Globals::item_size + 25
+#include"GameConfig.h"
 
 class Sprite2D;
 

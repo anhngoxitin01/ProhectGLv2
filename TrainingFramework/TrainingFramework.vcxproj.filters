@@ -81,6 +81,9 @@
     <ClCompile Include="src\GameObject\Map.cpp">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameManager\CollisionManager.cpp">
+      <Filter>TrainingFramework\src\GameManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="src\GameObject\Map.h">
       <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameManager\CollisionManager.h">
+      <Filter>TrainingFramework\src\GameManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

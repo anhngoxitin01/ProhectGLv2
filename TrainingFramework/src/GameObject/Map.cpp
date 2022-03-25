@@ -22,6 +22,21 @@ void Map::getSponPlayerByValue(int& x, int& y)
 	y = map_spon_player_y;
 }
 
+/*
+* return -1 for not found or another value if found it
+*/
+int Map::getKindOfBlock(int index_x, int index_y)
+{
+	if (index_x < 0 || index_x >= MAP_SIZE_X || index_y < 0 || index_y >= MAP_SIZE_Y)
+	{
+		//return -1 for all case not found
+		return -1;
+	}
+	else {
+		return map_items[index_y * 14 + index_x][0];
+	}
+}
+
 
 
 void Map::initMap(int level)
@@ -113,10 +128,12 @@ void Map::readMapFromFile(char* namePath, int arr[][2] , std::string arrTexture[
 					arrTexture[i * 14 + j] = "map_bottom_right_corner.tga";
 					break;
 				case MAP_PLAYER_SPON:
-					setMapSponPlayer(j * Globals::item_size, i * Globals::item_size);
+					setMapSponPlayer(j * Globals::item_size + Globals::item_size/2, (i +1)  * Globals::item_size - PLAYER_SIZE_Y/2 );
+					printf("spon location plyer: x= %d, y=%d\n", j * Globals::item_size + Globals::item_size / 2, (i + 1) * Globals::item_size - PLAYER_SIZE_Y / 2);
+					arr[i * 14 + j][0] = MAP_ITEM_ROAD;
 					break;
 				case MAP_NOTHING:
-					arr[i * 14 + j][0] = MAP_ROAD;
+					arr[i * 14 + j][0] = MAP_ITEM_ROAD;
 					break;
 				default:
 					printf("Can not read map");

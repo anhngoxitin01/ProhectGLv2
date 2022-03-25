@@ -6,7 +6,9 @@ Lưu ý :
 
 Mục tiêu:
 	Phải làm:
-		+)Tạo collisionManager
+		+)Tạo collisionManager <very bad idea>
+			=> cần tạo một đối tượng quản lý vùng của từng item trc 
+			rồi mới tạo quản lý va chạm
 		+)Tạo object enermy
 		+)Tạo object Boom
 		+)Tạo object itemMap

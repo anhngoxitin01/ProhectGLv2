@@ -18,6 +18,50 @@
 // define game debug  -------------------	1: yes	0: no
 #define GAME_DEBUG 1
 
+//Player
+#define PLAYER_STATUS_LIVE				0
+#define PLAYER_STATUS_BUBBLE			1
+#define PLAYER_STATUS_DEAD				2
+#define PLAYER_MOVE_DOWN				0
+#define PLAYER_MOVE_LEFT				1
+#define PLAYER_MOVE_UP					2
+#define PLAYER_MOVE_RIGHT				3
+#define PLAYER_TEXTURE_EACH_DIRECTION	1
+#define PLAYER_BASE_SPEED				5
+#define PLAYER_SIZE_X					Globals::item_size
+#define PLAYER_SIZE_Y					(Globals::item_size + 24)
+
+
+//define map
+#define PATHFILE_MAP_1			"..\\Data\\Map\\map1.txt"
+#define MAP_SIZE_X				14
+#define MAP_SIZE_Y				14
+#define MAP_TOP_LEFT_CORNER		48					//so 0
+#define MAP_TOP_RIGHT_CORNER	49					//so 1
+#define MAP_BOTTOM_LEFT_CORNER	50					//so 2
+#define MAP_BOTTOM_RIGHT_CORNER	51					//so 3
+#define MAP_TOP_BORDER			52					//so 4
+#define MAP_LEFT_BORDER			53					//so 5
+#define MAP_BOTTOM_BORDER		54					//so 6
+#define MAP_RIGHT_BORDER		55					//so 7
+#define MAP_ITEM_TREE			56					//so 8
+#define MAP_ITEM_BUSH			57					//so 9
+#define MAP_PLAYER_SPON			63					//ki tu ?
+#define MAP_NOTHING				111					//ki tu o
+
+#define MAP_ITEM_CAN_DESTROY		0				//item which can be destroy
+#define MAP_ITEM_CAN_NOT_DESTROY	1				//item which can not be destroy
+#define MAP_ITEM_ROAD				2				//item which is road
+
+#define MAP_LEVEL_1					0
+#define MAP_LEVEL_2					1
+#define MAP_LEVEL_3					2
+
+
+//define collisionManager
+#define COLL_NOT_OK					0				// khong va cham
+#define	COLL_OK						1				// va cham
+
 class Globals
 {
 public:
