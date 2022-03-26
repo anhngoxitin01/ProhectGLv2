@@ -1,7 +1,7 @@
 #include"Player.h"
 #include "GameManager/CollisionManager.h"
 
-Player::Player() : p_speed(3), p_status_live(PLAYER_STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
+Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(PLAYER_STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
 					, p_location_x(25) , p_location_y(75)
 {
 	//NOT GOOD SOLUTION
@@ -27,11 +27,22 @@ void Player::setPlayerLocation(int x, int y)
 {
 	p_location_x = x;
 	p_location_y = y;
+	p_rec = MRectangle(x, y + (PLAYER_SIZE_Y - Globals::item_size) / 2 , PLAYER_SIZE_X , PLAYER_SIZE_Y);
+	printf("in func setPlayerLocation infor player: \nLocation_draw = %d , %d \n Location_rec = %d, %d\n"
+		, p_location_x
+		, p_location_y
+		, p_rec.getRecX()
+		, p_rec.getRecY());
 }
 
 int Player::getPlayerDirection()
 {
 	return p_direction;
+}
+
+int Player::getPlayerSpeed()
+{
+	return p_speed;
 }
 
 int Player::getPlayerStatusLive()
