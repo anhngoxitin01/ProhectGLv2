@@ -6,9 +6,6 @@ Lưu ý :
 
 Mục tiêu:
 	Phải làm:
-		+)Tạo collisionManager <very bad idea>
-			=> cần tạo một đối tượng quản lý vùng của từng item trc 
-			rồi mới tạo quản lý va chạm
 		+)Tạo object enermy
 		+)Tạo object Boom
 		+)Tạo object itemMap
@@ -18,8 +15,3 @@ Mục tiêu:
 		+)Tạo pause game
 		+)Tạo GSInfor 
 		+)Tạo animation
-
-fix func isInteract
-fix class CollisionManager
-fix func movePLayer in class player
-add func autoUpgradeRect when setLocationPlayer
