@@ -67,6 +67,13 @@
 #define REC_ABOVE					0				// hai hcn giao nhau
 #define	REC_NOT_ABOVE				1				// hai hcn ko giao nhau
 #define	REC_OVER_LAP				2				// hai hcn trung nhau
+#define ON_THE_BOTTOM_REC				0
+#define ON_THE_LEFT_REC					1
+#define ON_THE_TOP_REC					2
+#define ON_THE_RIGHT_REC				3
+
+
+//define 
 
 class Globals
 {

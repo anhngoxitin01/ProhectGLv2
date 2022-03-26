@@ -9,6 +9,7 @@ public:
 	~MRectangle();
 
 	int isInteract(MRectangle anotherRec);
+	int caculDistanceToAnotherRecWithDirection(MRectangle anotherRec, int direction);
 
 	void setRecXY(int x , int y);
 	void setRecLength(int length);

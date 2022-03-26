@@ -45,6 +45,36 @@ int MRectangle::isInteract(MRectangle anotherRec)
 	else
 		return REC_ABOVE;
 }
+/*
+* WARNING : this func is not true with rectangles just true with squares
+* PLEASE CAREFULLY WHEN USING
+* the direction of another rec to this rec
+*/ 
+int MRectangle::caculDistanceToAnotherRecWithDirection(MRectangle anotherRec, int direction)
+{
+	switch (direction)
+	{
+	case ON_THE_TOP_REC: // so sanh voi hcn o tren
+		//printf(" on the top Rec %d - %d = %d \n", (r_y - r_width / 2), (anotherRec.r_y + anotherRec.r_width / 2), (r_y - r_width / 2) - (anotherRec.r_y + anotherRec.r_width / 2));
+		return (r_y - r_width / 2) - (anotherRec.r_y + anotherRec.r_width / 2);
+		break;
+	case ON_THE_LEFT_REC: // so sanh voi hcn o ben trai
+		//printf(" on the top Rec %d - %d = %d \n", (r_x - r_length / 2), (anotherRec.r_x + anotherRec.r_length / 2), (r_x - r_length / 2) - (anotherRec.r_x + anotherRec.r_length / 2));
+		return (r_x - r_length / 2) - (anotherRec.r_x + anotherRec.r_length / 2);
+		break;
+	case ON_THE_RIGHT_REC: // so sanh voi hcn o ben phai
+		//printf(" on the right Rec %d - %d = %d \n", (anotherRec.r_x - anotherRec.r_length / 2), (r_x + r_length / 2), (anotherRec.r_x - anotherRec.r_length / 2) - (r_x + r_length / 2));
+		return (anotherRec.r_x - anotherRec.r_length / 2) - (r_x + r_length / 2);
+		break;
+	case ON_THE_BOTTOM_REC: // so sanh voi hcn o duoi
+		//printf(" on the bottom Rec %d - %d = %d \n", (anotherRec.r_y - anotherRec.r_width / 2), (r_y + r_width / 2), (anotherRec.r_y - anotherRec.r_width / 2) - (r_y + r_width / 2));
+		return (anotherRec.r_y - anotherRec.r_width / 2) - (r_y + r_width / 2);
+		break;
+	default:
+		break;
+	}
+	return 0;
+}
 
 void MRectangle::setRecXY(int x, int y)
 {

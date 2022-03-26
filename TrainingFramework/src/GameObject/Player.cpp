@@ -27,7 +27,7 @@ void Player::setPlayerLocation(int x, int y)
 {
 	p_location_x = x;
 	p_location_y = y;
-	p_rec = MRectangle(p_location_x, p_location_y + (PLAYER_SIZE_Y - Globals::item_size) / 2, PLAYER_SIZE_X, PLAYER_SIZE_Y);
+	p_rec = MRectangle(p_location_x, p_location_y + (PLAYER_SIZE_Y - Globals::item_size) / 2, Globals::item_size, Globals::item_size);
 	/*printf("in func setPlayerLocation infor player: \nLocation_draw = %d , %d \n Location_rec = %d, %d\n"
 		, p_location_x
 		, p_location_y
@@ -82,29 +82,60 @@ int Player::getPlayerLocationY()
 
 void Player::movePlayer(int direction)
 {
-	int newLocation;
+	int newLocation = 0;
+	int distancePlaAndBarrier;
 
 	switch (direction)
 	{
 	case PLAYER_MOVE_RIGHT:
-		newLocation = p_location_x + p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_RIGHT) == COLL_NOT_OK)
-			setPlayerLocation(newLocation, p_location_y);
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_RIGHT, distancePlaAndBarrier) == COLL_NOT_OK)
+			newLocation = p_location_x + p_speed;
+		else {
+			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
+				newLocation = p_location_x + distancePlaAndBarrier;
+			else
+				newLocation = p_location_x;
+		}
+		//set new player location
+		setPlayerLocation(newLocation, p_location_y);
 		break;
 	case PLAYER_MOVE_LEFT:
-		newLocation = p_location_x - p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_LEFT) == COLL_NOT_OK)
-			setPlayerLocation(newLocation, p_location_y);
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_LEFT, distancePlaAndBarrier) == COLL_NOT_OK)
+			newLocation = p_location_x - p_speed;
+		else {
+			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
+				newLocation = p_location_x - distancePlaAndBarrier;
+			else
+				newLocation = p_location_x;
+		}
+		//set new player location
+		setPlayerLocation(newLocation, p_location_y);
 		break;
 	case PLAYER_MOVE_UP:
-		newLocation = p_location_y - p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_UP) == COLL_NOT_OK)
-			setPlayerLocation(p_location_x, newLocation);
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_UP, distancePlaAndBarrier) == COLL_NOT_OK)
+			newLocation = p_location_y - p_speed;
+		else {
+			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
+				newLocation = p_location_y - distancePlaAndBarrier;
+			else
+				newLocation = p_location_y;
+		}
+		//set new player location
+		setPlayerLocation(p_location_x, newLocation);
 		break;
 	case PLAYER_MOVE_DOWN:
-		newLocation = p_location_y + p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_DOWN) == COLL_NOT_OK)
-			setPlayerLocation(p_location_x, newLocation);
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_DOWN, distancePlaAndBarrier) == COLL_NOT_OK)
+			newLocation = p_location_y + p_speed;
+		else {
+			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
+				newLocation = p_location_y + distancePlaAndBarrier;
+			else 
+				newLocation = p_location_y;
+			/*printf("Location Player in moving func %d , %d\n", getRectPlayer().getRecX(), getRectPlayer().getRecY());
+			printf("speed %d , distance = %d\n", p_speed, distancePlaAndBarrier);*/
+		}
+		//set new player location
+		setPlayerLocation(p_location_x, newLocation);
 		break;
 	default:
 		printf("Something wrong in movePlayer");
