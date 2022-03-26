@@ -33,7 +33,7 @@ public:
 	void	prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
 	void	prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
 	void	prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
-    int m_Test;
+    int		m_Test;
 
 private:
 	std::shared_ptr<Sprite2D>					m_background;
@@ -43,7 +43,7 @@ private:
 
 	//map
 	std::list<std::shared_ptr<Sprite2D>>		m_list_items_map;
-	int											m_map[14*14];
+	int											m_map[14*14];			//not good must fix
 
 	//player
 	std::shared_ptr<Sprite2D>					m_player;

@@ -1,23 +1,31 @@
-#include "Rectangle.h"
+#include "MRectangle.h"
 
-Rectangle::Rectangle()
+MRectangle::MRectangle()
 {
 }
 
-Rectangle::~Rectangle()
+MRectangle::MRectangle(int x, int y, int length, int width)
+{
+	r_x = x;
+	r_y = y;
+	r_length = length;
+	r_width = width;
+}
+
+MRectangle::~MRectangle()
 {
 }
 
-int Rectangle::isInteract(Rectangle r1, Rectangle r2)
+int MRectangle::isInteract(MRectangle r1, MRectangle r2)
 {
 
 	int l1_x		= r1.r_x - r1.r_length / 2;		//	left_top_r1_x	
 	int l1_y		= r1.r_y - r1.r_width / 2;		//	left_top_r1_y
 	int r1_x		= r1.r_x + r1.r_length / 2;		//	right_bottom_r1_x
-	int r2_y		= r1.r_y + r1.r_width / 2;		//	right_bottom_r1_y
+	int r1_y		= r1.r_y + r1.r_width / 2;		//	right_bottom_r1_y
 
-	int l2_x		= r2.r_x - r2.r_length / 2;			//	left_top_r2_x
-	int l2_y		= r2.r_y - r2.r_width / 2;			//	left_top_r2_y
+	int l2_x		= r2.r_x - r2.r_length / 2;		//	left_top_r2_x
+	int l2_y		= r2.r_y - r2.r_width / 2;		//	left_top_r2_y
 	int r2_x		= r2.r_x + r2.r_length / 2;		//	right_bottom_r2_x
 	int r2_y		= r2.r_y + r2.r_width / 2;		//	right_bottom_r2_y
 
@@ -38,30 +46,38 @@ int Rectangle::isInteract(Rectangle r1, Rectangle r2)
 		return REC_ABOVE;
 }
 
-void Rectangle::initRec(int x, int y, int length, int width)
+void MRectangle::setRecXY(int x, int y)
 {
 	r_x = x;
 	r_y = y;
-	r_length = length;
-	r_width = width;
 }
 
-void Rectangle::setRecX(int x)
-{
-	r_x = x;
-}
-
-void Rectangle::setRecY(int y)
-{
-	r_y = y;
-}
-
-void Rectangle::setRecLength(int length)
+void MRectangle::setRecLength(int length)
 {
 	r_length = length;
 }
 
-void Rectangle::setRecWidth(int width)
+void MRectangle::setRecWidth(int width)
 {
 	r_width = width;
+}
+
+int MRectangle::getRecX()
+{
+	return r_x;
+}
+
+int MRectangle::getRecY()
+{
+	return r_y;
+}
+
+int MRectangle::getRecLength()
+{
+	return r_length;
+}
+
+int MRectangle::getRecWidth()
+{
+	return r_width;
 }

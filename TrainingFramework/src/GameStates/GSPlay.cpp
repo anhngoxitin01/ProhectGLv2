@@ -234,18 +234,21 @@ void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<
 	ResourceManagers::GetInstance()->managerMap()->initMap(MAP_LEVEL_1);
 	//create item_map sprite2D
 	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
-	//create pathTexture
+	//create valuable for draw map
 	std::string pathTexture;
+	int item_x;
+	int item_y;
 	//use for to add texture to m_list_item_map
 	for (int i = 0; i < MAP_SIZE_Y * MAP_SIZE_Y; i++)
 	{
 			pathTexture = ResourceManagers::GetInstance()->managerMap()->getTextureMapItem(i);
+			item_x = ResourceManagers::GetInstance()->managerMap()->getRectItem(i).getRecX();
+			item_y = ResourceManagers::GetInstance()->managerMap()->getRectItem(i).getRecY();
 			if (pathTexture.compare("") != 0)
 			{
 				texture = ResourceManagers::GetInstance()->GetTexture(pathTexture);
 				item_map = std::make_shared<Sprite2D>(model, shader, texture);
-				item_map->Set2DPosition(Globals::item_size * (i % Globals::colMap) + Globals::item_size / 2
-					, Globals::item_size * (i / Globals::rowMap) + Globals::item_size / 2);
+				item_map->Set2DPosition(item_x, item_y);
 				item_map->SetSize(Globals::item_size, Globals::item_size);
 				m_list_items_map.push_back(item_map);
 			}

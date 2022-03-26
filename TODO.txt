@@ -18,3 +18,7 @@ Mục tiêu:
 		+)Tạo pause game
 		+)Tạo GSInfor 
 		+)Tạo animation
+
+fix Rect class
+create ItemMap class
+fix class Map
