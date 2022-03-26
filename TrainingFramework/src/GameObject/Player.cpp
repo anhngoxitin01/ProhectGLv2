@@ -84,11 +84,12 @@ void Player::movePlayer(int direction)
 {
 	int newLocation = 0;
 	int distancePlaAndBarrier;
+	int smoothPlayer = 0;
 
 	switch (direction)
 	{
 	case PLAYER_MOVE_RIGHT:
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_RIGHT, distancePlaAndBarrier) == COLL_NOT_OK)
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_RIGHT, distancePlaAndBarrier , smoothPlayer) == COLL_NOT_OK)
 			newLocation = p_location_x + p_speed;
 		else {
 			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
@@ -97,10 +98,11 @@ void Player::movePlayer(int direction)
 				newLocation = p_location_x;
 		}
 		//set new player location
-		setPlayerLocation(newLocation, p_location_y);
+		printf("the value smoothPlayer func smoothMovingPlayer = %d\n", smoothPlayer);
+		setPlayerLocation(newLocation, p_location_y + smoothPlayer);
 		break;
 	case PLAYER_MOVE_LEFT:
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_LEFT, distancePlaAndBarrier) == COLL_NOT_OK)
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_LEFT, distancePlaAndBarrier, smoothPlayer) == COLL_NOT_OK)
 			newLocation = p_location_x - p_speed;
 		else {
 			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
@@ -109,10 +111,10 @@ void Player::movePlayer(int direction)
 				newLocation = p_location_x;
 		}
 		//set new player location
-		setPlayerLocation(newLocation, p_location_y);
+		setPlayerLocation(newLocation, p_location_y + smoothPlayer);
 		break;
 	case PLAYER_MOVE_UP:
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_UP, distancePlaAndBarrier) == COLL_NOT_OK)
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_UP, distancePlaAndBarrier, smoothPlayer) == COLL_NOT_OK)
 			newLocation = p_location_y - p_speed;
 		else {
 			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
@@ -121,10 +123,10 @@ void Player::movePlayer(int direction)
 				newLocation = p_location_y;
 		}
 		//set new player location
-		setPlayerLocation(p_location_x, newLocation);
+		setPlayerLocation(p_location_x + smoothPlayer, newLocation);
 		break;
 	case PLAYER_MOVE_DOWN:
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_DOWN, distancePlaAndBarrier) == COLL_NOT_OK)
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_DOWN, distancePlaAndBarrier, smoothPlayer) == COLL_NOT_OK)
 			newLocation = p_location_y + p_speed;
 		else {
 			if (distancePlaAndBarrier <= p_speed && distancePlaAndBarrier > 0)
@@ -135,10 +137,12 @@ void Player::movePlayer(int direction)
 			printf("speed %d , distance = %d\n", p_speed, distancePlaAndBarrier);*/
 		}
 		//set new player location
-		setPlayerLocation(p_location_x, newLocation);
+		setPlayerLocation(p_location_x + smoothPlayer, newLocation);
 		break;
 	default:
 		printf("Something wrong in movePlayer");
 		break;
 	}
+	
 }
+

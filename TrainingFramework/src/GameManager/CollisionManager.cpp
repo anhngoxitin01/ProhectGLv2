@@ -13,8 +13,10 @@ CollisionManager::~CollisionManager()
 * return -1 if not check successful
 * return other value if successful
 */
-int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, int direction, int& distancePlaAndBarrier)
+int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, int direction, int& distancePlaAndBarrier , int& smoothPLayer)
 {
+	smoothPLayer = 0;	// define the value to end func if not anything change
+
 	int index_x;
 	int index_y;
 	int calcu;	// the value will change when move . May be x or y
@@ -57,6 +59,12 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 			//check kind block
 			if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD || forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
 			{
+				//cacul to smoothPlayer
+				if (forward_left_block.getKindBlock() == MAP_ITEM_ROAD && forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_UP, pl, forward_left_block.getRect());
+				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_UP, pl, forward_right_block.getRect());
+				//cacul to go to end road
 				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_TOP_REC);
 				return COLL_OK;
 			}
@@ -94,6 +102,12 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 			//check kind block
 			if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD || forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
 			{
+				//cacul to smoothPlayer
+				if (forward_left_block.getKindBlock() == MAP_ITEM_ROAD && forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_LEFT, pl, forward_left_block.getRect());
+				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_LEFT, pl, forward_right_block.getRect());
+				//cacul to go to end road
 				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_LEFT_REC);
 				return COLL_OK;
 			}
@@ -130,6 +144,12 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 			//check kind block
 			if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD || forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
 			{
+				//cacul to smoothPlayer
+				if (forward_left_block.getKindBlock() == MAP_ITEM_ROAD && forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_DOWN, pl, forward_left_block.getRect());
+				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_DOWN, pl, forward_right_block.getRect());
+				//cacul to go to end road
 				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_BOTTOM_REC);
 				return COLL_OK;
 			}
@@ -171,6 +191,17 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 			//check kind block
 			if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD || forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
 			{
+				//cacul to smoothPlayer
+				if (forward_left_block.getKindBlock() == MAP_ITEM_ROAD && forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_RIGHT, pl, forward_left_block.getRect());
+				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
+					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_RIGHT, pl, forward_right_block.getRect());
+				printf("the value smoothPLayer func isCollBetweenPlayerAndItemMap = %d\n", smoothPLayer);
+				printf("rec player : %d , %d\n", pl.getRecX(), pl.getRecY());
+				printf("rec left : %d , %d\n", forward_left_block.getRect().getRecX(), forward_left_block.getRect().getRecY());
+				printf("rec right : %d , %d\n", forward_right_block.getRect(), forward_right_block.getRect().getRecY());
+				printf("==========/n");
+				//cacul to go to end road
 				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_RIGHT_REC);
 				return COLL_OK;
 			}
@@ -184,3 +215,29 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 	}
 }
 
+/*
+* return the distance from player to the road
+*/
+int CollisionManager::smoothMovingPlayer(int orient, MRectangle pl , MRectangle barrier)
+{
+	int cacul = 0;
+
+	switch (orient)
+	{
+	case PLAYER_MOVE_LEFT: case PLAYER_MOVE_RIGHT:
+		cacul = abs(pl.getRecY() - barrier.getRecY());
+		if (cacul <= PLAYER_SMOOTH_MOVING) 
+			return barrier.getRecY() - pl.getRecY() ;		// must use bari - pl because if you use pl - bari then + pl it will make you far over
+		cacul = 0;	// reset cacul to return 
+		break;
+	case PLAYER_MOVE_UP: case PLAYER_MOVE_DOWN:
+		cacul = abs(pl.getRecX() - barrier.getRecX());
+		if (cacul <= PLAYER_SMOOTH_MOVING)
+			return barrier.getRecX() - pl.getRecX();		// must use bari - pl because if you use pl - bari then + pl it will make you far over
+		cacul = 0;	// reset cacul to return 
+		break;
+	default:
+		break;
+	}
+	return cacul;
+}

@@ -27,9 +27,10 @@
 #define PLAYER_MOVE_UP					2
 #define PLAYER_MOVE_RIGHT				3
 #define PLAYER_TEXTURE_EACH_DIRECTION	1
-#define PLAYER_BASE_SPEED				5
+#define PLAYER_BASE_SPEED				7
 #define PLAYER_SIZE_X					Globals::item_size
 #define PLAYER_SIZE_Y					(Globals::item_size + 24)
+#define PLAYER_SMOOTH_MOVING			4			// this variable is a range for moving when him/her want to move smooth
 
 
 //define map

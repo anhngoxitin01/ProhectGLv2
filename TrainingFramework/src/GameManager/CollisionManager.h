@@ -11,7 +11,8 @@ public:
 	~CollisionManager();
 
 
-	int isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, int direction , int &distancePlaAndBarrier);		//this func was run before change location of player
+	int isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, int direction , int &distancePlaAndBarrier , int& smoothPlayer);		//this func was run before change location of player
 
 private:
+	int smoothMovingPlayer(int orient, MRectangle pl, MRectangle barrier);
 };

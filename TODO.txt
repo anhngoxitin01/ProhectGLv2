@@ -7,11 +7,16 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+)Tạo object enermy
+		+) check va chạm enermy
 		+)Tạo object Boom
-		+)Tạo object itemMap
+		+) check va chạm Boom và boom bum
 		+)Tạo object itemPlayer
+		+) check va chạm itemPlayer
 	Nên làm:
 		+)Tạo menu tính điểm trong game screen
 		+)Tạo pause game
 		+)Tạo GSInfor 
 		+)Tạo animation
+		+)func isCollBetweenPlayerAndItemMap thực hiện thêm những chức năng
+			đáng lẽ không phải nó thực hiện => cần phẫu thuật
+				
