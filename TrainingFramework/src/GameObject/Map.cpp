@@ -41,6 +41,11 @@ MRectangle Map::getRectItem(int index)
 	return map_items[index].getRect();
 }
 
+ItemMap Map::getItemMap(int index)
+{
+	return map_items[index];
+}
+
 
 
 void Map::initMap(int level)
@@ -62,14 +67,14 @@ void Map::checkMapInCMD()
 	{
 		for (int j = 0; j < MAP_SIZE_X; j++)
 		{
-			printf("Item[%d] = ");
+			printf("Item[%d] = " , i*14 + j);
 			map_items[i * 14 + j].showInfor();
 			printf("\n");
 		}
 	}
 }
 
-void Map::readMapFromFile(char* namePath, ItemMap *map_items)
+void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 {
 	char c[10];
 	FILE* fptr;
@@ -181,8 +186,9 @@ void Map::readMapFromFile(char* namePath, ItemMap *map_items)
 			fscanf(fptr, "\n");
 		}
 	}
-
 	fclose(fptr);
+
+	checkMapInCMD();
 }
 
 void Map::setMapSponPlayer(int x, int y)

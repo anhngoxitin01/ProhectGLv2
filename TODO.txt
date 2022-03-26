@@ -19,6 +19,7 @@ Mục tiêu:
 		+)Tạo GSInfor 
 		+)Tạo animation
 
-fix Rect class
-create ItemMap class
-fix class Map
+fix func isInteract
+fix class CollisionManager
+fix func movePLayer in class player
+add func autoUpgradeRect when setLocationPlayer

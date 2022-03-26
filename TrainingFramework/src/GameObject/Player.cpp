@@ -27,12 +27,17 @@ void Player::setPlayerLocation(int x, int y)
 {
 	p_location_x = x;
 	p_location_y = y;
-	p_rec = MRectangle(x, y + (PLAYER_SIZE_Y - Globals::item_size) / 2 , PLAYER_SIZE_X , PLAYER_SIZE_Y);
-	printf("in func setPlayerLocation infor player: \nLocation_draw = %d , %d \n Location_rec = %d, %d\n"
+	p_rec = MRectangle(p_location_x, p_location_y + (PLAYER_SIZE_Y - Globals::item_size) / 2, PLAYER_SIZE_X, PLAYER_SIZE_Y);
+	/*printf("in func setPlayerLocation infor player: \nLocation_draw = %d , %d \n Location_rec = %d, %d\n"
 		, p_location_x
 		, p_location_y
 		, p_rec.getRecX()
-		, p_rec.getRecY());
+		, p_rec.getRecY());*/
+}
+
+void Player::upgradeRect()
+{
+	p_rec.setRecXY(p_location_x, p_location_y + (PLAYER_SIZE_Y - Globals::item_size) / 2);
 }
 
 int Player::getPlayerDirection()
@@ -60,6 +65,11 @@ std::string Player::getPlayerTextureStading(int direction)
 	return p_texture[direction];
 }
 
+MRectangle Player::getRectPlayer()
+{
+	return p_rec;
+}
+
 int Player::getPlayerLocationX()
 {
 	return p_location_x;
@@ -78,35 +88,23 @@ void Player::movePlayer(int direction)
 	{
 	case PLAYER_MOVE_RIGHT:
 		newLocation = p_location_x + p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(p_location_x, p_location_y, p_speed, PLAYER_MOVE_RIGHT) == COLL_NOT_OK)
-			p_location_x = newLocation;
-		// not move out map
-		/*if (newLocation < Globals::item_size * (Globals::colMap - 1) - Globals::item_size / 2)
-			p_location_x = newLocation;*/
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_RIGHT) == COLL_NOT_OK)
+			setPlayerLocation(newLocation, p_location_y);
 		break;
 	case PLAYER_MOVE_LEFT:
 		newLocation = p_location_x - p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(p_location_x, p_location_y, p_speed, PLAYER_MOVE_LEFT) == COLL_NOT_OK)
-			p_location_x = newLocation;
-		// not move out map
-		/*if (newLocation > Globals::item_size + Globals::item_size / 2)
-			p_location_x = newLocation;*/
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_LEFT) == COLL_NOT_OK)
+			setPlayerLocation(newLocation, p_location_y);
 		break;
 	case PLAYER_MOVE_UP:
 		newLocation = p_location_y - p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(p_location_x, p_location_y, p_speed, PLAYER_MOVE_UP) == COLL_NOT_OK)
-			p_location_y = newLocation;
-		// not move out map
-		/*if (newLocation > Globals::item_size)
-			p_location_y = newLocation;*/
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_UP) == COLL_NOT_OK)
+			setPlayerLocation(p_location_x, newLocation);
 		break;
 	case PLAYER_MOVE_DOWN:
 		newLocation = p_location_y + p_speed;
-		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(p_location_x, p_location_y, p_speed, PLAYER_MOVE_DOWN) == COLL_NOT_OK)
-			p_location_y = newLocation;
-		// not move out map
-		/*if (newLocation < Globals::item_size * (Globals::rowMap - 1) - PLAYER_SIZE_Y/2)
-			p_location_y = newLocation;*/
+		if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_DOWN) == COLL_NOT_OK)
+			setPlayerLocation(p_location_x, newLocation);
 		break;
 	default:
 		printf("Something wrong in movePlayer");

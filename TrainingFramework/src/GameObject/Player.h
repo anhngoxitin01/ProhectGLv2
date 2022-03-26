@@ -21,6 +21,7 @@ public:
 	void setPlayerStatusLive(int statusLive);
 	void setPlayerIsMoving(bool isMoving);
 	void setPlayerLocation(int x, int y);		// auto create Rect for player
+	void upgradeRect();
 
 	int			getPlayerDirection();
 	int			getPlayerSpeed();
@@ -31,6 +32,7 @@ public:
 	int			getPlayerLocationX();
 	int			getPlayerLocationY();
 	std::string	getPlayerTextureStading(int direction);
+	MRectangle	getRectPlayer();
 
 	void		movePlayer(int direction);
 

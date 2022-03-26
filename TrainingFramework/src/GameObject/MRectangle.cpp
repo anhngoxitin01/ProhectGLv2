@@ -16,25 +16,25 @@ MRectangle::~MRectangle()
 {
 }
 
-int MRectangle::isInteract(MRectangle r1, MRectangle r2)
+int MRectangle::isInteract(MRectangle anotherRec)
 {
 
-	int l1_x		= r1.r_x - r1.r_length / 2;		//	left_top_r1_x	
-	int l1_y		= r1.r_y - r1.r_width / 2;		//	left_top_r1_y
-	int r1_x		= r1.r_x + r1.r_length / 2;		//	right_bottom_r1_x
-	int r1_y		= r1.r_y + r1.r_width / 2;		//	right_bottom_r1_y
+	int l1_x		= r_x - r_length / 2;		//	left_top_r1_x	
+	int l1_y		= r_y - r_width / 2;		//	left_top_r1_y
+	int r1_x		= r_x + r_length / 2;		//	right_bottom_r1_x
+	int r1_y		= r_y + r_width / 2;		//	right_bottom_r1_y
 
-	int l2_x		= r2.r_x - r2.r_length / 2;		//	left_top_r2_x
-	int l2_y		= r2.r_y - r2.r_width / 2;		//	left_top_r2_y
-	int r2_x		= r2.r_x + r2.r_length / 2;		//	right_bottom_r2_x
-	int r2_y		= r2.r_y + r2.r_width / 2;		//	right_bottom_r2_y
+	int l2_x		= anotherRec.r_x - anotherRec.r_length / 2;		//	left_top_r2_x
+	int l2_y		= anotherRec.r_y - anotherRec.r_width / 2;		//	left_top_r2_y
+	int r2_x		= anotherRec.r_x + anotherRec.r_length / 2;		//	right_bottom_r2_x
+	int r2_y		= anotherRec.r_y + anotherRec.r_width / 2;		//	right_bottom_r2_y
 
-	if (l1_x == r1.r_x || l1_y == r1.r_y || l2_x == r2.r_x || l2_y == r2.r_y)
+	if (l1_x == r_x || l1_y == r_y || l2_x == anotherRec.r_x || l2_y == anotherRec.r_y)
 	{
 		//this case is the line not the rectangle
 		return REC_IS_LINE;
 	}
-	else if (r1.r_x == r2.r_x && r1.r_y == r2.r_y && r1.r_width == r2.r_width && r1.r_length == r2.r_length)
+	else if (r_x == anotherRec.r_x && r_y == anotherRec.r_y && r_width == anotherRec.r_width && r_length == anotherRec.r_length)
 	{
 		return REC_OVER_LAP;
 	}

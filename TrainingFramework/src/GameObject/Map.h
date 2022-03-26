@@ -16,12 +16,13 @@ public:
 	void		getSponPlayerByValue(int &x , int &y);
 	int			getKindOfBlock(int index_x, int index_y);
 	MRectangle	getRectItem(int index);
+	ItemMap		getItemMap(int index);
 
 	void initMap(int level);
 	void checkMapInCMD();
 
 private:
-	void readMapFromFile(char* namePath, ItemMap *map_items);
+	void readMapFromFile(char* namePath, ItemMap map_items[]);
 	void setMapSponPlayer(int x, int y);
 	
 	ItemMap		map_items[MAP_SIZE_Y * MAP_SIZE_Y];

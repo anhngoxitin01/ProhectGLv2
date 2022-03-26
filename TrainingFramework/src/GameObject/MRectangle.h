@@ -8,7 +8,7 @@ public:
 	MRectangle(int x, int y, int length, int width);
 	~MRectangle();
 
-	int isInteract(MRectangle r1, MRectangle r2);
+	int isInteract(MRectangle anotherRec);
 
 	void setRecXY(int x , int y);
 	void setRecLength(int length);

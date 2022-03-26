@@ -48,5 +48,20 @@ int ItemMap::getKindBlock()
 
 void ItemMap::showInfor()
 {
-	printf("location: %d,%d || texture = %s || kind = %d", im_rect.getRecX(), im_rect.getRecY(), im_path_texture, im_kind_block);
+	printf("location: %d,%d || texture = %s || kind = ", im_rect.getRecX(), im_rect.getRecY(), im_path_texture.c_str());
+	switch (im_kind_block)
+	{
+	case MAP_ITEM_CAN_DESTROY:
+		printf("MAP_ITEM_CAN_DESTROY");
+		break;
+	case MAP_ITEM_CAN_NOT_DESTROY:
+		printf("MAP_ITEM_CAN_NOT_DESTROY");
+		break;
+	case MAP_ITEM_ROAD:
+		printf("MAP_ITEM_ROAD");
+		break;
+	default:
+		break;
+	}
+	printf("\n");
 }
