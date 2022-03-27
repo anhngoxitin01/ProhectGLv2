@@ -18,20 +18,33 @@
 // define game debug  -------------------	1: yes	0: no
 #define GAME_DEBUG 1
 
+//Status
+#define STATUS_LIVE						0	// status 
+#define STATUS_BUBBLE					1
+#define STATUS_DEAD						2
+
 //Player
-#define PLAYER_STATUS_LIVE				0
-#define PLAYER_STATUS_BUBBLE			1
-#define PLAYER_STATUS_DEAD				2
-#define PLAYER_MOVE_DOWN				0
+#define PLAYER_MOVE_DOWN				0	// moving
 #define PLAYER_MOVE_LEFT				1
 #define PLAYER_MOVE_UP					2
 #define PLAYER_MOVE_RIGHT				3
-#define PLAYER_TEXTURE_EACH_DIRECTION	1
-#define PLAYER_BASE_SPEED				7
+#define PLAYER_INIT_BOOM				4	
+#define PLAYER_TEXTURE_EACH_DIRECTION	1	// run animation
+#define PLAYER_BASE_SPEED				7	// base speed
 #define PLAYER_SIZE_X					Globals::item_size
 #define PLAYER_SIZE_Y					(Globals::item_size + 24)
-#define PLAYER_SMOOTH_MOVING			4			// this variable is a range for moving when him/her want to move smooth
+#define PLAYER_SMOOTH_MOVING			4	// this variable is a range for moving when him/her want to move smooth
 
+//Enermy
+#define ENERMY_MOVE_DOWN				0	// moving
+#define ENERMY_MOVE_LEFT				1
+#define ENERMY_MOVE_UP					2
+#define ENERMY_MOVE_RIGHT				3
+#define ENERMY_TEXTURE_EACH_DIRECTION	1	// run animation
+#define ENERMY_BASE_SPEED				7	// base speed
+#define ENERMY_SIZE_X					Globals::item_size
+#define ENERMY_SIZE_Y					Globals::item_size
+#define ENERMY_SMOOTH_MOVING			4	// this variable is a range for moving when him/her want to move smooth
 
 //define map
 #define PATHFILE_MAP_1			"..\\Data\\Map\\map1.txt"
@@ -48,6 +61,7 @@
 #define MAP_ITEM_TREE			56					//so 8
 #define MAP_ITEM_BUSH			57					//so 9
 #define MAP_PLAYER_SPON			63					//ki tu ?
+#define MAP_ENERMY_SPON			36					//kí tu $
 #define MAP_NOTHING				111					//ki tu o
 
 #define MAP_ITEM_CAN_DESTROY		0				//item which can be destroy
@@ -73,8 +87,6 @@
 #define ON_THE_TOP_REC					2
 #define ON_THE_RIGHT_REC				3
 
-
-//define 
 
 class Globals
 {

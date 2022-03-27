@@ -38,6 +38,8 @@ void GSPlay::Init()
 	prepareForDrawingBackground(model , texture , shader);
 	//draw Map
 	prepareForDrawingMap(model, texture, shader);
+	//draw Enermy
+	prepareForDrawingEnermy(model, texture, shader);
 	//draw PLayer
 	prepareForDrawingPlayer(model, texture, shader);
 	//draw Button
@@ -77,24 +79,28 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		{
 		case KEY_DOWN:
 			//printf("press down\n");
+			//m_key[PLAYER_MOVE_DOWN] = true;
 			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
 			break;
 		case KEY_UP:
 			//printf("press up\n");
+			//m_key[PLAYER_MOVE_UP] = true;
 			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
 			break;
 		case KEY_RIGHT:
 			//printf("press right\n");
+			//m_key[PLAYER_MOVE_RIGHT] = true;
 			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
 			break;
 		case KEY_LEFT:
 			//printf("press left\n");
+			//m_key[PLAYER_MOVE_LEFT] = true;
 			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
@@ -153,6 +159,12 @@ void GSPlay::Draw()
 	}
 
 	for (auto it : m_listAnimation)
+	{
+		it->Draw();
+	}
+
+	//Enermy
+	for (auto it : m_list_enermies)
 	{
 		it->Draw();
 	}
@@ -231,7 +243,8 @@ void GSPlay::prepareForDrawingBackground(std::shared_ptr<Model> model, std::shar
 void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
 {
 	//read map from file
-	ResourceManagers::GetInstance()->managerMap()->initMap(MAP_LEVEL_1);
+	ResourceManagers::GetInstance()->managerMap()->setMapLevel(MAP_LEVEL_1);
+	ResourceManagers::GetInstance()->managerMap()->initMap();
 	//create item_map sprite2D
 	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
 	//create valuable for draw map
@@ -255,6 +268,8 @@ void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<
 	}
 	//set spon for player through var (get from read text) to player
 	ResourceManagers::GetInstance()->autoSetSponToPlayerFromMap();
+	//set spon for enermy through var (get from read text) to player
+	ResourceManagers::GetInstance()->autoSetSponToEnermyFromMap();
 }
 
 void GSPlay::prepareForDrawingButton(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
@@ -288,6 +303,23 @@ void GSPlay::prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_p
 	m_player->Set2DPosition(playerX, playerY);
 	// must change it
 	m_player->SetSize(PLAYER_SIZE_X, PLAYER_SIZE_Y);
+}
+
+void GSPlay::prepareForDrawingEnermy(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+{
+	//create enermy sprite2D
+	std::shared_ptr<Sprite2D> enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+
+	//get element in list enermy from ResourceManagers
+	for (Enermy it : ResourceManagers::GetInstance()->managerEnermy())
+	{
+		texture = ResourceManagers::GetInstance()->GetTexture(it.getPathTexture());
+		printf("\ntexture : %s\n", it.getPathTexture());
+		enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+		enermySprite2D->Set2DPosition(it.getLocationX(), it.getLocationY());
+		enermySprite2D->SetSize(it.getSizeX(), it.getSizeY());
+		m_list_enermies.push_back(enermySprite2D);
+	}
 }
 
 void GSPlay::prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)

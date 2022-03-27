@@ -14,6 +14,7 @@
 #include "soloud_wav.h"
 #include "Player.h"
 #include "Map.h"
+#include "Enermy.h"
 
 class ResourceManagers : public CSingleton<ResourceManagers>
 {
@@ -49,6 +50,10 @@ public:
 	Player* managerPlayer();
 	void autoSetSponToPlayerFromMap();
 
+	//Enermy
+	std::list<Enermy> managerEnermy();
+	void autoSetSponToEnermyFromMap();
+
 private:
 	std::map<std::string, std::shared_ptr<Shader>> m_MapShader;
 	std::map<std::string, std::shared_ptr<Texture>> m_MapTexture;
@@ -65,6 +70,9 @@ private:
 
 	//Player
 	Player m_player;
+
+	//Enermy
+	std::list<Enermy>	m_enermies;
 
 	//Sound
 	std::string m_SoundPath;

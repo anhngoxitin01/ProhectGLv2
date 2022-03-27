@@ -1,7 +1,7 @@
 #include"Player.h"
 #include "GameManager/CollisionManager.h"
 
-Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(PLAYER_STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
+Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
 					, p_location_x(25) , p_location_y(75)
 {
 	//NOT GOOD SOLUTION

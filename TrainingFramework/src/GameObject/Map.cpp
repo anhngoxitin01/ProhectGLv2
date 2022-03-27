@@ -46,11 +46,21 @@ ItemMap Map::getItemMap(int index)
 	return map_items[index];
 }
 
-
-
-void Map::initMap(int level)
+int Map::getLevelMap()
 {
-	switch (level)
+	return map_level;
+}
+
+std::list<Enermy> Map::getSponEnermy()
+{
+	return map_enermies;
+}
+
+
+
+void Map::initMap()
+{
+	switch (map_level)
 	{
 	case MAP_LEVEL_1: case MAP_LEVEL_2: case MAP_LEVEL_3:
 		readMapFromFile(PATHFILE_MAP_1 , map_items);
@@ -74,8 +84,16 @@ void Map::checkMapInCMD()
 	}
 }
 
+void Map::setMapLevel(int level)
+{
+	map_level = level;
+}
+
 void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 {
+	//init temp enermy
+	Enermy termEnermy;
+
 	char c[10];
 	FILE* fptr;
 
@@ -177,6 +195,21 @@ void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 						, i * Globals::item_size + Globals::item_size / 2
 						, ""
 						, MAP_ITEM_ROAD);
+					break;
+				case MAP_ENERMY_SPON:
+					termEnermy.initEnermy(
+						j * Globals::item_size + Globals::item_size / 2
+						, (i + 1) * Globals::item_size - ENERMY_SIZE_Y / 2
+						, ENERMY_SIZE_X
+						, ENERMY_SIZE_Y
+						, ENERMY_MOVE_DOWN
+					);
+					map_items[i * 14 + j].setAllValue(
+						j * Globals::item_size + Globals::item_size / 2
+						, i * Globals::item_size + Globals::item_size / 2
+						, ""
+						, MAP_ITEM_ROAD);
+					map_enermies.push_back(termEnermy);
 					break;
 				default:
 					printf("Can not read map");

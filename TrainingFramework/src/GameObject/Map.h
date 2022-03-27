@@ -2,8 +2,9 @@
 #include <map>
 #include <stdio.h>
 #include <string>
-#include"GameConfig.h"
+#include "GameConfig.h"
 #include "ItemMap.h"
+#include "Enermy.h"
 
 
 class Map
@@ -17,9 +18,13 @@ public:
 	int			getKindOfBlock(int index_x, int index_y);
 	MRectangle	getRectItem(int index);
 	ItemMap		getItemMap(int index);
+	int			getLevelMap();
+	std::list<Enermy>		getSponEnermy();
 
-	void initMap(int level);
+	void initMap();
 	void checkMapInCMD();
+
+	void		setMapLevel(int level);
 
 private:
 	void readMapFromFile(char* namePath, ItemMap map_items[]);
@@ -29,6 +34,8 @@ private:
 	int			map_spon_player_x;
 	int			map_spon_player_y;
 
-	
+	int			map_level;
+
+	std::list<Enermy>  map_enermies;
 	
 };

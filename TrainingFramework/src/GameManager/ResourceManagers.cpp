@@ -228,3 +228,13 @@ void ResourceManagers::autoSetSponToPlayerFromMap()
 	m_map.getSponPlayerByValue(player_x, player_y);
 	m_player.setPlayerLocation(player_x, player_y);
 }
+
+std::list<Enermy> ResourceManagers::managerEnermy()
+{
+	return m_enermies;
+}
+
+void ResourceManagers::autoSetSponToEnermyFromMap()
+{
+	m_enermies = m_map.getSponEnermy();
+}
