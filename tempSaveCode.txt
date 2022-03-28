@@ -407,3 +407,59 @@ switch (ResourceManagers::GetInstance()->getDirectionPlayer())
 			break;
 		}
 	}
+
+
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+===============================================================================================================
+
+// get key to update player 
+
+if(bIsPressed)
+	//{
+	//	switch (key)
+	//	{
+	//	case KEY_DOWN:
+	//		//printf("press down\n");
+	//		//m_key[PLAYER_MOVE_DOWN] = true;
+	//		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+	//		break;
+	//	case KEY_UP:
+	//		//printf("press up\n");
+	//		//m_key[PLAYER_MOVE_UP] = true;
+	//		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+	//		break;
+	//	case KEY_RIGHT:
+	//		//printf("press right\n");
+	//		//m_key[PLAYER_MOVE_RIGHT] = true;
+	//		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+	//		break;
+	//	case KEY_LEFT:
+	//		//printf("press left\n");
+	//		//m_key[PLAYER_MOVE_LEFT] = true;
+	//		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
+	//		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+	//		break;
+	//	default:
+	//		break;
+	//	}
+	//}
+	//else
+	//{
+	//	ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(false);
+	//}

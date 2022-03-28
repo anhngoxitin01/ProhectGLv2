@@ -30,7 +30,7 @@
 #define PLAYER_MOVE_RIGHT				3
 #define PLAYER_INIT_BOOM				4	
 #define PLAYER_TEXTURE_EACH_DIRECTION	1	// run animation
-#define PLAYER_BASE_SPEED				7	// base speed
+#define PLAYER_BASE_SPEED				2	// base speed
 #define PLAYER_SIZE_X					Globals::item_size
 #define PLAYER_SIZE_Y					(Globals::item_size + 24)
 #define PLAYER_SMOOTH_MOVING			4	// this variable is a range for moving when him/her want to move smooth
@@ -171,5 +171,6 @@ public:
 #define KEY_MOVE_RIGHT		'D'
 #define KEY_MOVE_FORWORD	'W'
 #define KEY_MOVE_BACKWORD	'S'
+#define KEY_SPACE			VK_SPACE
 
 #endif

@@ -51,7 +51,7 @@ private:
 	float	m_time_enermy_moving;
 
 	//key_board
-	bool			m_key[5];	// define key in GameConfig in CustomKey
+	int			m_KeyPress;
 	
 	//map
 	std::list<std::shared_ptr<Sprite2D>>		m_list_items_map;

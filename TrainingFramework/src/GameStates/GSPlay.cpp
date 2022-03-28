@@ -29,6 +29,7 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	m_Test = 1;
+	m_KeyPress = 0;
 	// create model , texture and shader
 	/*auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
@@ -71,37 +72,24 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
-	if(bIsPressed)
+	if (bIsPressed)
 	{
 		switch (key)
 		{
-		case KEY_DOWN:
-			//printf("press down\n");
-			//m_key[PLAYER_MOVE_DOWN] = true;
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+		case KEY_LEFT:
+			m_KeyPress |= 1;
 			break;
-		case KEY_UP:
-			//printf("press up\n");
-			//m_key[PLAYER_MOVE_UP] = true;
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+		case KEY_DOWN:
+			m_KeyPress |= 1 << 1;
 			break;
 		case KEY_RIGHT:
-			//printf("press right\n");
-			//m_key[PLAYER_MOVE_RIGHT] = true;
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			m_KeyPress |= 1 << 2;
 			break;
-		case KEY_LEFT:
-			//printf("press left\n");
-			//m_key[PLAYER_MOVE_LEFT] = true;
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+		case KEY_UP:
+			m_KeyPress |= 1 << 3;
+			break;
+		case KEY_SPACE:
+			m_KeyPress |= 1 << 4;
 			break;
 		default:
 			break;
@@ -109,6 +97,26 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 	}
 	else
 	{
+		switch (key)
+		{
+		case KEY_LEFT:
+			m_KeyPress ^= 1;
+			break;
+		case KEY_DOWN:
+			m_KeyPress ^= 1 << 1;
+			break;
+		case KEY_RIGHT:
+			m_KeyPress ^= 1 << 2;
+			break;
+		case KEY_UP:
+			m_KeyPress ^= 1 << 3;
+			break;
+		case KEY_SPACE:
+			m_KeyPress ^= 1 << 4;
+		default:
+			break;
+		}
+
 		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(false);
 	}
 }
@@ -131,6 +139,46 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 void GSPlay::Update(float deltaTime)
 {
 	m_time_enermy_moving += deltaTime;
+
+	//process key input
+	switch (m_KeyPress)//Handle Key event
+	{
+	case 1://Key Left
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
+		break;
+	case 1<<1 ://Key Down
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
+		break;
+	case 1<<2 ://Key Right
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
+		break;
+	case 1<<3 ://Key Up
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
+		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
+		break;
+	case 1<<4://Key Space
+		//TODO init boom
+		break;
+	case (1 | 1 << 4)://Key Left & Space
+
+		break;
+	case (1<<1 | 1 << 4)://Key Down & Space
+
+		break;
+	case (1<<2 | 1 << 4)://Key Right & Space
+
+		break;
+	case (1<<3 | 1 << 4)://Key Up & Space
+
+		break;
+	}
 
 	for (auto it : m_listButton)
 	{
@@ -238,7 +286,6 @@ void GSPlay::Draw()
 
 void GSPlay::autoMovingEnermy(float deltaTime)
 {
-	m_time_enermy_moving += deltaTime;
 	//create a rect to save new rect of enermy after testing move enermy
 	MRectangle tempRect;
 

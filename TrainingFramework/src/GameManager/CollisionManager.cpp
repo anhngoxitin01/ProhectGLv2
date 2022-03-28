@@ -196,11 +196,11 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_RIGHT, pl, forward_left_block.getRect());
 				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_RIGHT, pl, forward_right_block.getRect());
-				printf("the value smoothPLayer func isCollBetweenPlayerAndItemMap = %d\n", smoothPLayer);
+				/*printf("the value smoothPLayer func isCollBetweenPlayerAndItemMap = %d\n", smoothPLayer);
 				printf("rec player : %d , %d\n", pl.getRecX(), pl.getRecY());
 				printf("rec left : %d , %d\n", forward_left_block.getRect().getRecX(), forward_left_block.getRect().getRecY());
 				printf("rec right : %d , %d\n", forward_right_block.getRect(), forward_right_block.getRect().getRecY());
-				printf("==========/n");
+				printf("==========/n");*/
 				//cacul to go to end road
 				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_RIGHT_REC);
 				return COLL_OK;
