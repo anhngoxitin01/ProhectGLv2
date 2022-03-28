@@ -288,13 +288,17 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 {
 	//create a rect to save new rect of enermy after testing move enermy
 	MRectangle tempRect;
+	//create temp enermy
+	Enermy tempEnermy;
 
-	if (m_time_enermy_moving >= 4.0)
+	if (m_time_enermy_moving >= TIME_ENERMY_MOVING)
 	{
 		//create index to update enermy through func changeStatusEnermy()
 		int index = 0;
+		//create temp list enermy
+		std::list<Enermy> tempListEnermy;
 
-		for each (auto it in ResourceManagers::GetInstance()->managerEnermy())
+		for each (auto it in *ResourceManagers::GetInstance()->managerEnermy())
 		{
 			//comment check
 			printf("enermy before %s\n", it.getPathTexture().c_str());
@@ -302,7 +306,6 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 			switch (it.getDirection())
 			{
 			case ENERMY_MOVE_DOWN:
-				// create a new rect after move enermy to test
 				printf("Speed_Enermy : %d and the sum is : %d\n", it.getSpeed(), it.getRect().getRecY() + it.getSpeed());
 				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
 				//check collision
@@ -313,7 +316,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				break;
 			case ENERMY_MOVE_UP:
 				// create a new rect after move enermy to test
-				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() - it.getSpeed(), Globals::item_size, Globals::item_size);
 				//check collision
 				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
 					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
@@ -322,7 +325,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				break;
 			case ENERMY_MOVE_RIGHT:
 				// create a new rect after move enermy to test
-				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+				tempRect = MRectangle(it.getRect().getRecX() + it.getSpeed(), it.getRect().getRecY(), Globals::item_size, Globals::item_size);
 				//check collision
 				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
 					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
@@ -331,23 +334,29 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				break;
 			case ENERMY_MOVE_LEFT:
 				// create a new rect after move enermy to test
-				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+				tempRect = MRectangle(it.getRect().getRecX() - it.getSpeed(), it.getRect().getRecY() , Globals::item_size, Globals::item_size);
+				printf("\n\n index enermy in map [%d][%d]\n\n", tempRect.getRecX() / Globals::item_size, tempRect.getRecY() / Globals::item_size);
 				//check collision
 				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
 					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
 				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK)		// if coll change direction enermy
-					it.setEnermyDirection(ENERMY_MOVE_DOWN);
+					it.setEnermyDirection(ENERMY_MOVE_UP);
 				break;
 			default:
 				break;
 			}
 
+			//add enermy to templist
+			tempListEnermy.push_back(it);
+
 			//comment check
 			//update value in list enermy in resource manager
 			printf("enermy after %s\n", it.getPathTexture().c_str());
-			ResourceManagers::GetInstance()->changeStatusEnermy(index, it);
-			index++;	// increase index
+			//ResourceManagers::GetInstance()->changeStatusEnermy(index, it);
+			//index++;	// increase index
 		}
+		//update value in list ResourceManager
+		ResourceManagers::GetInstance()->managerEnermy()->swap(tempListEnermy);
 		//update value texture for draw in map 
 		prepareForDrawingEnermy();
 
@@ -463,15 +472,18 @@ void GSPlay::prepareForDrawingEnermy()
 	//create enermy sprite2D
 	std::shared_ptr<Sprite2D> enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 
+	//reset the m_list_enermies
+	m_list_enermies.clear();
+
 	//comment check
-	//int count = 0;
+	int count = 0;
 
 	//get element in list enermy from ResourceManagers
-	for (Enermy it : ResourceManagers::GetInstance()->managerEnermy())
+	for (Enermy it : *ResourceManagers::GetInstance()->managerEnermy())
 	{
 		//comment check
-		/*printf("Location enermy[%d] %d , %d , %s\n ", count, it.getRect().getRecX(), it.getRect().getRecY() , it.getPathTexture().c_str());
-		count++;*/
+		printf("Location enermy[%d] %d , %d , %s\n ", count, it.getRect().getRecX(), it.getRect().getRecY() , it.getPathTexture().c_str());
+		count++;
 		texture = ResourceManagers::GetInstance()->GetTexture(it.getPathTexture());
 		//printf("\ntexture : %s\n", it.getPathTexture());
 		enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);

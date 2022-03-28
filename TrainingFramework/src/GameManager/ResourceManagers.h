@@ -51,7 +51,7 @@ public:
 	void autoSetSponToPlayerFromMap();
 
 	//Enermy
-	std::list<Enermy> managerEnermy();
+	std::list<Enermy>* managerEnermy();
 	void autoSetSponToEnermyFromMap();
 	void changeStatusEnermy(int index, Enermy newEnermy);
 
