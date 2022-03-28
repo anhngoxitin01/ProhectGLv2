@@ -18,7 +18,7 @@ MRectangle::~MRectangle()
 
 int MRectangle::isInteract(MRectangle anotherRec)
 {
-	//printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d", r_x, r_y,r_length , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecLength());
+	//printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d\n", r_x, r_y,r_length , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecLength());
 
 	int l1_x		= r_x - r_length / 2;		//	left_top_r1_x	
 	int l1_y		= r_y - r_width / 2;		//	left_top_r1_y
@@ -41,22 +41,17 @@ int MRectangle::isInteract(MRectangle anotherRec)
 	{
 		return REC_OVER_LAP;
 	}
-	else if((r_x + r_width) < anotherRec.getRecX() || (anotherRec.r_x + anotherRec.getRecWidth()) < r_x 
-				|| (r_y + r_length) < anotherRec.getRecY() || (anotherRec.getRecY() + anotherRec.getRecLength()) < r_y)
+	else if((r_x + r_width) <= anotherRec.getRecX() || (anotherRec.r_x + anotherRec.getRecWidth()) <= r_x 
+				|| (r_y + r_length) <= anotherRec.getRecY() || (anotherRec.getRecY() + anotherRec.getRecLength()) <= r_y)
 	{
 		return REC_NOT_ABOVE;
 	}
-	//else if ( l1_x > r2_x || r1_x < l2_x)			// If one rectangle is on left side of other
-	//{
-	//	printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d", r_x, r_y,r_length , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecLength());
-	//	return REC_NOT_ABOVE;
-	//}
-	//else if (r1_y > l2_y || l1_y < r2_y)				 // If one rectangle is above other
-	//{
-	//	return REC_NOT_ABOVE;
-	//}
 	else
+	{
+		//printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d\n", r_x, r_y,r_length , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecLength());
 		return REC_ABOVE;
+	}
+		
 }
 /*
 * WARNING : this func is not true with rectangles just true with squares

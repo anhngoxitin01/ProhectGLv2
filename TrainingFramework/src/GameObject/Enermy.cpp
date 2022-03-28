@@ -30,12 +30,7 @@ void Enermy::setEnermyLocation(int x, int y)
 {
 	e_location_x = x;
 	e_location_y = y;
-	e_rec = MRectangle(e_location_x, e_location_y + (ENERMY_SIZE_Y - Globals::item_size) / 2, Globals::item_size, Globals::item_size);
-}
-
-void Enermy::upgradeRect()
-{
-	e_rec.setRecXY(e_location_x, e_location_y + (ENERMY_SIZE_Y - Globals::item_size) / 2);
+	e_rec = MRectangle(e_location_x, e_location_y , Globals::item_size, Globals::item_size);
 }
 
 MRectangle Enermy::getRect()

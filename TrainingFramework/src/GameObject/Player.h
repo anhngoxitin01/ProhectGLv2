@@ -21,7 +21,6 @@ public:
 	void setPlayerStatusLive(int statusLive);
 	void setPlayerIsMoving(bool isMoving);
 	void setPlayerLocation(int x, int y);		// auto create Rect for player
-	void upgradeRect();
 
 	int			getPlayerDirection();
 	int			getPlayerSpeed();

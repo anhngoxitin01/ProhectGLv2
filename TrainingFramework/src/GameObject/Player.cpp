@@ -35,11 +35,6 @@ void Player::setPlayerLocation(int x, int y)
 		, p_rec.getRecY());*/
 }
 
-void Player::upgradeRect()
-{
-	p_rec.setRecXY(p_location_x, p_location_y + (PLAYER_SIZE_Y - Globals::item_size) / 2);
-}
-
 int Player::getPlayerDirection()
 {
 	return p_direction;
@@ -100,7 +95,6 @@ void Player::movePlayer(int direction)
 					newLocation = p_location_x;
 			}
 			//set new player location
-			printf("the value smoothPlayer func smoothMovingPlayer = %d\n", smoothPlayer);
 			setPlayerLocation(newLocation, p_location_y + smoothPlayer);
 		}
 		break;
@@ -144,8 +138,6 @@ void Player::movePlayer(int direction)
 					newLocation = p_location_y + distancePlaAndBarrier;
 				else
 					newLocation = p_location_y;
-				/*printf("Location Player in moving func %d , %d\n", getRectPlayer().getRecX(), getRectPlayer().getRecY());
-				printf("speed %d , distance = %d\n", p_speed, distancePlaAndBarrier);*/
 			}
 			//set new player location
 			setPlayerLocation(p_location_x + smoothPlayer, newLocation);

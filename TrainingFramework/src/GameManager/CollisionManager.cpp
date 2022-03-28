@@ -184,10 +184,6 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 			index_y = (pl.getRecY() + Globals::item_size / 2) / Globals::item_size;
 			forward_right_block = ResourceManagers::GetInstance()->managerMap()->getItemMap(index_y * 14 + index_x);		//beacause you read map row y then col x 
 
-			/*printf("Location player: %d , %d\n", pl.getRecX(), pl.getRecY());
-			forward_left_block.showInfor();
-			forward_right_block.showInfor();*/
-
 			//check kind block
 			if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD || forward_right_block.getKindBlock() != MAP_ITEM_ROAD)
 			{
@@ -196,11 +192,6 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_RIGHT, pl, forward_left_block.getRect());
 				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_RIGHT, pl, forward_right_block.getRect());
-				/*printf("the value smoothPLayer func isCollBetweenPlayerAndItemMap = %d\n", smoothPLayer);
-				printf("rec player : %d , %d\n", pl.getRecX(), pl.getRecY());
-				printf("rec left : %d , %d\n", forward_left_block.getRect().getRecX(), forward_left_block.getRect().getRecY());
-				printf("rec right : %d , %d\n", forward_right_block.getRect(), forward_right_block.getRect().getRecY());
-				printf("==========/n");*/
 				//cacul to go to end road
 				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_RIGHT_REC);
 				return COLL_OK;
@@ -223,9 +214,9 @@ int CollisionManager::isCollBetweenEnermyAndItemMap(MRectangle enermy)
 	// get arr Item Map
 	ItemMap* arrItemMap = ResourceManagers::GetInstance()->managerMap()->getArrayItemMap();
 	// the range of arrItemMap is MAP_SIZE_X * MAP_SIZE_Y please fix this code if you have any idea to get the range throught the func or math, do not use like this for loop
-	for (int i = 0; i < MAP_SIZE_X * MAP_SIZE_Y ; i++)
+	for (int i = 0; i < (MAP_SIZE_X * MAP_SIZE_Y) ; i++)
 	{
-		if (enermy.isInteract(arrItemMap[i].getRect()) == REC_ABOVE)
+		if (enermy.isInteract(arrItemMap[i].getRect()) == REC_ABOVE && arrItemMap[i].getKindBlock() != MAP_ITEM_ROAD)
 		{
 			return COLL_OK;
 		}
