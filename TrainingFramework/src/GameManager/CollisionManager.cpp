@@ -216,6 +216,24 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 }
 
 /*
+* check the coll between enermy and item map
+*/
+int CollisionManager::isCollBetweenEnermyAndItemMap(MRectangle enermy)
+{
+	// get arr Item Map
+	ItemMap* arrItemMap = ResourceManagers::GetInstance()->managerMap()->getArrayItemMap();
+	// the range of arrItemMap is MAP_SIZE_X * MAP_SIZE_Y please fix this code if you have any idea to get the range throught the func or math, do not use like this for loop
+	for (int i = 0; i < MAP_SIZE_X * MAP_SIZE_Y ; i++)
+	{
+		if (enermy.isInteract(arrItemMap[i].getRect()) == REC_ABOVE)
+		{
+			return COLL_OK;
+		}
+	}
+	return COLL_NOT_OK;
+}
+
+/*
 * return the distance from player to the road
 */
 int CollisionManager::smoothMovingPlayer(int orient, MRectangle pl , MRectangle barrier)

@@ -14,13 +14,13 @@
 
 
 
-GSPlay::GSPlay()
+GSPlay::GSPlay() : m_time_enermy_moving(0.0f)
 {
 
 }
 
 
-GSPlay::~GSPlay()
+GSPlay::~GSPlay() 
 {
 	
 }
@@ -30,26 +30,24 @@ void GSPlay::Init()
 {
 	m_Test = 1;
 	// create model , texture and shader
-	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	/*auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");*/
 
 	//draw background
-	prepareForDrawingBackground(model , texture , shader);
+	prepareForDrawingBackground();
 	//draw Map
-	prepareForDrawingMap(model, texture, shader);
+	prepareForDrawingMap();
 	//draw Enermy
-	prepareForDrawingEnermy(model, texture, shader);
+	prepareForDrawingEnermy();
 	//draw PLayer
-	prepareForDrawingPlayer(model, texture, shader);
+	prepareForDrawingPlayer();
 	//draw Button
-	prepareForDrawingButton(model, texture, shader);
+	prepareForDrawingButton();
 	//draw Text
-	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	prepareForDrawingText(model, texture, shader);
+	prepareForDrawingText();
 	//draw Animation
-	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	prepareForDrawingAnimation(model, texture, shader);
+	prepareForDrawingAnimation();
 }
 
 void GSPlay::Exit()
@@ -132,6 +130,8 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
+	m_time_enermy_moving += deltaTime;
+
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
@@ -140,6 +140,9 @@ void GSPlay::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
+
+	//make enermy auto moving
+	autoMovingEnermy(deltaTime);
 }
 
 void GSPlay::Draw()
@@ -233,15 +236,98 @@ void GSPlay::Draw()
 	m_player->Draw();
 }
 
-void GSPlay::prepareForDrawingBackground(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+void GSPlay::autoMovingEnermy(float deltaTime)
 {
+	m_time_enermy_moving += deltaTime;
+	//create a rect to save new rect of enermy after testing move enermy
+	MRectangle tempRect;
+
+	if (m_time_enermy_moving >= 4.0)
+	{
+		//create index to update enermy through func changeStatusEnermy()
+		int index = 0;
+
+		for each (auto it in ResourceManagers::GetInstance()->managerEnermy())
+		{
+			//comment check
+			printf("enermy before %s\n", it.getPathTexture().c_str());
+
+			switch (it.getDirection())
+			{
+			case ENERMY_MOVE_DOWN:
+				// create a new rect after move enermy to test
+				printf("Speed_Enermy : %d and the sum is : %d\n", it.getSpeed(), it.getRect().getRecY() + it.getSpeed());
+				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+				//check collision
+				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
+				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK)		// if coll change direction enermy
+					it.setEnermyDirection(ENERMY_MOVE_LEFT);
+				break;
+			case ENERMY_MOVE_UP:
+				// create a new rect after move enermy to test
+				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+				//check collision
+				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
+				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK)		// if coll change direction enermy
+					it.setEnermyDirection(ENERMY_MOVE_RIGHT);
+				break;
+			case ENERMY_MOVE_RIGHT:
+				// create a new rect after move enermy to test
+				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+				//check collision
+				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
+				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK)		// if coll change direction enermy
+					it.setEnermyDirection(ENERMY_MOVE_DOWN);
+				break;
+			case ENERMY_MOVE_LEFT:
+				// create a new rect after move enermy to test
+				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+				//check collision
+				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
+				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK)		// if coll change direction enermy
+					it.setEnermyDirection(ENERMY_MOVE_DOWN);
+				break;
+			default:
+				break;
+			}
+
+			//comment check
+			//update value in list enermy in resource manager
+			printf("enermy after %s\n", it.getPathTexture().c_str());
+			ResourceManagers::GetInstance()->changeStatusEnermy(index, it);
+			index++;	// increase index
+		}
+		//update value texture for draw in map 
+		prepareForDrawingEnermy();
+
+		//reset timing for enermy
+		m_time_enermy_moving = 0;
+	}
+}
+
+void GSPlay::prepareForDrawingBackground()
+{
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
 	m_background = std::make_shared<Sprite2D>(model, shader, texture);
 	m_background->Set2DPosition(700 / 2, 700 / 2);
 	m_background->SetSize(Globals::item_size * 12, Globals::item_size * 12);
 }
 
-void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+void GSPlay::prepareForDrawingMap()
 {
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
 	//read map from file
 	ResourceManagers::GetInstance()->managerMap()->setMapLevel(MAP_LEVEL_1);
 	ResourceManagers::GetInstance()->managerMap()->initMap();
@@ -272,8 +358,13 @@ void GSPlay::prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<
 	ResourceManagers::GetInstance()->autoSetSponToEnermyFromMap();
 }
 
-void GSPlay::prepareForDrawingButton(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+void GSPlay::prepareForDrawingButton()
 {
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
@@ -285,16 +376,26 @@ void GSPlay::prepareForDrawingButton(std::shared_ptr<Model> model, std::shared_p
 	m_listButton.push_back(button);
 }
 
-void GSPlay::prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+void GSPlay::prepareForDrawingText()
 {
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
 	//score
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
 	m_score->Set2DPosition(Vector2(Globals::screenWidth - Globals::menuGPWidth + 50, 25));
 }
 
-void GSPlay::prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+void GSPlay::prepareForDrawingPlayer()
 {
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
 	int playerX = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationX();
 	int playerY = ResourceManagers::GetInstance()->managerPlayer()->getPlayerLocationY();
 
@@ -305,16 +406,27 @@ void GSPlay::prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_p
 	m_player->SetSize(PLAYER_SIZE_X, PLAYER_SIZE_Y);
 }
 
-void GSPlay::prepareForDrawingEnermy(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+void GSPlay::prepareForDrawingEnermy()
 {
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
 	//create enermy sprite2D
 	std::shared_ptr<Sprite2D> enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+
+	//comment check
+	//int count = 0;
 
 	//get element in list enermy from ResourceManagers
 	for (Enermy it : ResourceManagers::GetInstance()->managerEnermy())
 	{
+		//comment check
+		/*printf("Location enermy[%d] %d , %d , %s\n ", count, it.getRect().getRecX(), it.getRect().getRecY() , it.getPathTexture().c_str());
+		count++;*/
 		texture = ResourceManagers::GetInstance()->GetTexture(it.getPathTexture());
-		printf("\ntexture : %s\n", it.getPathTexture());
+		//printf("\ntexture : %s\n", it.getPathTexture());
 		enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 		enermySprite2D->Set2DPosition(it.getLocationX(), it.getLocationY());
 		enermySprite2D->SetSize(it.getSizeX(), it.getSizeY());
@@ -322,8 +434,13 @@ void GSPlay::prepareForDrawingEnermy(std::shared_ptr<Model> model, std::shared_p
 	}
 }
 
-void GSPlay::prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader)
+void GSPlay::prepareForDrawingAnimation()
 {
+	//creat model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
+
 	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
 	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 5, 0.1f);
 
@@ -332,3 +449,4 @@ void GSPlay::prepareForDrawingAnimation(std::shared_ptr<Model> model, std::share
 	//obj->SetRotation(Vector3(0.0f, 3.14f, 0.0f));
 	m_listAnimation.push_back(obj);
 }
+

@@ -56,6 +56,11 @@ std::list<Enermy> Map::getSponEnermy()
 	return map_enermies;
 }
 
+ItemMap* Map::getArrayItemMap()
+{
+	return map_items;
+}
+
 
 
 void Map::initMap()

@@ -1,6 +1,7 @@
 #pragma once
 #include "GameStateBase.h"
 #include "GameConfig.h"
+#include "CollisionManager.h"
 
 class Sprite2D;
 class Sprite3D;
@@ -28,13 +29,16 @@ public:
 	void	Update(float deltaTime) override;
 	void	Draw() override;
 
-	void	prepareForDrawingBackground(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
-	void	prepareForDrawingMap(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
-	void	prepareForDrawingButton(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
-	void	prepareForDrawingText(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
-	void	prepareForDrawingPlayer(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
-	void	prepareForDrawingEnermy(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
-	void	prepareForDrawingAnimation(std::shared_ptr<Model> model, std::shared_ptr<Texture> texture, std::shared_ptr<Shader> shader);
+	void	autoMovingEnermy(float deltaTime);
+
+	void	prepareForDrawingBackground();
+	void	prepareForDrawingMap();
+	void	prepareForDrawingButton();
+	void	prepareForDrawingText();
+	void	prepareForDrawingPlayer();
+	void	prepareForDrawingEnermy();
+	void	prepareForDrawingAnimation();
+
     int		m_Test;
 
 private:
@@ -43,10 +47,12 @@ private:
 	std::list<std::shared_ptr<GameButton>>		m_listButton;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 
+	//time
+	float	m_time_enermy_moving;
+
 	//key_board
 	bool			m_key[5];	// define key in GameConfig in CustomKey
 	
-
 	//map
 	std::list<std::shared_ptr<Sprite2D>>		m_list_items_map;
 	int											m_map[14*14];			//not good must fix

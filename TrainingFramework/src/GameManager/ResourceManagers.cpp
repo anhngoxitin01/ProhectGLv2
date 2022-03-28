@@ -238,3 +238,15 @@ void ResourceManagers::autoSetSponToEnermyFromMap()
 {
 	m_enermies = m_map.getSponEnermy();
 }
+
+void ResourceManagers::changeStatusEnermy(int index , Enermy newEnermy)
+{
+	int count = 0;
+
+	for (auto it : m_enermies)
+	{
+		if (count == index)
+			it.setEnermyDirection(newEnermy.getDirection());
+		count++;
+	}
+}

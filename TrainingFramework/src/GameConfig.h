@@ -18,7 +18,7 @@
 // define game debug  -------------------	1: yes	0: no
 #define GAME_DEBUG 1
 
-//Status
+//Status object game
 #define STATUS_LIVE						0	// status 
 #define STATUS_BUBBLE					1
 #define STATUS_DEAD						2
@@ -41,7 +41,7 @@
 #define ENERMY_MOVE_UP					2
 #define ENERMY_MOVE_RIGHT				3
 #define ENERMY_TEXTURE_EACH_DIRECTION	1	// run animation
-#define ENERMY_BASE_SPEED				7	// base speed
+#define ENERMY_BASE_SPEED				5	// base speed
 #define ENERMY_SIZE_X					Globals::item_size
 #define ENERMY_SIZE_Y					Globals::item_size
 #define ENERMY_SMOOTH_MOVING			4	// this variable is a range for moving when him/her want to move smooth
@@ -87,6 +87,8 @@
 #define ON_THE_TOP_REC					2
 #define ON_THE_RIGHT_REC				3
 
+//Time
+#define	TIME_ENERMY_MOVING		1.0f
 
 class Globals
 {

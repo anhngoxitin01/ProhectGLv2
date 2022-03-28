@@ -53,6 +53,7 @@ public:
 	//Enermy
 	std::list<Enermy> managerEnermy();
 	void autoSetSponToEnermyFromMap();
+	void changeStatusEnermy(int index, Enermy newEnermy);
 
 private:
 	std::map<std::string, std::shared_ptr<Shader>> m_MapShader;

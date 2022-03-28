@@ -10,9 +10,10 @@ public:
 
 	void initEnermy(int location_x, int location_y, int enermy_size_x , int enermy_size_y , int direction);
 
-	void setEnermyDirection(int direction);
-	void setEnermyLocation(int x, int y);		// auto create Rect for player
-	void upgradeRect();
+	void		setEnermyDirection(int direction);
+	void		setEnermyLocation(int x, int y);		// auto create Rect for player
+	void		upgradeRect();
+	
 
 
 	std::string getPathTexture();		//getTexture of the direction the enermy is having
@@ -20,6 +21,9 @@ public:
 	int			getLocationY();
 	int			getSizeX();
 	int			getSizeY();
+	MRectangle	getRect();
+	int			getDirection();
+	int			getSpeed();
 
 private:
 	int			e_status;

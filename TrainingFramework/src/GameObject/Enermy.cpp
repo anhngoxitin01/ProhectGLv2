@@ -1,6 +1,6 @@
 #include "Enermy.h"
 
-Enermy::Enermy(): e_status(STATUS_LIVE)
+Enermy::Enermy(): e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_direction(ENERMY_MOVE_DOWN)
 {
 	//NOT GOOD SOLUTION
 	e_path_texture[ENERMY_MOVE_DOWN] = "enermy_down.tga";
@@ -36,6 +36,21 @@ void Enermy::setEnermyLocation(int x, int y)
 void Enermy::upgradeRect()
 {
 	e_rec.setRecXY(e_location_x, e_location_y + (ENERMY_SIZE_Y - Globals::item_size) / 2);
+}
+
+MRectangle Enermy::getRect()
+{
+	return e_rec;
+}
+
+int Enermy::getDirection()
+{
+	return e_direction;
+}
+
+int Enermy::getSpeed()
+{
+	return e_speed;
 }
 
 std::string Enermy::getPathTexture()

@@ -13,6 +13,8 @@ public:
 
 	int isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, int direction , int &distancePlaAndBarrier , int& smoothPlayer);		//this func was run before change location of player
 
+	int isCollBetweenEnermyAndItemMap(MRectangle enermy);
+
 private:
 	int smoothMovingPlayer(int orient, MRectangle pl, MRectangle barrier);
 };
