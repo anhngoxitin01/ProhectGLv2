@@ -73,7 +73,11 @@
 #define MAP_LEVEL_3					2
 
 //BOOM
-#define NUM_PATH_TEXTURE_BOOM		8				
+#define NUM_PATH_TEXTURE_BOOM			8	
+#define NUM_PATH_TEXTURE_EXPLODE_BOOM	9
+#define	STATUS_BOOM_PREPARE_EXPLODE			0
+#define	STATUS_BOOM_EXPLODE					1
+#define	STATUS_BOOM_DESTROY					2
 
 
 //define collisionManager
@@ -93,7 +97,7 @@
 //Time
 #define	TIME_ENERMY_MOVING		1.0f
 #define TIME_BOOM_EXPLORE		3.0f
-#define TIME_BOOM_DESTROY		(TIME_BOOM_EXPLORE + 1.0f)
+#define TIME_BOOM_DESTROY		4.0f
 
 
 class Globals

@@ -39,9 +39,11 @@ public:
 
 	void		movePlayer(int direction);
 	void		initBoom();
+	void		reLoadBoom();
 
 private:
 	int					p_speed;
+	int					p_power;
 	int					p_status_live;			// 1: live , 2: is bubbles , 3:is dead
 	int					p_direction;			// 1: up , 2: left , 3:down , 4: right
 	bool				p_is_move;				// true: isRunning, false:isStanding
@@ -53,7 +55,6 @@ private:
 	int					p_size_x;
 	int					p_size_y;
 
-	Boom				p_boom;
 	int					p_num_boom;
 	std::list<Boom>		p_list_boom;
 	bool				p_isPrepareNextBoom;

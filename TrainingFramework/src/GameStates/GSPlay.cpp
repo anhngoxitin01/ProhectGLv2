@@ -14,7 +14,7 @@
 
 
 
-GSPlay::GSPlay() : m_time_enermy_moving(0.0f)
+GSPlay::GSPlay() : m_time_enermy_moving(0.0f) , m_time_update_boom(0.0f)
 {
 
 }
@@ -141,6 +141,7 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 void GSPlay::Update(float deltaTime)
 {
 	m_time_enermy_moving += deltaTime;
+	m_time_update_boom += deltaTime;
 
 	//process key input
 	if(ResourceManagers::GetInstance()->managerPlayer()->getPlayerStatusLive() == STATUS_LIVE)
@@ -211,6 +212,9 @@ void GSPlay::Update(float deltaTime)
 	//make enermy auto moving
 	autoMovingEnermy(deltaTime);
 
+	//make boom increase time to explode
+	autoIncreaseTimeBoom();
+
 }
 
 void GSPlay::Draw()
@@ -230,6 +234,17 @@ void GSPlay::Draw()
 	}
 
 	for (auto it : m_listAnimation)
+	{
+		it->Draw();
+	}
+
+	//boom
+	for (auto it : m_listBoom)
+	{
+		it->Draw();
+	}
+	//water boom
+	for (auto it : m_listBoomExplode)
 	{
 		it->Draw();
 	}
@@ -300,13 +315,6 @@ void GSPlay::Draw()
 			break;
 		}
 	}
-
-	//boom
-	for (auto it : m_listBoom)
-	{
-		it->Draw();
-	}
-
 	m_player->Draw();
 }
 
@@ -395,6 +403,33 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 
 		//reset timing for enermy
 		m_time_enermy_moving = 0;
+	}
+}
+
+void GSPlay::autoIncreaseTimeBoom()
+{
+	//reload boom
+	ResourceManagers::GetInstance()->managerPlayer()->reLoadBoom();
+
+	//increase time boom
+	if (m_time_update_boom >= 0.5f)
+	{
+		//reload texture
+		prepareForDrawingBoom();
+
+		//create temp list boom
+		std::list<Boom> tempListBoom;
+
+		for each (auto it in *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+		{
+			it.increaseTimeBoom(m_time_update_boom);
+			//add boom to temp list boom
+			tempListBoom.push_back(it);
+		}
+
+		ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom()->swap(tempListBoom);
+
+		m_time_update_boom = 0;
 	}
 }
 
@@ -527,21 +562,37 @@ void GSPlay::prepareForDrawingBoom()
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 
 	//create boom sprite2D
-	std::shared_ptr<Sprite2D> boomSprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+	std::shared_ptr<Sprite2D> sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 	
-	//clear mListBoom
+	//clear mListBoom and mListBoomExplode
 	m_listBoom.clear();
+	m_listBoomExplode.clear();
 
 	//add sprinte2D to list to draw
-	for (Boom it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	for (auto it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
-		texture = ResourceManagers::GetInstance()->GetTexture(it.getPathTexture(0));
-		boomSprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-		boomSprite2D->Set2DPosition(it.getRect().getRecX(), it.getRect().getRecY());
-		boomSprite2D->SetSize(it.getRect().getRecWidth(), it.getRect().getRecLength());
-		m_listBoom.push_back(boomSprite2D);
+		//draw boom
+		if (it.getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture(it.getPathTextureBoom(0));
+			sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+			sprite2D->Set2DPosition(it.getRect().getRecX(), it.getRect().getRecY());
+			sprite2D->SetSize(it.getRect().getRecWidth(), it.getRect().getRecLength());
+			m_listBoom.push_back(sprite2D);
+		}
+		else if(it.getStatusBoom() == STATUS_BOOM_EXPLODE)
+		{
+			//draw water boom
+			for (WaterBoom wb : it.getListWaterBoom())
+			{
+				texture = ResourceManagers::GetInstance()->GetTexture(wb.getTexture());
+				sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+				sprite2D->Set2DPosition(wb.getRect().getRecX(), wb.getRect().getRecY());
+				sprite2D->SetSize(wb.getRect().getRecWidth(), wb.getRect().getRecLength());
+				m_listBoomExplode.push_back(sprite2D);
+			}
+		}
 	}
-	
 }
 
 void GSPlay::prepareForDrawingAnimation()

@@ -13,6 +13,7 @@ Mục tiêu:
 		+) Làm cho enermy cái smooth change direction và cái go to end of road
 		+)Tạo object itemPlayer
 		+) check va chạm itemPlayer
+		+) chuyển giá trị m_time_enermy (class GSPLay) vào trong class enermy để mỗi enermy tự cập nhật vị trí cho bản thân
 	Nên làm:
 		+)Tạo menu tính điểm trong game screen
 		+)Tạo pause game

@@ -2,7 +2,7 @@
 #include "GameManager/CollisionManager.h"
 
 Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
-					, p_location_x(25) , p_location_y(75) , p_num_boom(5) , p_isPrepareNextBoom(true)
+					, p_location_x(25) , p_location_y(75) , p_num_boom(5) , p_isPrepareNextBoom(true) , p_power(1)
 {
 	//NOT GOOD SOLUTION
 	p_texture[PLAYER_MOVE_DOWN]		= "bomber_down.tga";
@@ -10,7 +10,6 @@ Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(STATUS_LIVE), p_dir
 	p_texture[PLAYER_MOVE_UP]		= "bomber_up.tga";
 	p_texture[PLAYER_MOVE_RIGHT]	= "bomber_right.tga";
 
-	p_boom.setPower(1);
 }
 
 Player::~Player() {}
@@ -32,7 +31,7 @@ void Player::setPlayerNumBomb(int numBomb)
 
 void Player::setPlayerLengthBomb(int lengthBomb)
 {
-	p_boom.setPower(lengthBomb);
+	p_power = lengthBomb;
 }
 
 void Player::setPlayerStatusLive(int statusLive)
@@ -74,7 +73,7 @@ int Player::getPlayerNumBomb()
 
 int Player::getPlayerLengthBomb()
 {
-	return p_boom.getPower();
+	return p_power;
 }
 
 int Player::getPlayerStatusLive()
@@ -194,13 +193,33 @@ void Player::movePlayer(int direction)
 
 void Player::initBoom()
 {
-	//calulate boom to init
-	p_boom.setRec(p_boom.calculateLocationGenerate(p_rec));
+	
 
 	if (p_list_boom.size() < p_num_boom && p_isPrepareNextBoom)
 	{
-		p_list_boom.push_back(p_boom);
+		//create boom to init
+		Boom boom;
+		boom.setRec(boom.calculateLocationGenerate(p_rec));	//set location for boom
+		boom.setPower(p_power);								//set power for boom
+		boom.autoGenerateLocationWaterBoom();				//auto generate for water boom
+
+		//push boom to list
+		p_list_boom.push_back(boom);
+		printf("size of boom %d", p_list_boom.size());
 		p_isPrepareNextBoom = false;
 	}
+}
+
+void Player::reLoadBoom()
+{
+	p_list_boom.remove_if([](auto it)
+		{
+			if (it.getStatusBoom() == STATUS_BOOM_DESTROY)
+			{
+				printf("This boom was destroy\n");
+				return true;
+			}
+			return false;
+		});
 }
 

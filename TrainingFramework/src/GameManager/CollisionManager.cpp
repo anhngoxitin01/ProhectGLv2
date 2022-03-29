@@ -235,7 +235,7 @@ int CollisionManager::isCollBetweenEnermyAndPlayer(MRectangle enermy)
 int CollisionManager::isCollBetweenEnermyAndBoom(MRectangle enermy)
 {
 	
-	for (Boom boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
 		if (enermy.isInteract(boom.getRect()) == REC_ABOVE)
 		{

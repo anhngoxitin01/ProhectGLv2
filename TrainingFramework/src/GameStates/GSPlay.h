@@ -30,6 +30,7 @@ public:
 	void	Draw() override;
 
 	void	autoMovingEnermy(float deltaTime);
+	void	autoIncreaseTimeBoom();
 
 	void	prepareForDrawingBackground();
 	void	prepareForDrawingMap();
@@ -50,6 +51,7 @@ private:
 
 	//time
 	float	m_time_enermy_moving;
+	float	m_time_update_boom;
 
 	//key_board
 	int			m_KeyPress;
@@ -66,6 +68,7 @@ private:
 
 	//boom
 	std::list<std::shared_ptr<Sprite2D>>		m_listBoom;
+	std::list<std::shared_ptr<Sprite2D>>		m_listBoomExplode;
 
 };
 
