@@ -232,6 +232,19 @@ int CollisionManager::isCollBetweenEnermyAndPlayer(MRectangle enermy)
 	return COLL_NOT_OK;
 }
 
+int CollisionManager::isCollBetweenEnermyAndBoom(MRectangle enermy)
+{
+	
+	for (Boom boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	{
+		if (enermy.isInteract(boom.getRect()) == REC_ABOVE)
+		{
+			return COLL_OK;
+		}
+	}
+	return COLL_NOT_OK;
+}
+
 /*
 * return the distance from player to the road
 */
