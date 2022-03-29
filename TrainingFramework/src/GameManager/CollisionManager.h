@@ -17,6 +17,9 @@ public:
 	int isCollBetweenEnermyAndItemMap(MRectangle enermy);
 	int isCollBetweenEnermyAndPlayer(MRectangle enermy);
 	int isCollBetweenEnermyAndBoom(MRectangle enermy);
+	
+	//waterBoom
+	int isCollBetweenWaterBoomAndEnermy(MRectangle waterBoom , int &indexEnermy);
 
 private:
 	int smoothMovingPlayer(int orient, MRectangle pl, MRectangle barrier);

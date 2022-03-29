@@ -31,6 +31,7 @@ public:
 
 	void	autoMovingEnermy(float deltaTime);
 	void	autoIncreaseTimeBoom();
+	void	checkcollWaterBoomAndEnermy();
 
 	void	prepareForDrawingBackground();
 	void	prepareForDrawingMap();

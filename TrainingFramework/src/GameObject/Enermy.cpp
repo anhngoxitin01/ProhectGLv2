@@ -33,6 +33,11 @@ void Enermy::setEnermyLocation(int x, int y)
 	e_rec = MRectangle(e_location_x, e_location_y , Globals::item_size, Globals::item_size);
 }
 
+void Enermy::setStatus(int status)
+{
+	e_status = status;
+}
+
 MRectangle Enermy::getRect()
 {
 	return e_rec;
@@ -46,6 +51,11 @@ int Enermy::getDirection()
 int Enermy::getSpeed()
 {
 	return e_speed;
+}
+
+int Enermy::getStatus()
+{
+	return e_status;
 }
 
 std::string Enermy::getPathTexture()

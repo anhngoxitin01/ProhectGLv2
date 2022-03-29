@@ -1,6 +1,7 @@
 #pragma once
 #include"MRectangle.h"
 #include "WaterBoom.h"
+//#include "CollisionManager.h"
 #include<GameConfig.h>
 #include<string>
 #include<list>

@@ -12,6 +12,7 @@ public:
 
 	void		setEnermyDirection(int direction);
 	void		setEnermyLocation(int x, int y);		// auto create Rect for player
+	void		setStatus(int status);
 	
 
 
@@ -23,6 +24,7 @@ public:
 	MRectangle	getRect();
 	int			getDirection();
 	int			getSpeed();
+	int			getStatus();
 
 private:
 	int			e_status;

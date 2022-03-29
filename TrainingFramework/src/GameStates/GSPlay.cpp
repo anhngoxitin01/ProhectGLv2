@@ -215,6 +215,7 @@ void GSPlay::Update(float deltaTime)
 	//make boom increase time to explode
 	autoIncreaseTimeBoom();
 
+
 }
 
 void GSPlay::Draw()
@@ -332,67 +333,70 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 
 		for each (auto it in *ResourceManagers::GetInstance()->managerEnermy())
 		{
-			switch (it.getDirection())
+			if (it.getStatus() == STATUS_LIVE)
 			{
-			case ENERMY_MOVE_DOWN:
-				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
-				//check collision with item map
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK 
-					&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
-					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
-				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
-					|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-					it.setEnermyDirection(ENERMY_MOVE_LEFT);
-				//check collision with player
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
-					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
-				break;
-			case ENERMY_MOVE_UP:
-				// create a new rect after move enermy to test
-				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() - it.getSpeed(), Globals::item_size, Globals::item_size);
-				//check collision
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
-					&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
-					it.setEnermyLocation(it.getLocationX(), it.getLocationY() - it.getSpeed());
-				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
-					|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-					it.setEnermyDirection(ENERMY_MOVE_RIGHT);
-				//check collision with player
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
-					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
-				break;
-			case ENERMY_MOVE_RIGHT:
-				// create a new rect after move enermy to test
-				tempRect = MRectangle(it.getRect().getRecX() + it.getSpeed(), it.getRect().getRecY(), Globals::item_size, Globals::item_size);
-				//check collision
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
-					&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
-					it.setEnermyLocation(it.getLocationX() + it.getSpeed(), it.getLocationY());
-				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
-					|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-					it.setEnermyDirection(ENERMY_MOVE_DOWN);
-				//check collision with player
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
-					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
-				break;
-			case ENERMY_MOVE_LEFT:
-				// create a new rect after move enermy to test
-				tempRect = MRectangle(it.getLocationX() - it.getSpeed(), it.getRect().getRecY() , Globals::item_size, Globals::item_size);
-				//check collision
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
-					&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
-					it.setEnermyLocation(it.getLocationX() - it.getSpeed(), it.getLocationY() );
-				else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
-					|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-					it.setEnermyDirection(ENERMY_MOVE_UP);
-				//check collision with player
-				if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
-					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
-				break;
-			default:
-				break;
+				switch (it.getDirection())
+				{
+				case ENERMY_MOVE_DOWN:
+					tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
+					//check collision with item map
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
+						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+						it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
+					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
+						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
+						it.setEnermyDirection(ENERMY_MOVE_LEFT);
+					//check collision with player
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
+						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
+					break;
+				case ENERMY_MOVE_UP:
+					// create a new rect after move enermy to test
+					tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() - it.getSpeed(), Globals::item_size, Globals::item_size);
+					//check collision
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
+						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+						it.setEnermyLocation(it.getLocationX(), it.getLocationY() - it.getSpeed());
+					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
+						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
+						it.setEnermyDirection(ENERMY_MOVE_RIGHT);
+					//check collision with player
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
+						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
+					break;
+				case ENERMY_MOVE_RIGHT:
+					// create a new rect after move enermy to test
+					tempRect = MRectangle(it.getRect().getRecX() + it.getSpeed(), it.getRect().getRecY(), Globals::item_size, Globals::item_size);
+					//check collision
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
+						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+						it.setEnermyLocation(it.getLocationX() + it.getSpeed(), it.getLocationY());
+					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
+						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
+						it.setEnermyDirection(ENERMY_MOVE_DOWN);
+					//check collision with player
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
+						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
+					break;
+				case ENERMY_MOVE_LEFT:
+					// create a new rect after move enermy to test
+					tempRect = MRectangle(it.getLocationX() - it.getSpeed(), it.getRect().getRecY(), Globals::item_size, Globals::item_size);
+					//check collision
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
+						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
+						it.setEnermyLocation(it.getLocationX() - it.getSpeed(), it.getLocationY());
+					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
+						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
+						it.setEnermyDirection(ENERMY_MOVE_UP);
+					//check collision with player
+					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
+						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
+					break;
+				default:
+					break;
+				}
 			}
-
+			
 			//add enermy to templist
 			tempListEnermy.push_back(it);
 		}
@@ -429,7 +433,40 @@ void GSPlay::autoIncreaseTimeBoom()
 
 		ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom()->swap(tempListBoom);
 
+		//reset check time boom
 		m_time_update_boom = 0;
+	}
+}
+
+void GSPlay::checkcollWaterBoomAndEnermy()
+{
+	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	{
+		if (boom.getStatusBoom() == STATUS_BOOM_EXPLODE)
+		{
+			for (auto wb : boom.getListWaterBoom())
+			{
+				//create temp index to get index enermy need to die
+				int index = 0;
+				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndEnermy(wb.getRect(), index) == REC_ABOVE)
+				{
+					//create temp list enermy
+					std::list<Enermy> tempListEnermy;
+					//set enermy to die
+					for (auto it : *ResourceManagers::GetInstance()->managerEnermy())
+					{
+						//TODO i do not know why and how index == 1 ??? Just think index == 0 must be true right? why after func coll the index = 2? impossible
+						if (index == 1)
+							it.setStatus(STATUS_DEAD);
+						index--;
+						//push to temp list
+						tempListEnermy.push_back(it);
+					}
+					//swap list
+					ResourceManagers::GetInstance()->managerEnermy()->swap(tempListEnermy);
+				}
+			}
+		}
 	}
 }
 
@@ -591,6 +628,9 @@ void GSPlay::prepareForDrawingBoom()
 				sprite2D->SetSize(wb.getRect().getRecWidth(), wb.getRect().getRecLength());
 				m_listBoomExplode.push_back(sprite2D);
 			}
+
+			//check water boom coll with enermy
+			checkcollWaterBoomAndEnermy();
 		}
 	}
 }

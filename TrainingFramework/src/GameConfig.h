@@ -95,9 +95,9 @@
 #define ON_THE_RIGHT_REC				3
 
 //Time
-#define	TIME_ENERMY_MOVING		1.0f
+#define	TIME_ENERMY_MOVING		0.8f
 #define TIME_BOOM_EXPLORE		3.0f
-#define TIME_BOOM_DESTROY		4.0f
+#define TIME_BOOM_DESTROY		(TIME_BOOM_EXPLORE + 1.0f)
 
 
 class Globals
