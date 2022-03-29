@@ -68,8 +68,14 @@ MRectangle Boom::calculateLocationGenerate(MRectangle playerRec)
 	newBoomRec.setRecWidth(Globals::item_size);
 	newBoomRec.setRecLength(Globals::item_size);
 
+	//get the index xy in map where player is standing
+	int indexX = playerRec.getRecX() / Globals::item_size;
+	int indexY = playerRec.getRecY() / Globals::item_size;
+
 	//get the location xy in map where player is standing
-	newBoomRec.setRecXY(playerRec.getRecX() / Globals::item_size, playerRec.getRecY() / Globals::item_size);
+	newBoomRec.setRecXY(
+		indexX * Globals::item_size + Globals::item_size / 2
+		, indexY * Globals::item_size + Globals::item_size / 2);
 
 	return newBoomRec;
 }

@@ -22,6 +22,7 @@ public:
 	void setPlayerStatusLive(int statusLive);
 	void setPlayerIsMoving(bool isMoving);
 	void setPlayerLocation(int x, int y);		// auto create Rect for player
+	void setPrepateNextBoom(bool status);
 
 	int			getPlayerDirection();
 	int			getPlayerSpeed();
@@ -34,6 +35,7 @@ public:
 	std::string	getPlayerTextureStading(int direction);
 	MRectangle	getRectPlayer();
 	std::list<Boom>*	getPlayerListBoom();
+	bool		isPrepareNextBoom();
 
 	void		movePlayer(int direction);
 	void		initBoom();
@@ -54,4 +56,5 @@ private:
 	Boom				p_boom;
 	int					p_num_boom;
 	std::list<Boom>		p_list_boom;
+	bool				p_isPrepareNextBoom;
 };

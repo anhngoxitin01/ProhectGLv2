@@ -6,7 +6,8 @@ Lưu ý :
 
 Mục tiêu:
 	Phải làm:
-		+)Tạo object Boom
+		+) ko cho phép đặt nhiều boom vào một ô
+		+) cho boom nổ sau một khoảng thời gian
 		+) check va chạm Boom và boom bum
 		+) Kiểm tra enermy còn sống hay đã chêt( nếu chết vứt ra khỏi ngoài list)
 		+) Làm cho enermy cái smooth change direction và cái go to end of road
@@ -19,4 +20,7 @@ Mục tiêu:
 		+)Tạo animation
 		+)func isCollBetweenPlayerAndItemMap thực hiện thêm những chức năng
 			đáng lẽ không phải nó thực hiện => cần phẫu thuật
+	Muốn làm:
+		+) Đặt nhiều boom khi giữ space và di chuyển
+		+) two player
 				

@@ -2,7 +2,7 @@
 #include "GameManager/CollisionManager.h"
 
 Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
-					, p_location_x(25) , p_location_y(75) , p_num_boom(1)
+					, p_location_x(25) , p_location_y(75) , p_num_boom(5) , p_isPrepareNextBoom(true)
 {
 	//NOT GOOD SOLUTION
 	p_texture[PLAYER_MOVE_DOWN]		= "bomber_down.tga";
@@ -57,6 +57,11 @@ void Player::setPlayerLocation(int x, int y)
 		, p_rec.getRecY());*/
 }
 
+void Player::setPrepateNextBoom(bool status)
+{
+	p_isPrepareNextBoom = status;
+}
+
 int Player::getPlayerDirection()
 {
 	return p_direction;
@@ -100,6 +105,11 @@ MRectangle Player::getRectPlayer()
 std::list<Boom>* Player::getPlayerListBoom()
 {
 	return &p_list_boom;
+}
+
+bool Player::isPrepareNextBoom()
+{
+	return p_isPrepareNextBoom;
 }
 
 int Player::getPlayerLocationX()
@@ -192,9 +202,10 @@ void Player::initBoom()
 	//calulate boom to init
 	p_boom.setRec(p_boom.calculateLocationGenerate(p_rec));
 
-	if (p_list_boom.size() < p_num_boom)
+	if (p_list_boom.size() < p_num_boom && p_isPrepareNextBoom)
 	{
 		p_list_boom.push_back(p_boom);
+		p_isPrepareNextBoom = false;
 	}
 }
 

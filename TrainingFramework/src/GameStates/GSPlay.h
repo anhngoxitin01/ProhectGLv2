@@ -37,6 +37,7 @@ public:
 	void	prepareForDrawingText();
 	void	prepareForDrawingPlayer();
 	void	prepareForDrawingEnermy();
+	void	prepareForDrawingBoom();
 	void	prepareForDrawingAnimation();
 
     int		m_Test;
@@ -54,14 +55,17 @@ private:
 	int			m_KeyPress;
 	
 	//map
-	std::list<std::shared_ptr<Sprite2D>>		m_list_items_map;
+	std::list<std::shared_ptr<Sprite2D>>		m_listItemsMap;
 	int											m_map[14*14];			//not good must fix
 
 	//player
 	std::shared_ptr<Sprite2D>					m_player;
 
 	//enermy
-	std::list<std::shared_ptr<Sprite2D>>		m_list_enermies;
+	std::list<std::shared_ptr<Sprite2D>>		m_listEnermies;
+
+	//boom
+	std::list<std::shared_ptr<Sprite2D>>		m_listBoom;
 
 };
 

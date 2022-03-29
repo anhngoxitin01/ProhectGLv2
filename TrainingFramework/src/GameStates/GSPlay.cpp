@@ -113,6 +113,8 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 			break;
 		case KEY_SPACE:
 			m_KeyPress ^= 1 << 4;
+			ResourceManagers::GetInstance()->managerPlayer()->setPrepateNextBoom(true);
+			break;
 		default:
 			break;
 		}
@@ -168,6 +170,7 @@ void GSPlay::Update(float deltaTime)
 		case 1 << 4://Key Space
 			//TODO init boom
 			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
+			prepareForDrawingBoom();
 			break;
 		case (1 | 1 << 4)://Key Left & Space
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
@@ -207,6 +210,7 @@ void GSPlay::Update(float deltaTime)
 
 	//make enermy auto moving
 	autoMovingEnermy(deltaTime);
+
 }
 
 void GSPlay::Draw()
@@ -215,7 +219,7 @@ void GSPlay::Draw()
 	m_background->Draw();
 	
 	//map
-	for (auto it : m_list_items_map)
+	for (auto it : m_listItemsMap)
 	{
 		it->Draw();
 	}
@@ -231,7 +235,7 @@ void GSPlay::Draw()
 	}
 
 	//Enermy
-	for (auto it : m_list_enermies)
+	for (auto it : m_listEnermies)
 	{
 		it->Draw();
 	}
@@ -295,6 +299,12 @@ void GSPlay::Draw()
 		default:
 			break;
 		}
+	}
+
+	//boom
+	for (auto it : m_listBoom)
+	{
+		it->Draw();
 	}
 
 	m_player->Draw();
@@ -430,7 +440,7 @@ void GSPlay::prepareForDrawingMap()
 				item_map = std::make_shared<Sprite2D>(model, shader, texture);
 				item_map->Set2DPosition(item_x, item_y);
 				item_map->SetSize(Globals::item_size, Globals::item_size);
-				m_list_items_map.push_back(item_map);
+				m_listItemsMap.push_back(item_map);
 			}
 	}
 	//set spon for player through var (get from read text) to player
@@ -498,7 +508,7 @@ void GSPlay::prepareForDrawingEnermy()
 	std::shared_ptr<Sprite2D> enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 
 	//reset the m_list_enermies
-	m_list_enermies.clear();
+	m_listEnermies.clear();
 
 	//get element in list enermy from ResourceManagers
 	for (Enermy it : *ResourceManagers::GetInstance()->managerEnermy())
@@ -507,8 +517,33 @@ void GSPlay::prepareForDrawingEnermy()
 		enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 		enermySprite2D->Set2DPosition(it.getLocationX(), it.getLocationY());
 		enermySprite2D->SetSize(it.getSizeX(), it.getSizeY());
-		m_list_enermies.push_back(enermySprite2D);
+		m_listEnermies.push_back(enermySprite2D);
 	}
+}
+
+void GSPlay::prepareForDrawingBoom()
+{
+	//creat model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	//create boom sprite2D
+	std::shared_ptr<Sprite2D> boomSprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+	
+	//clear mListBoom
+	m_listBoom.clear();
+
+	//add sprinte2D to list to draw
+	for (Boom it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	{
+		texture = ResourceManagers::GetInstance()->GetTexture(it.getPathTexture(0));
+		boomSprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+		boomSprite2D->Set2DPosition(it.getRect().getRecX(), it.getRect().getRecY());
+		boomSprite2D->SetSize(it.getRect().getRecWidth(), it.getRect().getRecLength());
+		m_listBoom.push_back(boomSprite2D);
+	}
+	
 }
 
 void GSPlay::prepareForDrawingAnimation()
