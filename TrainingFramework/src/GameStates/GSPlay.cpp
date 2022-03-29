@@ -167,18 +167,31 @@ void GSPlay::Update(float deltaTime)
 			break;
 		case 1 << 4://Key Space
 			//TODO init boom
+			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 			break;
 		case (1 | 1 << 4)://Key Left & Space
-
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
+			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 			break;
 		case (1 << 1 | 1 << 4)://Key Down & Space
-
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
+			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 			break;
 		case (1 << 2 | 1 << 4)://Key Right & Space
-
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
+			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 			break;
 		case (1 << 3 | 1 << 4)://Key Up & Space
-
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
+			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 			break;
 		}
 	}

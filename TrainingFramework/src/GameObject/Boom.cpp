@@ -59,3 +59,17 @@ void Boom::setIndexBoomExploding(int indexExploding)
 {
 	b_index_boom_exploding = indexExploding;
 }
+
+MRectangle Boom::calculateLocationGenerate(MRectangle playerRec)
+{
+	//create new Rec for boom
+	MRectangle newBoomRec;
+	//add value width , lenght
+	newBoomRec.setRecWidth(Globals::item_size);
+	newBoomRec.setRecLength(Globals::item_size);
+
+	//get the location xy in map where player is standing
+	newBoomRec.setRecXY(playerRec.getRecX() / Globals::item_size, playerRec.getRecY() / Globals::item_size);
+
+	return newBoomRec;
+}

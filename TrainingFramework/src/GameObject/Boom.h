@@ -20,6 +20,8 @@ public:
 	void				setTimeBoomExploding(int timeExploding);
 	void				setIndexBoomExploding(int indexExploding);
 
+	MRectangle			calculateLocationGenerate(MRectangle playerRec);
+
 private:
 	MRectangle					b_rec;
 	int							b_time_boom_exploding;

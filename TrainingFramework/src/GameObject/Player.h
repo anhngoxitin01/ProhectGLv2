@@ -36,7 +36,7 @@ public:
 	std::list<Boom>*	getPlayerListBoom();
 
 	void		movePlayer(int direction);
-	void		initBoom(Boom boom);
+	void		initBoom();
 
 private:
 	int					p_speed;

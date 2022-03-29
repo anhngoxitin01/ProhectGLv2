@@ -187,11 +187,14 @@ void Player::movePlayer(int direction)
 	
 }
 
-void Player::initBoom(Boom boom)
+void Player::initBoom()
 {
+	//calulate boom to init
+	p_boom.setRec(p_boom.calculateLocationGenerate(p_rec));
+
 	if (p_list_boom.size() < p_num_boom)
 	{
-		p_list_boom.push_back(boom);
+		p_list_boom.push_back(p_boom);
 	}
 }
 
