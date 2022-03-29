@@ -93,6 +93,7 @@
 //Time
 #define	TIME_ENERMY_MOVING		1.0f
 #define TIME_BOOM_EXPLORE		3.0f
+#define TIME_BOOM_DESTROY		(TIME_BOOM_EXPLORE + 1.0f)
 
 
 class Globals

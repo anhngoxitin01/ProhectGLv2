@@ -50,11 +50,6 @@ void Player::setPlayerLocation(int x, int y)
 	p_location_x = x;
 	p_location_y = y;
 	p_rec = MRectangle(p_location_x, p_location_y + (PLAYER_SIZE_Y - Globals::item_size) / 2, Globals::item_size, Globals::item_size);
-	/*printf("in func setPlayerLocation infor player: \nLocation_draw = %d , %d \n Location_rec = %d, %d\n"
-		, p_location_x
-		, p_location_y
-		, p_rec.getRecX()
-		, p_rec.getRecY());*/
 }
 
 void Player::setPrepateNextBoom(bool status)
