@@ -33,8 +33,10 @@ public:
 	int			getPlayerLocationY();
 	std::string	getPlayerTextureStading(int direction);
 	MRectangle	getRectPlayer();
+	std::list<Boom>*	getPlayerListBoom();
 
 	void		movePlayer(int direction);
+	void		initBoom(Boom boom);
 
 private:
 	int					p_speed;
@@ -51,4 +53,5 @@ private:
 
 	Boom				p_boom;
 	int					p_num_boom;
+	std::list<Boom>		p_list_boom;
 };

@@ -97,6 +97,11 @@ MRectangle Player::getRectPlayer()
 	return p_rec;
 }
 
+std::list<Boom>* Player::getPlayerListBoom()
+{
+	return &p_list_boom;
+}
+
 int Player::getPlayerLocationX()
 {
 	return p_location_x;
@@ -180,5 +185,13 @@ void Player::movePlayer(int direction)
 		break;
 	}
 	
+}
+
+void Player::initBoom(Boom boom)
+{
+	if (p_list_boom.size() < p_num_boom)
+	{
+		p_list_boom.push_back(boom);
+	}
 }
 
