@@ -18,6 +18,11 @@ void Player::setPlayerDirection(int direction)
 	p_direction = direction;
 }
 
+void Player::setPlayerStatusLive(int statusLive)
+{
+	p_status_live = statusLive;
+}
+
 void Player::setPlayerIsMoving(bool isMoving)
 {
 	p_is_move = isMoving;

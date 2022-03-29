@@ -6,14 +6,11 @@ Lưu ý :
 
 Mục tiêu:
 	Phải làm:
-		+) xử lý được nhiều nút cùng lúc
-		+) check va chạm enermy 
 		+) Kiểm tra enermy còn sống hay đã chêt( nếu chết vứt ra khỏi ngoài list)
 		+)Tạo object Boom
 		+) check va chạm Boom và boom bum
 		+)Tạo object itemPlayer
 		+) check va chạm itemPlayer
-		+) set setPlayerIsMoving(bool isMoving) thanfh false khi ko nhận đc lệnh di chuyển
 	Nên làm:
 		+)Tạo menu tính điểm trong game screen
 		+)Tạo pause game

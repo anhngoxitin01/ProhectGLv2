@@ -141,43 +141,46 @@ void GSPlay::Update(float deltaTime)
 	m_time_enermy_moving += deltaTime;
 
 	//process key input
-	switch (m_KeyPress)//Handle Key event
+	if(ResourceManagers::GetInstance()->managerPlayer()->getPlayerStatusLive() == STATUS_LIVE)
 	{
-	case 1://Key Left
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
-		break;
-	case 1<<1 ://Key Down
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
-		break;
-	case 1<<2 ://Key Right
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
-		break;
-	case 1<<3 ://Key Up
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-		ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
-		ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
-		break;
-	case 1<<4://Key Space
-		//TODO init boom
-		break;
-	case (1 | 1 << 4)://Key Left & Space
+		switch (m_KeyPress)//Handle Key event
+		{
+		case 1://Key Left
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
+			break;
+		case 1 << 1://Key Down
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
+			break;
+		case 1 << 2://Key Right
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
+			break;
+		case 1 << 3://Key Up
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
+			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
+			break;
+		case 1 << 4://Key Space
+			//TODO init boom
+			break;
+		case (1 | 1 << 4)://Key Left & Space
 
-		break;
-	case (1<<1 | 1 << 4)://Key Down & Space
+			break;
+		case (1 << 1 | 1 << 4)://Key Down & Space
 
-		break;
-	case (1<<2 | 1 << 4)://Key Right & Space
+			break;
+		case (1 << 2 | 1 << 4)://Key Right & Space
 
-		break;
-	case (1<<3 | 1 << 4)://Key Up & Space
+			break;
+		case (1 << 3 | 1 << 4)://Key Up & Space
 
-		break;
+			break;
+		}
 	}
 
 	for (auto it : m_listButton)
@@ -304,12 +307,16 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 			{
 			case ENERMY_MOVE_DOWN:
 				tempRect = MRectangle(it.getRect().getRecX(), it.getRect().getRecY() + it.getSpeed(), Globals::item_size, Globals::item_size);
-				//check collision
+				//check collision with item map
 				check = CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect);
 				if ( check == COLL_NOT_OK)		// if not coll update location enermy
 					it.setEnermyLocation(it.getLocationX(), it.getLocationY() + it.getSpeed());
 				else if (check == COLL_OK)		// if coll change direction enermy
 					it.setEnermyDirection(ENERMY_MOVE_LEFT);
+				//check collision with player
+				check = CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect);
+				if (check == COLL_OK)
+					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
 				break;
 			case ENERMY_MOVE_UP:
 				// create a new rect after move enermy to test
@@ -320,6 +327,10 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 					it.setEnermyLocation(it.getLocationX(), it.getLocationY() - it.getSpeed());
 				else if (check == COLL_OK)		// if coll change direction enermy
 					it.setEnermyDirection(ENERMY_MOVE_RIGHT);
+				//check collision with player
+				check = CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect);
+				if (check == COLL_OK)
+					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
 				break;
 			case ENERMY_MOVE_RIGHT:
 				// create a new rect after move enermy to test
@@ -330,6 +341,10 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 					it.setEnermyLocation(it.getLocationX() + it.getSpeed(), it.getLocationY());
 				else if (check == COLL_OK)		// if coll change direction enermy
 					it.setEnermyDirection(ENERMY_MOVE_DOWN);
+				//check collision with player
+				check = CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect);
+				if (check == COLL_OK)
+					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
 				break;
 			case ENERMY_MOVE_LEFT:
 				// create a new rect after move enermy to test
@@ -340,6 +355,10 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 					it.setEnermyLocation(it.getLocationX() - it.getSpeed(), it.getLocationY() );
 				else if (check == COLL_OK)		// if coll change direction enermy
 					it.setEnermyDirection(ENERMY_MOVE_UP);
+				//check collision with player
+				check = CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect);
+				if (check == COLL_OK)
+					ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
 				break;
 			default:
 				break;
