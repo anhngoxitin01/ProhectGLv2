@@ -4,6 +4,7 @@
 #include<string>
 #include "GameConfig.h"
 #include "MRectangle.h"
+#include "Boom.h"
 
 class Sprite2D;
 
@@ -47,4 +48,7 @@ private:
 	std::string			p_texture[PLAYER_TEXTURE_EACH_DIRECTION * 4];
 	int					p_size_x;
 	int					p_size_y;
+
+	Boom				p_boom;
+	int					p_num_boom;
 };

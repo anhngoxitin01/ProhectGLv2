@@ -2,13 +2,15 @@
 #include "GameManager/CollisionManager.h"
 
 Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
-					, p_location_x(25) , p_location_y(75)
+					, p_location_x(25) , p_location_y(75) , p_num_boom(1)
 {
 	//NOT GOOD SOLUTION
 	p_texture[PLAYER_MOVE_DOWN]		= "bomber_down.tga";
 	p_texture[PLAYER_MOVE_LEFT]		= "bomber_left.tga";
 	p_texture[PLAYER_MOVE_UP]		= "bomber_up.tga";
 	p_texture[PLAYER_MOVE_RIGHT]	= "bomber_right.tga";
+
+	p_boom.setPower(1);
 }
 
 Player::~Player() {}
@@ -16,6 +18,21 @@ Player::~Player() {}
 void Player::setPlayerDirection(int direction)
 {
 	p_direction = direction;
+}
+
+void Player::setPlayerSpeed(int speed)
+{
+	p_speed = speed;
+}
+
+void Player::setPlayerNumBomb(int numBomb)
+{
+	p_num_boom = numBomb;
+}
+
+void Player::setPlayerLengthBomb(int lengthBomb)
+{
+	p_boom.setPower(lengthBomb);
 }
 
 void Player::setPlayerStatusLive(int statusLive)
@@ -48,6 +65,16 @@ int Player::getPlayerDirection()
 int Player::getPlayerSpeed()
 {
 	return p_speed;
+}
+
+int Player::getPlayerNumBomb()
+{
+	return p_num_boom;
+}
+
+int Player::getPlayerLengthBomb()
+{
+	return p_boom.getPower();
 }
 
 int Player::getPlayerStatusLive()

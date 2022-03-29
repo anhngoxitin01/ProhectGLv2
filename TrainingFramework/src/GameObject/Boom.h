@@ -13,6 +13,12 @@ public:
 	MRectangle			getRect();
 	int					getPower();
 	int					getIndexBoomExploding();
+	int					getTimeExploding();
+
+	void				setPower(int power);
+	void				setRec(MRectangle rec);
+	void				setTimeBoomExploding(int timeExploding);
+	void				setIndexBoomExploding(int indexExploding);
 
 private:
 	MRectangle					b_rec;
