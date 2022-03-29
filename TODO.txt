@@ -6,9 +6,10 @@ Lưu ý :
 
 Mục tiêu:
 	Phải làm:
-		+) Kiểm tra enermy còn sống hay đã chêt( nếu chết vứt ra khỏi ngoài list)
 		+)Tạo object Boom
 		+) check va chạm Boom và boom bum
+		+) Kiểm tra enermy còn sống hay đã chêt( nếu chết vứt ra khỏi ngoài list)
+		+) Làm cho enermy cái smooth change direction và cái go to end of road
 		+)Tạo object itemPlayer
 		+) check va chạm itemPlayer
 	Nên làm:

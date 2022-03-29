@@ -72,6 +72,9 @@
 #define MAP_LEVEL_2					1
 #define MAP_LEVEL_3					2
 
+//BOOM
+#define NUM_PATH_TEXTURE_BOOM		8				
+
 
 //define collisionManager
 #define COLL_NOT_OK					0				// khong va cham
@@ -89,6 +92,8 @@
 
 //Time
 #define	TIME_ENERMY_MOVING		1.0f
+#define TIME_BOOM_EXPLORE		3.0f
+
 
 class Globals
 {
