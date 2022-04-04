@@ -32,6 +32,7 @@ public:
 	void	autoMovingEnermy(float deltaTime);
 	void	autoIncreaseTimeBoom();
 	void	checkcollWaterBoomAndEnermy();
+	void	checkcollWaterBoomAndItemMap();
 
 	void	prepareForDrawingBackground();
 	void	prepareForDrawingMap();
@@ -41,6 +42,7 @@ public:
 	void	prepareForDrawingEnermy();
 	void	prepareForDrawingBoom();
 	void	prepareForDrawingAnimation();
+	void	updateDrawMap();
 
     int		m_Test;
 

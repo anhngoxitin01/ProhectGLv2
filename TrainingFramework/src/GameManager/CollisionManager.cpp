@@ -258,6 +258,24 @@ int CollisionManager::isCollBetweenWaterBoomAndEnermy(MRectangle waterBoom, int 
 	return COLL_NOT_OK;
 }
 
+int CollisionManager::isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int& indexMap)
+{
+	ItemMap *tempItemMap;
+	indexMap = 0;
+
+	for (int i = 0; i < (MAP_SIZE_Y * MAP_SIZE_X); i++)
+	{
+		tempItemMap = ResourceManagers::GetInstance()->managerMap()->getArrayItemMap();
+		
+		if (waterBoom.isInteract(tempItemMap[i].getRect()) == REC_OVER_LAP && tempItemMap[i].getKindBlock() == MAP_ITEM_CAN_DESTROY)
+		{
+			indexMap = i;
+			return COLL_OK;
+		}
+	}
+	return COLL_NOT_OK;
+}
+
 /*
 * return the distance from player to the road
 */
@@ -284,3 +302,4 @@ int CollisionManager::smoothMovingPlayer(int orient, MRectangle pl , MRectangle 
 	}
 	return cacul;
 }
+

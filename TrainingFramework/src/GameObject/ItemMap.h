@@ -19,6 +19,7 @@ public:
 	int							getKindBlock();
 
 	void						showInfor();
+	void						changeToRoadItem();
 private:
 	std::string					im_path_texture;
 	MRectangle					im_rect;

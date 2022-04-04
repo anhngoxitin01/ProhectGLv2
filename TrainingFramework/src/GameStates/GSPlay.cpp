@@ -448,7 +448,7 @@ void GSPlay::checkcollWaterBoomAndEnermy()
 			{
 				//create temp index to get index enermy need to die
 				int index = 0;
-				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndEnermy(wb.getRect(), index) == REC_ABOVE)
+				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndEnermy(wb.getRect(), index) == COLL_OK)
 				{
 					//create temp list enermy
 					std::list<Enermy> tempListEnermy;
@@ -468,6 +468,31 @@ void GSPlay::checkcollWaterBoomAndEnermy()
 			}
 		}
 	}
+}
+
+void GSPlay::checkcollWaterBoomAndItemMap()
+{
+	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	{
+		if (boom.getStatusBoom() == STATUS_BOOM_EXPLODE)
+		{
+			for (auto wb : boom.getListWaterBoom())
+			{
+				//create temp index to get index enermy need to die
+				int index = 0;
+				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(wb.getRect(), index) == COLL_OK)
+				{
+					// destroy the item map by change the kind of item map to road
+					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
+					//need to update the draw????
+					//TODO limit the length boom with item map
+				}
+			}
+		}
+	}
+
+	//update map 
+	updateDrawMap();
 }
 
 void GSPlay::prepareForDrawingBackground()
@@ -631,6 +656,9 @@ void GSPlay::prepareForDrawingBoom()
 
 			//check water boom coll with enermy
 			checkcollWaterBoomAndEnermy();
+
+			//check water boom coll with item map
+			checkcollWaterBoomAndItemMap();
 		}
 	}
 }
@@ -649,5 +677,40 @@ void GSPlay::prepareForDrawingAnimation()
 	obj->SetSize(334, 223);
 	//obj->SetRotation(Vector3(0.0f, 3.14f, 0.0f));
 	m_listAnimation.push_back(obj);
+}
+
+void GSPlay::updateDrawMap()
+{
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	//create item_map sprite2D
+	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
+
+	//clear m_list_item
+	m_listItemsMap.clear();
+	
+	//create valuable for draw map
+	std::string pathTexture;
+	int item_x;
+	int item_y;
+
+	//use for to add texture to m_list_item_map
+	for (int i = 0; i < MAP_SIZE_Y * MAP_SIZE_Y; i++)
+	{
+		pathTexture = ResourceManagers::GetInstance()->managerMap()->getTextureMapItem(i);
+		item_x = ResourceManagers::GetInstance()->managerMap()->getRectItem(i).getRecX();
+		item_y = ResourceManagers::GetInstance()->managerMap()->getRectItem(i).getRecY();
+		if (pathTexture.compare("") != 0)
+		{
+			texture = ResourceManagers::GetInstance()->GetTexture(pathTexture);
+			item_map = std::make_shared<Sprite2D>(model, shader, texture);
+			item_map->Set2DPosition(item_x, item_y);
+			item_map->SetSize(Globals::item_size, Globals::item_size);
+			m_listItemsMap.push_back(item_map);
+		}
+	}
 }
 

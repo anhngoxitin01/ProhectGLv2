@@ -65,3 +65,9 @@ void ItemMap::showInfor()
 	}
 	printf("\n");
 }
+
+void ItemMap::changeToRoadItem()
+{
+	im_kind_block = MAP_ITEM_ROAD;
+	im_path_texture = "";
+}
