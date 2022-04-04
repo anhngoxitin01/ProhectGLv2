@@ -193,8 +193,6 @@ void Player::movePlayer(int direction)
 
 void Player::initBoom()
 {
-	
-
 	if (p_list_boom.size() < p_num_boom && p_isPrepareNextBoom)
 	{
 		//create boom to init
@@ -203,10 +201,23 @@ void Player::initBoom()
 		boom.setPower(p_power);								//set power for boom
 		boom.autoGenerateLocationWaterBoom();				//auto generate for water boom
 
+		//player can not init more than one him/her boom in a place
+		bool check_can_init_boom_in_this_place = true;
+		for (auto it : p_list_boom)
+		{
+			if (it.getRect().getRecX() == boom.getRect().getRecX() && it.getRect().getRecY() == boom.getRect().getRecY())
+			{
+				check_can_init_boom_in_this_place = false;
+			}
+		}
+
 		//push boom to list
-		p_list_boom.push_back(boom);
-		printf("size of boom %d", p_list_boom.size());
-		p_isPrepareNextBoom = false;
+		if (check_can_init_boom_in_this_place)
+		{
+			p_list_boom.push_back(boom);
+			printf("size of boom %d", p_list_boom.size());
+			p_isPrepareNextBoom = false;
+		}
 	}
 }
 

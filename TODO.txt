@@ -8,9 +8,7 @@ Mục tiêu:
 	Phải làm:
 		+) tạo object pool
 		+) giới hạn lại tầm boom nổ khi va chạm với item map
-		+) ko cho phép đặt nhiều boom vào một ô
 		+) Tao animation cho boom trong thoi gian cho no
-		+) check va chạm water Boom vs item map
 		+) Kiểm tra enermy còn sống hay đã chêt( nếu chết vứt ra khỏi ngoài list) 
 			(đã kiểm tra va chạm boom vs enermy nhưng chưa vứt ra khỏi ngoài list)
 		+) kiểm tra boom với nhân vật
