@@ -182,3 +182,9 @@ void Boom::autoGenerateLocationWaterBoom()
 		}
 	}
 }
+
+void Boom::removeWaterBoom(WaterBoom wb)
+{
+	auto index = b_list_water_boom.insert(b_list_water_boom.end(), wb);
+	b_list_water_boom.erase(index);
+}

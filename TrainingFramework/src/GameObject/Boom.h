@@ -29,6 +29,7 @@ public:
 	bool				canBoomExplode();
 	MRectangle			calculateLocationGenerate(MRectangle playerRec);
 	void				autoGenerateLocationWaterBoom();
+	void				removeWaterBoom(WaterBoom wb);
 
 private:
 	MRectangle					b_rec;

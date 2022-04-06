@@ -476,23 +476,45 @@ void GSPlay::checkcollWaterBoomAndItemMap()
 	{
 		if (boom.getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
-			for (auto wb : boom.getListWaterBoom())
+			int index_wb = 0;
+			std::list<WaterBoom>::iterator wb = boom.getListWaterBoom().begin();
+			wb = boom.getListWaterBoom().end();
+			for (; wb != boom.getListWaterBoom().end() ; ++wb ,index_wb++)
 			{
-				//create temp index to get index enermy need to die
-				int index = 0;
-				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(wb.getRect(), index) == COLL_OK)
+				int index_item_map = 0;
+
+				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(wb->getRect(), index_item_map) == COLL_OK)
 				{
 					// destroy the item map by change the kind of item map to road
-					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
-					//need to update the draw????
-					//TODO limit the length boom with item map
+					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index_item_map].changeToRoadItem();
+					//make the water boom an not destroy other item map after destroy the first item map 
+					boom.removeWaterBoom(*wb);
 				}
 			}
+
+			//for (auto wb : boom.getListWaterBoom())
+			//{
+			//	//create temp index to get index enermy need to die
+			//	int index = 0;
+			//	if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(wb.getRect(), index) == COLL_OK)
+			//	{
+			//		// destroy the item map by change the kind of item map to road
+			//		ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
+			//		//make the water boom an not destroy other item map after destroy the first item map 
+			//		
+			//		//need to update the draw????
+			//		//TODO limit the length boom with item map
+			//	}
+			//}
+
+			//update map 
+			updateDrawMap();
+
+			prepareForDrawingWaterBoom(&boom);
 		}
 	}
 
-	//update map 
-	updateDrawMap();
+	
 }
 
 void GSPlay::prepareForDrawingBackground()
@@ -644,22 +666,36 @@ void GSPlay::prepareForDrawingBoom()
 		}
 		else if(it.getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
+			//check water boom coll with item map to update the new list water boom to explore
+			checkcollWaterBoomAndItemMap();
+
 			//draw water boom
-			for (WaterBoom wb : it.getListWaterBoom())
-			{
-				texture = ResourceManagers::GetInstance()->GetTexture(wb.getTexture());
-				sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-				sprite2D->Set2DPosition(wb.getRect().getRecX(), wb.getRect().getRecY());
-				sprite2D->SetSize(wb.getRect().getRecWidth(), wb.getRect().getRecLength());
-				m_listBoomExplode.push_back(sprite2D);
-			}
+			prepareForDrawingWaterBoom(&it);
 
 			//check water boom coll with enermy
 			checkcollWaterBoomAndEnermy();
-
-			//check water boom coll with item map
-			checkcollWaterBoomAndItemMap();
 		}
+	}
+}
+
+void GSPlay::prepareForDrawingWaterBoom(Boom *boom)
+{
+	//creat model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	//create water boom sprite2D
+	std::shared_ptr<Sprite2D> sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+
+	//draw water boom
+	for (WaterBoom wb : boom->getListWaterBoom())
+	{
+		texture = ResourceManagers::GetInstance()->GetTexture(wb.getTexture());
+		sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+		sprite2D->Set2DPosition(wb.getRect().getRecX(), wb.getRect().getRecY());
+		sprite2D->SetSize(wb.getRect().getRecWidth(), wb.getRect().getRecLength());
+		m_listBoomExplode.push_back(sprite2D);
 	}
 }
 
