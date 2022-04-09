@@ -590,8 +590,8 @@ void GSPlay::checkcollWaterBoomAndEnermy()
 					//set enermy to die
 					for (auto it : *ResourceManagers::GetInstance()->managerEnermy())
 					{
-						//TODO i do not know why and how index == 1 ??? Just think index == 0 must be true right? why after func coll the index = 2? impossible
-						if (index == 1)
+						//change status enermy dead
+						if (index == 0)
 							it.setStatus(STATUS_DEAD);
 						index--;
 						//push to temp list
