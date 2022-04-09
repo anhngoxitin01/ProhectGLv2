@@ -267,7 +267,7 @@ int CollisionManager::isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int
 	{
 		tempItemMap = ResourceManagers::GetInstance()->managerMap()->getArrayItemMap();
 		
-		if (waterBoom.isInteract(tempItemMap[i].getRect()) == REC_OVER_LAP && tempItemMap[i].getKindBlock() == MAP_ITEM_CAN_DESTROY)
+		if (waterBoom.isInteract(tempItemMap[i].getRect()) == REC_OVER_LAP && tempItemMap[i].getKindBlock() != MAP_ITEM_ROAD)
 		{
 			indexMap = i;
 			return COLL_OK;

@@ -31,8 +31,11 @@ public:
 
 	void	autoMovingEnermy(float deltaTime);
 	void	autoIncreaseTimeBoom();
+	/*in this func it also have the checkColl wb
+	* with itemMap and destroy it 
+	*/
+	void	autoGenerateLocationWaterBoom(Boom &boom);
 	void	checkcollWaterBoomAndEnermy();
-	void	checkcollWaterBoomAndItemMap();
 
 	void	prepareForDrawingBackground();
 	void	prepareForDrawingMap();

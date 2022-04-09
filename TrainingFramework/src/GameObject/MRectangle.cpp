@@ -119,3 +119,8 @@ int MRectangle::getRecWidth()
 {
 	return r_width;
 }
+
+void MRectangle::toString()
+{
+	printf("The rec: x= %d , y= %d , width = %d , length = %d\n", r_x, r_y, r_width, r_length);
+}

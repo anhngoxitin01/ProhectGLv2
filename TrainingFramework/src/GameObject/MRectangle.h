@@ -20,6 +20,8 @@ public:
 	int getRecLength();
 	int getRecWidth();
 
+	void toString();
+
 private:
 	int r_x;
 	int r_y;

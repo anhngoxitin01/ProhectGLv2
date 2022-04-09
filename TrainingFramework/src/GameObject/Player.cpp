@@ -199,7 +199,6 @@ void Player::initBoom()
 		Boom boom;
 		boom.setRec(boom.calculateLocationGenerate(p_rec));	//set location for boom
 		boom.setPower(p_power);								//set power for boom
-		boom.autoGenerateLocationWaterBoom();				//auto generate for water boom
 
 		//player can not init more than one him/her boom in a place
 		bool check_can_init_boom_in_this_place = true;

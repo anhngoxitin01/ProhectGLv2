@@ -426,7 +426,25 @@ void GSPlay::autoIncreaseTimeBoom()
 
 		for each (auto it in *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 		{
-			it.increaseTimeBoom(m_time_update_boom);
+			//icrease time of each boom
+			it.setTimeBoomExploding(it.getTimeExploding() + m_time_update_boom);
+
+			float timeBoom = it.getTimeExploding();
+
+			//TODO
+			//update hinh anh hoac chay animation
+
+			//set status for boom
+			if (timeBoom >= TIME_BOOM_DESTROY)
+			{
+				it.setStatusBoom(STATUS_BOOM_DESTROY);
+			}
+			else if (it.canBoomExplode() && it.getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
+			{
+				it.setStatusBoom(STATUS_BOOM_EXPLODE);
+				autoGenerateLocationWaterBoom(it);
+			}
+
 			//add boom to temp list boom
 			tempListBoom.push_back(it);
 		}
@@ -436,6 +454,123 @@ void GSPlay::autoIncreaseTimeBoom()
 		//reset check time boom
 		m_time_update_boom = 0;
 	}
+}
+
+void GSPlay::autoGenerateLocationWaterBoom(Boom &boom)
+{
+	int power = boom.getPower();
+	MRectangle tempRec;
+
+	//temp list wb
+	std::list<WaterBoom> tempWB;
+
+	//index of item map for destroy
+	int index = -1;
+
+	for (int i = 0; i < (power * 4 + 1); i++)
+	{
+		// center water boom
+		if (i == 0)
+		{
+			WaterBoom wb = WaterBoom(boom.getRect(), "bombbang_mid.tga");
+			tempWB.push_back(wb);
+		}
+		//	up water boom
+		else if (i <= power)
+		{
+			tempRec = MRectangle(boom.getRect().getRecX(), boom.getRect().getRecY() + Globals::item_size * i, Globals::item_size, Globals::item_size);
+			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
+			{
+				// destroy the item map by change the kind of item map to road
+				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
+				{
+					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
+				}
+				// go to next direction to generate the water
+				if (i != power)
+					i = power;
+				// go to next value
+				continue;
+			}
+			//update normal if no coll with other item map
+			if(i < power)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_up_1.tga"));
+			else if (i == power)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_up_2.tga"));
+		}
+		//	left water boom
+		else if (i <= power * 2)
+		{
+			tempRec = MRectangle(boom.getRect().getRecX() - Globals::item_size * (i - power), boom.getRect().getRecY(), Globals::item_size, Globals::item_size);
+			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
+			{
+				// destroy the item map by change the kind of item map to road
+				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
+				{
+					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
+				}
+				// go to next direction to generate the water
+				if (i != power * 2)
+					i = power * 2;
+				// go to next value
+				continue;
+			}
+			//update normal if no coll with other item map
+			if (i < power * 2)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_left_1.tga"));
+			else if (i == power * 2)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_left_2.tga"));
+		}
+		//	down water boom
+		else if (i <= power * 3)
+		{
+			tempRec = MRectangle(boom.getRect().getRecX(), boom.getRect().getRecY() - Globals::item_size * (i - power * 2), Globals::item_size, Globals::item_size);
+			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
+			{
+				// destroy the item map by change the kind of item map to road
+				printf("kind of block%d\n", ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock());
+				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
+				{
+					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
+				}
+				// go to next direction to generate the water
+				if (i != power * 3)
+					i = power * 3;
+				// go to next value
+				continue;
+			}
+			//update normal if no coll with other item map
+			if (i < power * 3)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_down_1.tga"));
+			else if (i == power * 3)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_down_2.tga"));
+		}
+		//	right water boom
+		else if (i <= power * 4)
+		{
+			tempRec = MRectangle(boom.getRect().getRecX() + Globals::item_size * (i - power * 3), boom.getRect().getRecY(), Globals::item_size, Globals::item_size);
+			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
+			{
+				// destroy the item map by change the kind of item map to road
+				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
+				{
+					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
+				}
+				// go to next direction to generate the water
+				if (i != power * 4)
+					i = power * 4;
+				// go to next value
+				continue;
+			}
+			//update normal if no coll with other item map
+			if (i < power * 4)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_right_1.tga"));
+			else if (i == power * 4)
+				tempWB.push_back(WaterBoom(tempRec, "bombbang_right_2.tga"));
+		}
+	}
+	
+	boom.setListWaterBoom(tempWB);
 }
 
 void GSPlay::checkcollWaterBoomAndEnermy()
@@ -468,53 +603,6 @@ void GSPlay::checkcollWaterBoomAndEnermy()
 			}
 		}
 	}
-}
-
-void GSPlay::checkcollWaterBoomAndItemMap()
-{
-	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
-	{
-		if (boom.getStatusBoom() == STATUS_BOOM_EXPLODE)
-		{
-			int index_wb = 0;
-			std::list<WaterBoom>::iterator wb = boom.getListWaterBoom().begin();
-			wb = boom.getListWaterBoom().end();
-			for (; wb != boom.getListWaterBoom().end() ; ++wb ,index_wb++)
-			{
-				int index_item_map = 0;
-
-				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(wb->getRect(), index_item_map) == COLL_OK)
-				{
-					// destroy the item map by change the kind of item map to road
-					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index_item_map].changeToRoadItem();
-					//make the water boom an not destroy other item map after destroy the first item map 
-					boom.removeWaterBoom(*wb);
-				}
-			}
-
-			//for (auto wb : boom.getListWaterBoom())
-			//{
-			//	//create temp index to get index enermy need to die
-			//	int index = 0;
-			//	if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(wb.getRect(), index) == COLL_OK)
-			//	{
-			//		// destroy the item map by change the kind of item map to road
-			//		ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
-			//		//make the water boom an not destroy other item map after destroy the first item map 
-			//		
-			//		//need to update the draw????
-			//		//TODO limit the length boom with item map
-			//	}
-			//}
-
-			//update map 
-			updateDrawMap();
-
-			prepareForDrawingWaterBoom(&boom);
-		}
-	}
-
-	
 }
 
 void GSPlay::prepareForDrawingBackground()
@@ -666,11 +754,11 @@ void GSPlay::prepareForDrawingBoom()
 		}
 		else if(it.getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
-			//check water boom coll with item map to update the new list water boom to explore
-			checkcollWaterBoomAndItemMap();
-
 			//draw water boom
 			prepareForDrawingWaterBoom(&it);
+
+			//draw again map if it destroy
+			updateDrawMap();
 
 			//check water boom coll with enermy
 			checkcollWaterBoomAndEnermy();

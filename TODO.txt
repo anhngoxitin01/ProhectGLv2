@@ -6,7 +6,7 @@ Lưu ý :
 
 Mục tiêu:
 	Phải làm:
-		+) fix error code giới hạn lại tầm boom nổ khi va chạm với item map
+		+) fix error coll wb vs enermy
 		+) tạo object pool
 		+) Tao animation cho boom trong thoi gian cho no
 		+) Kiểm tra enermy còn sống hay đã chêt( nếu chết vứt ra khỏi ngoài list) 

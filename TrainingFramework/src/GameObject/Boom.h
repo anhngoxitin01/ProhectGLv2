@@ -1,7 +1,6 @@
 #pragma once
 #include"MRectangle.h"
 #include "WaterBoom.h"
-//#include "CollisionManager.h"
 #include<GameConfig.h>
 #include<string>
 #include<list>
@@ -24,12 +23,12 @@ public:
 	void				setTimeBoomExploding(float timeExploding);
 	void				setIndexBoomExploding(int indexExploding);
 	void				setStatusBoom(int statusBoom);
+	void				setListWaterBoom(std::list<WaterBoom> lWB);
 
-	void				increaseTimeBoom(float deltaTime);
 	bool				canBoomExplode();
 	MRectangle			calculateLocationGenerate(MRectangle playerRec);
-	void				autoGenerateLocationWaterBoom();
 	void				removeWaterBoom(WaterBoom wb);
+	void				updateWaterBoom();
 
 private:
 	MRectangle					b_rec;
