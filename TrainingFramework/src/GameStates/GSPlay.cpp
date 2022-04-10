@@ -198,6 +198,9 @@ void GSPlay::Update(float deltaTime)
 			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 			break;
 		}
+		//check the coll player and itemPlayer then update if it coll
+		if (ResourceManagers::GetInstance()->managerPlayer()->isCollWithItemPlayer())
+			updateForDrawingItemPlayer();
 	}
 
 	for (auto it : m_listButton)
@@ -446,7 +449,7 @@ void GSPlay::autoIncreaseTimeBoom()
 			{
 				it.setStatusBoom(STATUS_BOOM_DESTROY);
 				//update draw for itemPlayer iff itemMap was destroy
-				prepareForDrawingItemPlayer();
+				updateForDrawingItemPlayer();
 			}
 			else if (it.canBoomExplode() && it.getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
 			{
@@ -795,7 +798,7 @@ void GSPlay::prepareForDrawingBoom()
 	}
 }
 
-void GSPlay::prepareForDrawingItemPlayer()
+void GSPlay::updateForDrawingItemPlayer()
 {
 	//create model , texture , shader
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");

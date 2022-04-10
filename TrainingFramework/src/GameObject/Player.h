@@ -40,6 +40,7 @@ public:
 	void		movePlayer(int direction);
 	void		initBoom();
 	void		reLoadBoom();
+	int			isCollWithItemPlayer();		//return 0 is true and 1 is false
 
 private:
 	void		updatePlayerWithItemPlayer(int kindItem);

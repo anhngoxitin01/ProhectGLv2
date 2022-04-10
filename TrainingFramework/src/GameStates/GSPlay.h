@@ -46,7 +46,7 @@ public:
 	void	prepareForDrawingPlayer();
 	void	prepareForDrawingEnermy();
 	void	prepareForDrawingBoom();
-	void	prepareForDrawingItemPlayer();
+	void	updateForDrawingItemPlayer();
 	void	prepareForDrawingWaterBoom(Boom *boom);
 	void	prepareForDrawingAnimation();
 	void	updateDrawMap();

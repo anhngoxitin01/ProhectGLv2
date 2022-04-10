@@ -136,12 +136,6 @@ void Player::movePlayer(int direction)
 				else
 					newLocation = p_location_x;
 			}
-			//check with Item Player
-			int kindItem = 0;
-			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer() , kindItem) == COLL_OK)
-			{
-				updatePlayerWithItemPlayer(kindItem);
-			}
 			//set new player location
 			setPlayerLocation(newLocation, p_location_y + smoothPlayer);
 		}
@@ -156,12 +150,6 @@ void Player::movePlayer(int direction)
 					newLocation = p_location_x - distancePlaAndBarrier;
 				else
 					newLocation = p_location_x;
-			}
-			//check with Item Player
-			int kindItem = 0;
-			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer(), kindItem) == COLL_OK)
-			{
-				updatePlayerWithItemPlayer(kindItem);
 			}
 			//set new player location
 			setPlayerLocation(newLocation, p_location_y + smoothPlayer);
@@ -178,12 +166,6 @@ void Player::movePlayer(int direction)
 				else
 					newLocation = p_location_y;
 			}
-			//check with Item Player
-			int kindItem = 0;
-			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer(), kindItem) == COLL_OK)
-			{
-				updatePlayerWithItemPlayer(kindItem);
-			}
 			//set new player location
 			setPlayerLocation(p_location_x + smoothPlayer, newLocation);
 		}
@@ -198,12 +180,6 @@ void Player::movePlayer(int direction)
 					newLocation = p_location_y + distancePlaAndBarrier;
 				else
 					newLocation = p_location_y;
-			}
-			//check with Item Player
-			int kindItem = 0;
-			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer(), kindItem) == COLL_OK)
-			{
-				updatePlayerWithItemPlayer(kindItem);
 			}
 			//set new player location
 			setPlayerLocation(p_location_x + smoothPlayer, newLocation);
@@ -256,6 +232,18 @@ void Player::reLoadBoom()
 			}
 			return false;
 		});
+}
+
+int Player::isCollWithItemPlayer()
+{
+	//check with Item Player
+	int kindItem = 0;
+	if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer(), kindItem) == COLL_OK)
+	{
+		updatePlayerWithItemPlayer(kindItem);
+		return true;
+	}
+	return false;
 }
 
 void Player::updatePlayerWithItemPlayer(int kindItem)
