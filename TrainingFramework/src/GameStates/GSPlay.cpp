@@ -448,7 +448,7 @@ void GSPlay::autoIncreaseTimeBoom()
 			if (timeBoom >= TIME_BOOM_DESTROY)
 			{
 				it.setStatusBoom(STATUS_BOOM_DESTROY);
-				//update draw for itemPlayer iff itemMap was destroy
+				//update draw for itemPlayer if itemMap was destroy
 				updateForDrawingItemPlayer();
 			}
 			else if (it.canBoomExplode() && it.getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
@@ -491,6 +491,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 		else if (i <= power)
 		{
 			tempRec = MRectangle(boom.getRect().getRecX(), boom.getRect().getRecY() + Globals::item_size * i, Globals::item_size, Globals::item_size);
+			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
 				// destroy the item map by change the kind of item map to road
@@ -505,6 +506,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 				// go to next value
 				continue;
 			}
+
 			//update normal if no coll with other item map
 			if(i < power)
 				tempWB.push_back(WaterBoom(tempRec, "bombbang_up_1.tga"));
@@ -515,6 +517,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 		else if (i <= power * 2)
 		{
 			tempRec = MRectangle(boom.getRect().getRecX() - Globals::item_size * (i - power), boom.getRect().getRecY(), Globals::item_size, Globals::item_size);
+			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
 				// destroy the item map by change the kind of item map to road
@@ -539,6 +542,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 		else if (i <= power * 3)
 		{
 			tempRec = MRectangle(boom.getRect().getRecX(), boom.getRect().getRecY() - Globals::item_size * (i - power * 2), Globals::item_size, Globals::item_size);
+			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
 				// destroy the item map by change the kind of item map to road
@@ -564,6 +568,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 		else if (i <= power * 4)
 		{
 			tempRec = MRectangle(boom.getRect().getRecX() + Globals::item_size * (i - power * 3), boom.getRect().getRecY(), Globals::item_size, Globals::item_size);
+			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
 				// destroy the item map by change the kind of item map to road
@@ -584,6 +589,10 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 			else if (i == power * 4)
 				tempWB.push_back(WaterBoom(tempRec, "bombbang_right_2.tga"));
 		}
+
+		//check coll wb with itemPlayer to delete the ItemPlayer in this func || update UI in fun prepareForDrawingBoom
+		CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemPlayer(tempRec);
+		
 	}
 	
 	boom.setListWaterBoom(tempWB);
@@ -789,11 +798,16 @@ void GSPlay::prepareForDrawingBoom()
 			//draw water boom
 			prepareForDrawingWaterBoom(&it);
 
-			//draw again map if it destroy
+			//draw again itemPLayer if it was destroyed
+			updateForDrawingItemPlayer();
+
+			//draw again map if it was destroyed
 			updateDrawMap();
 
 			//check water boom coll with enermy
 			checkcollWaterBoomAndEnermy();
+
+			
 		}
 	}
 }

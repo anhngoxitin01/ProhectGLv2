@@ -288,6 +288,20 @@ int CollisionManager::isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int
 	return COLL_NOT_OK;
 }
 
+int CollisionManager::isCollBetweenWaterBoomAndItemPlayer(MRectangle waterBoomRec)
+{
+	for (auto *ip : *ResourceManagers::GetInstance()->managerItemPLayer())
+	{
+		if (waterBoomRec.isInteract(ip->getRect()) == REC_OVER_LAP)
+		{
+			//delete item player
+			ResourceManagers::GetInstance()->managerItemPLayer()->remove(ip);
+			return COLL_OK;
+		}
+	}
+	return COLL_NOT_OK;
+}
+
 /*
 * return the distance from player to the road
 */
