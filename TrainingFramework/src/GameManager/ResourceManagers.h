@@ -56,8 +56,8 @@ public:
 	void autoSetSponToEnermyFromMap();
 
 	//ItemPlayer
-	std::list<ItemPlayer*> *managetItemPLayer();
-	void autoSetSponToItemPlayer();
+	std::list<ItemPlayer*> *managerItemPLayer();
+	void addRandomItemPlayer(MRectangle rec);
 	void checkListItemPLayer();
 
 private:

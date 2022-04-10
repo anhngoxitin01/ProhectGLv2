@@ -239,40 +239,28 @@ void ResourceManagers::autoSetSponToEnermyFromMap()
 	m_enermies = m_map.getSponEnermy();
 }
 
-std::list<ItemPlayer*>* ResourceManagers::managetItemPLayer()
+std::list<ItemPlayer*>* ResourceManagers::managerItemPLayer()
 {
 	return &m_itemPlayer;
 }
-/*
-* must run this func after generate the read map from file
-*/
-void ResourceManagers::autoSetSponToItemPlayer()
+
+void ResourceManagers::addRandomItemPlayer(MRectangle rec)
 {
-	//TODO must check the map not null than you can generate the ItemPlayer
-	for (int i =0 ; i < MAP_SIZE_X * MAP_SIZE_Y ; i++)
-	{
-		ItemMap im = m_map.getItemMap(i);
-
-		if (im.getKindBlock() == MAP_ITEM_CAN_DESTROY)
-		{
-
-			//auto random in range 0 - 1000 
+	//auto random in range 0 - 1000 
 			//if it < 300 genertar the item player
-			int check = (rand() % 1001);
-			if (check < 300)
-			{
-				/*
-				* random the kind of item
-				* 0 is BOMB
-				* 1 is BOMBSIZE
-				* 2 is SHOE
-				*/
-				check = check % 3;
-				// generate item player
-				ItemPlayer *ip = new ItemPlayer(check, im.getRect());
-				m_itemPlayer.push_back(ip);
-			}
-		}
+	int check = (rand() % 1001);
+	if (check < 300)
+	{
+		/*
+		* random the kind of item
+		* 0 is BOMB
+		* 1 is BOMBSIZE
+		* 2 is SHOE
+		*/
+		check = check % 3;
+		// generate item player
+		ItemPlayer* ip = new ItemPlayer(check, rec);
+		m_itemPlayer.push_back(ip);
 	}
 }
 

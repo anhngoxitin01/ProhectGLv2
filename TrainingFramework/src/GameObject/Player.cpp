@@ -2,7 +2,7 @@
 #include "GameManager/CollisionManager.h"
 
 Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
-					, p_location_x(25) , p_location_y(75) , p_num_boom(5) , p_isPrepareNextBoom(true) , p_power(1)
+					, p_location_x(25) , p_location_y(75) , p_num_boom(PLAYER_BOMB_NUM) , p_isPrepareNextBoom(true) , p_power(PLAYER_BOMB_STRENGTH)
 {
 	//NOT GOOD SOLUTION
 	p_texture[PLAYER_MOVE_DOWN]		= "bomber_down.tga";
@@ -127,6 +127,7 @@ void Player::movePlayer(int direction)
 	case PLAYER_MOVE_RIGHT:
 		if(p_is_move)
 		{
+			//check to movement
 			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemMap(getRectPlayer(), p_speed, PLAYER_MOVE_RIGHT, distancePlaAndBarrier, smoothPlayer) == COLL_NOT_OK)
 				newLocation = p_location_x + p_speed;
 			else {
@@ -134,6 +135,12 @@ void Player::movePlayer(int direction)
 					newLocation = p_location_x + distancePlaAndBarrier;
 				else
 					newLocation = p_location_x;
+			}
+			//check with Item Player
+			int kindItem = 0;
+			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer() , kindItem) == COLL_OK)
+			{
+				updatePlayerWithItemPlayer(kindItem);
 			}
 			//set new player location
 			setPlayerLocation(newLocation, p_location_y + smoothPlayer);
@@ -150,6 +157,12 @@ void Player::movePlayer(int direction)
 				else
 					newLocation = p_location_x;
 			}
+			//check with Item Player
+			int kindItem = 0;
+			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer(), kindItem) == COLL_OK)
+			{
+				updatePlayerWithItemPlayer(kindItem);
+			}
 			//set new player location
 			setPlayerLocation(newLocation, p_location_y + smoothPlayer);
 		}
@@ -165,6 +178,12 @@ void Player::movePlayer(int direction)
 				else
 					newLocation = p_location_y;
 			}
+			//check with Item Player
+			int kindItem = 0;
+			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer(), kindItem) == COLL_OK)
+			{
+				updatePlayerWithItemPlayer(kindItem);
+			}
 			//set new player location
 			setPlayerLocation(p_location_x + smoothPlayer, newLocation);
 		}
@@ -179,6 +198,12 @@ void Player::movePlayer(int direction)
 					newLocation = p_location_y + distancePlaAndBarrier;
 				else
 					newLocation = p_location_y;
+			}
+			//check with Item Player
+			int kindItem = 0;
+			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndItemPlayer(getRectPlayer(), kindItem) == COLL_OK)
+			{
+				updatePlayerWithItemPlayer(kindItem);
 			}
 			//set new player location
 			setPlayerLocation(p_location_x + smoothPlayer, newLocation);
@@ -231,5 +256,24 @@ void Player::reLoadBoom()
 			}
 			return false;
 		});
+}
+
+void Player::updatePlayerWithItemPlayer(int kindItem)
+{
+	switch (kindItem)
+	{
+	case ITEMPL_KIND_BOMB:
+		p_num_boom++;
+		break;
+	case ITEMPL_KIND_BOMBSIZE:
+		p_power++;
+		break;
+	case ITEMPL_KIND_SHOE:
+		p_speed++;
+		break;
+	default:
+		printf("there is some error when update streng player through item player\n");
+		break;
+	}
 }
 

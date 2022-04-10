@@ -206,9 +206,22 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 	}
 }
 
-/*
-* check the coll between enermy and item map
-*/
+int CollisionManager::isCollBetweenPlayerAndItemPlayer(MRectangle pl , int &kindItem)
+{
+	for (auto* itemPlayer : *ResourceManagers::GetInstance()->managerItemPLayer())
+	{
+		if (pl.isInteract(itemPlayer->getRect()) == REC_ABOVE) {
+			//get kind item to upgrade the player
+			kindItem = itemPlayer->getKind();
+			//delete the item that item out of the list
+			ResourceManagers::GetInstance()->managerItemPLayer()->remove(itemPlayer);
+			//return 
+			return COLL_OK;
+		}
+	}
+	return COLL_NOT_OK;
+}
+
 int CollisionManager::isCollBetweenEnermyAndItemMap(MRectangle enermy)
 {
 	// get arr Item Map
@@ -244,7 +257,6 @@ int CollisionManager::isCollBetweenEnermyAndBoom(MRectangle enermy)
 	}
 	return COLL_NOT_OK;
 }
-
 
 int CollisionManager::isCollBetweenWaterBoomAndEnermy(MRectangle waterBoom, int &indexEnermy)
 {

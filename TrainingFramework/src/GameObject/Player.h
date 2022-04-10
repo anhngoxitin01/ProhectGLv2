@@ -42,6 +42,8 @@ public:
 	void		reLoadBoom();
 
 private:
+	void		updatePlayerWithItemPlayer(int kindItem);
+
 	int					p_speed;
 	int					p_power;
 	int					p_status_live;			// 1: live , 2: is bubbles , 3:is dead

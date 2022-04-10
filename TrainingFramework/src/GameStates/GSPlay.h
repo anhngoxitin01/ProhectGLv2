@@ -37,7 +37,7 @@ public:
 	void	generateLocationWaterBoom(Boom &boom);
 	void	checkcollWaterBoomAndEnermy();
 	void	generateItemMap();
-	void	generateItemPlayer();
+	void	generateItemPlayer(MRectangle rec);
 
 	void	prepareForDrawingBackground();
 	void	prepareForDrawingMap();
@@ -46,7 +46,7 @@ public:
 	void	prepareForDrawingPlayer();
 	void	prepareForDrawingEnermy();
 	void	prepareForDrawingBoom();
-	void	checkAndAddItemForDrawingItemPlayer(MRectangle rec);
+	void	prepareForDrawingItemPlayer();
 	void	prepareForDrawingWaterBoom(Boom *boom);
 	void	prepareForDrawingAnimation();
 	void	updateDrawMap();

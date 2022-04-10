@@ -445,6 +445,8 @@ void GSPlay::autoIncreaseTimeBoom()
 			if (timeBoom >= TIME_BOOM_DESTROY)
 			{
 				it.setStatusBoom(STATUS_BOOM_DESTROY);
+				//update draw for itemPlayer iff itemMap was destroy
+				prepareForDrawingItemPlayer();
 			}
 			else if (it.canBoomExplode() && it.getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
 			{
@@ -492,7 +494,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
 				{
 					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
-					checkAndAddItemForDrawingItemPlayer(tempRec);
+					generateItemPlayer(ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getRect());
 				}
 				// go to next direction to generate the water
 				if (i != power)
@@ -516,7 +518,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
 				{
 					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
-					checkAndAddItemForDrawingItemPlayer(tempRec);
+					generateItemPlayer(ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getRect());
 				}
 				// go to next direction to generate the water
 				if (i != power * 2)
@@ -541,7 +543,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
 				{
 					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
-					checkAndAddItemForDrawingItemPlayer(tempRec);
+					generateItemPlayer(ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getRect());
 				}
 				// go to next direction to generate the water
 				if (i != power * 3)
@@ -565,7 +567,7 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
 				{
 					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
-					checkAndAddItemForDrawingItemPlayer(tempRec);
+					generateItemPlayer(ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getRect());
 				}
 				// go to next direction to generate the water
 				if (i != power * 4)
@@ -623,10 +625,10 @@ void GSPlay::generateItemMap()
 	ResourceManagers::GetInstance()->managerMap()->initMap();
 }
 
-void GSPlay::generateItemPlayer()
+void GSPlay::generateItemPlayer(MRectangle rec)
 {
 	//generate item player
-	ResourceManagers::GetInstance()->autoSetSponToItemPlayer();
+	ResourceManagers::GetInstance()->addRandomItemPlayer(rec);
 
 	//show list item player
 	/*ResourceManagers::GetInstance()->checkListItemPLayer();*/
@@ -653,8 +655,6 @@ void GSPlay::prepareForDrawingMap()
 
 	//creat map
 	generateItemMap();
-	//create ItemPlayer
-	generateItemPlayer();
 
 	//create item_map sprite2D
 	std::shared_ptr<Sprite2D> item_map = std::make_shared<Sprite2D>(model, shader, texture);
@@ -795,7 +795,7 @@ void GSPlay::prepareForDrawingBoom()
 	}
 }
 
-void GSPlay::checkAndAddItemForDrawingItemPlayer(MRectangle rec)
+void GSPlay::prepareForDrawingItemPlayer()
 {
 	//create model , texture , shader
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
@@ -805,18 +805,16 @@ void GSPlay::checkAndAddItemForDrawingItemPlayer(MRectangle rec)
 	//create item_player sprite2D
 	std::shared_ptr<Sprite2D> sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 
+	//reset m_listItemPlayer
+	m_listItemPlayer.clear();
+
 	//add texture to draw itemPlayer
-	for (auto *ip : *ResourceManagers::GetInstance()->managetItemPLayer())
+	for (auto *ip : *ResourceManagers::GetInstance()->managerItemPLayer())
 	{
-		//check to have any itemPlayer have same location with item map was destroyed
-		if (ip->getRect().isInteract(rec) == REC_OVER_LAP)
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture(ip->getPathTextureObjectPlayer());
-			sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-			sprite2D->Set2DPosition(ip->getRect().getRecX(), ip->getRect().getRecY());
-			sprite2D->SetSize(ip->getRect().getRecWidth(), ip->getRect().getRecLength());
-		}
-		//add to list to draw
+		texture = ResourceManagers::GetInstance()->GetTexture(ip->getPathTextureObjectPlayer());
+		sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
+		sprite2D->Set2DPosition(ip->getRect().getRecX(), ip->getRect().getRecY());
+		sprite2D->SetSize(ip->getRect().getRecWidth(), ip->getRect().getRecLength());
 		m_listItemPlayer.push_back(sprite2D);
 	}
 }
