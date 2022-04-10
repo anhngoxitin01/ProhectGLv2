@@ -34,8 +34,10 @@ public:
 	/*in this func it also have the checkColl wb
 	* with itemMap and destroy it 
 	*/
-	void	autoGenerateLocationWaterBoom(Boom &boom);
+	void	generateLocationWaterBoom(Boom &boom);
 	void	checkcollWaterBoomAndEnermy();
+	void	generateItemMap();
+	void	generateItemPlayer();
 
 	void	prepareForDrawingBackground();
 	void	prepareForDrawingMap();
@@ -44,6 +46,7 @@ public:
 	void	prepareForDrawingPlayer();
 	void	prepareForDrawingEnermy();
 	void	prepareForDrawingBoom();
+	void	checkAndAddItemForDrawingItemPlayer(MRectangle rec);
 	void	prepareForDrawingWaterBoom(Boom *boom);
 	void	prepareForDrawingAnimation();
 	void	updateDrawMap();
@@ -65,13 +68,16 @@ private:
 	
 	//map
 	std::list<std::shared_ptr<Sprite2D>>		m_listItemsMap;
-	int											m_map[14*14];			//not good must fix
+	int											m_map[14*14];			//not good must fix now it just denpend on MAP_SIZE
 
 	//player
 	std::shared_ptr<Sprite2D>					m_player;
 
 	//enermy
 	std::list<std::shared_ptr<Sprite2D>>		m_listEnermies;
+
+	//Item Player
+	std::list<std::shared_ptr<Sprite2D>>		m_listItemPlayer;
 
 	//boom
 	std::list<std::shared_ptr<Sprite2D>>		m_listBoom;

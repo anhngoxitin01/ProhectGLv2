@@ -79,6 +79,12 @@
 #define	STATUS_BOOM_EXPLODE					1
 #define	STATUS_BOOM_DESTROY					2
 
+//Item Player
+#define ITEMPL_KIND_BOMB			0
+#define ITEMPL_KIND_BOMBSIZE		1
+#define ITEMPL_KIND_SHOE			2
+
+
 
 //define collisionManager
 #define COLL_NOT_OK					0				// khong va cham

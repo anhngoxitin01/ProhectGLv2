@@ -23,6 +23,7 @@ Mục tiêu:
 		+)func isCollBetweenPlayerAndItemMap thực hiện thêm những chức năng
 			đáng lẽ không phải nó thực hiện => cần phẫu thuật
 		+)func check collission được check rất nheiefu lần cần sửa lại sao cho chỉ check một lần
+		+) kiểm tra map đã được set trước khi generate itemPLayer
 	Muốn làm:
 		+) Đặt nhiều boom khi giữ space và di chuyển
 		+) two player

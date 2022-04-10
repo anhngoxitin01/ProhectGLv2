@@ -15,6 +15,7 @@
 #include "Player.h"
 #include "Map.h"
 #include "Enermy.h"
+#include "ItemPlayer.h"
 
 class ResourceManagers : public CSingleton<ResourceManagers>
 {
@@ -54,6 +55,11 @@ public:
 	std::list<Enermy>* managerEnermy();
 	void autoSetSponToEnermyFromMap();
 
+	//ItemPlayer
+	std::list<ItemPlayer*> *managetItemPLayer();
+	void autoSetSponToItemPlayer();
+	void checkListItemPLayer();
+
 private:
 	std::map<std::string, std::shared_ptr<Shader>> m_MapShader;
 	std::map<std::string, std::shared_ptr<Texture>> m_MapTexture;
@@ -73,6 +79,9 @@ private:
 
 	//Enermy
 	std::list<Enermy>	m_enermies;
+
+	//ItemPlayer
+	std::list<ItemPlayer*> m_itemPlayer;
 
 	//Sound
 	std::string m_SoundPath;

@@ -226,7 +226,7 @@ void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 	}
 	fclose(fptr);
 
-	checkMapInCMD();
+	//checkMapInCMD();
 }
 
 void Map::setMapSponPlayer(int x, int y)
