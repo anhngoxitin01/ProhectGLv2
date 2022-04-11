@@ -12,8 +12,6 @@ Mục tiêu:
 			(đã kiểm tra va chạm boom vs enermy nhưng chưa vứt ra khỏi ngoài list)
 		+) kiểm tra boom với nhân vật
 		+) Làm cho enermy cái smooth change direction và cái go to end of road
-		+) Tạo object itemPlayer
-		+) check va chạm itemPlayer
 		+) chuyển giá trị m_time_enermy (class GSPLay) vào trong class enermy để mỗi enermy tự cập nhật vị trí cho bản thân
 	Nên làm:
 		+)Tạo menu tính điểm trong game screen

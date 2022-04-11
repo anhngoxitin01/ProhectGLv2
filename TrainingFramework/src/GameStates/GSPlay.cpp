@@ -431,50 +431,38 @@ void GSPlay::autoIncreaseTimeBoom()
 		//reload texture
 		prepareForDrawingBoom();
 
-		//create temp list boom
-		std::list<Boom> tempListBoom;
-
-		for each (auto it in *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+		for (auto *it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 		{
-			//icrease time of each boom
-			it.setTimeBoomExploding(it.getTimeExploding() + m_time_update_boom);
-
-			float timeBoom = it.getTimeExploding();
-
+			float timeBoom = it->getTimeExploding();
 			//TODO
 			//update hinh anh hoac chay animation
 
 			//set status for boom
 			if (timeBoom >= TIME_BOOM_DESTROY)
 			{
-				it.setStatusBoom(STATUS_BOOM_DESTROY);
+				it->setStatusBoom(STATUS_BOOM_DESTROY);
 				//update draw for itemPlayer if itemMap was destroy
 				updateForDrawingItemPlayer();
 			}
-			else if (it.canBoomExplode() && it.getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
+			else if (it->canBoomExplode() && it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
 			{
-				it.setStatusBoom(STATUS_BOOM_EXPLODE);
+				it->setStatusBoom(STATUS_BOOM_EXPLODE);
 				generateLocationWaterBoom(it);
 			}
 
-			//add boom to temp list boom
-			tempListBoom.push_back(it);
+			//icrease time of each boom
+			it->setTimeBoomExploding(it->getTimeExploding() + m_time_update_boom);
 		}
-
-		ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom()->swap(tempListBoom);
 
 		//reset check time boom
 		m_time_update_boom = 0;
 	}
 }
 
-void GSPlay::generateLocationWaterBoom(Boom &boom)
+void GSPlay::generateLocationWaterBoom(Boom *boom)
 {
-	int power = boom.getPower();
+	int power = boom->getPower();
 	MRectangle tempRec;
-
-	//temp list wb
-	std::list<WaterBoom> tempWB;
 
 	//index of item map for destroy
 	int index = -1;
@@ -484,13 +472,13 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 		// center water boom
 		if (i == 0)
 		{
-			WaterBoom wb = WaterBoom(boom.getRect(), "bombbang_mid.tga");
-			tempWB.push_back(wb);
+			WaterBoom *wb = new WaterBoom(boom->getRect(), "bombbang_mid.tga");
+			boom->getListWaterBoom()->push_back(wb);
 		}
 		//	up water boom
 		else if (i <= power)
 		{
-			tempRec = MRectangle(boom.getRect().getRecX(), boom.getRect().getRecY() + Globals::item_size * i, Globals::item_size, Globals::item_size);
+			tempRec = MRectangle(boom->getRect().getRecX(), boom->getRect().getRecY() + Globals::item_size * i, Globals::item_size, Globals::item_size);
 			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
@@ -509,14 +497,14 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 
 			//update normal if no coll with other item map
 			if(i < power)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_up_1.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_up_1.tga"));
 			else if (i == power)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_up_2.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_up_2.tga"));
 		}
 		//	left water boom
 		else if (i <= power * 2)
 		{
-			tempRec = MRectangle(boom.getRect().getRecX() - Globals::item_size * (i - power), boom.getRect().getRecY(), Globals::item_size, Globals::item_size);
+			tempRec = MRectangle(boom->getRect().getRecX() - Globals::item_size * (i - power), boom->getRect().getRecY(), Globals::item_size, Globals::item_size);
 			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
@@ -534,14 +522,14 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 			}
 			//update normal if no coll with other item map
 			if (i < power * 2)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_left_1.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_left_1.tga"));
 			else if (i == power * 2)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_left_2.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_left_2.tga"));
 		}
 		//	down water boom
 		else if (i <= power * 3)
 		{
-			tempRec = MRectangle(boom.getRect().getRecX(), boom.getRect().getRecY() - Globals::item_size * (i - power * 2), Globals::item_size, Globals::item_size);
+			tempRec = MRectangle(boom->getRect().getRecX(), boom->getRect().getRecY() - Globals::item_size * (i - power * 2), Globals::item_size, Globals::item_size);
 			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
@@ -560,14 +548,14 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 			}
 			//update normal if no coll with other item map
 			if (i < power * 3)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_down_1.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_down_1.tga"));
 			else if (i == power * 3)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_down_2.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_down_2.tga"));
 		}
 		//	right water boom
 		else if (i <= power * 4)
 		{
-			tempRec = MRectangle(boom.getRect().getRecX() + Globals::item_size * (i - power * 3), boom.getRect().getRecY(), Globals::item_size, Globals::item_size);
+			tempRec = MRectangle(boom->getRect().getRecX() + Globals::item_size * (i - power * 3), boom->getRect().getRecY(), Globals::item_size, Globals::item_size);
 			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
@@ -585,30 +573,30 @@ void GSPlay::generateLocationWaterBoom(Boom &boom)
 			}
 			//update normal if no coll with other item map
 			if (i < power * 4)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_right_1.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_right_1.tga"));
 			else if (i == power * 4)
-				tempWB.push_back(WaterBoom(tempRec, "bombbang_right_2.tga"));
+				boom->getListWaterBoom()->push_back(new WaterBoom(tempRec, "bombbang_right_2.tga"));
 		}
 
 		//check coll wb with itemPlayer to delete the ItemPlayer in this func || update UI in fun prepareForDrawingBoom
 		CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemPlayer(tempRec);
+		//check coll wb with another boom and set the new time to the boom coll with wb to explore
+		CollisionManager::GetInstance()->isCollBetweenWaterBoomAndBoom(tempRec , boom->getTimeExploding());
 		
 	}
-	
-	boom.setListWaterBoom(tempWB);
 }
 
 void GSPlay::checkcollWaterBoomAndEnermy()
 {
-	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	for (auto *boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
-		if (boom.getStatusBoom() == STATUS_BOOM_EXPLODE)
+		if (boom->getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
-			for (auto wb : boom.getListWaterBoom())
+			for (auto *wb : *boom->getListWaterBoom())
 			{
 				//create temp index to get index enermy need to die
 				int index = 0;
-				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndEnermy(wb.getRect(), index) == COLL_OK)
+				if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndEnermy(wb->getRect(), index) == COLL_OK)
 				{
 					//create temp list enermy
 					std::list<Enermy> tempListEnermy;
@@ -782,21 +770,21 @@ void GSPlay::prepareForDrawingBoom()
 	m_listBoomExplode.clear();
 
 	//add sprinte2D to list to draw
-	for (auto it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	for (auto *it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
 		//draw boom
-		if (it.getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
+		if (it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
 		{
-			texture = ResourceManagers::GetInstance()->GetTexture(it.getPathTextureBoom(0));
+			texture = ResourceManagers::GetInstance()->GetTexture(it->getPathTextureBoom(0));
 			sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-			sprite2D->Set2DPosition(it.getRect().getRecX(), it.getRect().getRecY());
-			sprite2D->SetSize(it.getRect().getRecWidth(), it.getRect().getRecLength());
+			sprite2D->Set2DPosition(it->getRect().getRecX(), it->getRect().getRecY());
+			sprite2D->SetSize(it->getRect().getRecWidth(), it->getRect().getRecLength());
 			m_listBoom.push_back(sprite2D);
 		}
-		else if(it.getStatusBoom() == STATUS_BOOM_EXPLODE)
+		else if(it->getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
 			//draw water boom
-			prepareForDrawingWaterBoom(&it);
+			prepareForDrawingWaterBoom(it);
 
 			//draw again itemPLayer if it was destroyed
 			updateForDrawingItemPlayer();
@@ -847,12 +835,12 @@ void GSPlay::prepareForDrawingWaterBoom(Boom *boom)
 	std::shared_ptr<Sprite2D> sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 
 	//draw water boom
-	for (WaterBoom wb : boom->getListWaterBoom())
+	for (WaterBoom *wb : *boom->getListWaterBoom())
 	{
-		texture = ResourceManagers::GetInstance()->GetTexture(wb.getTexture());
+		texture = ResourceManagers::GetInstance()->GetTexture(wb->getTexture());
 		sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-		sprite2D->Set2DPosition(wb.getRect().getRecX(), wb.getRect().getRecY());
-		sprite2D->SetSize(wb.getRect().getRecWidth(), wb.getRect().getRecLength());
+		sprite2D->Set2DPosition(wb->getRect().getRecX(), wb->getRect().getRecY());
+		sprite2D->SetSize(wb->getRect().getRecWidth(), wb->getRect().getRecLength());
 		m_listBoomExplode.push_back(sprite2D);
 	}
 }

@@ -248,9 +248,9 @@ int CollisionManager::isCollBetweenEnermyAndPlayer(MRectangle enermy)
 int CollisionManager::isCollBetweenEnermyAndBoom(MRectangle enermy)
 {
 	
-	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	for (auto *boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
-		if (enermy.isInteract(boom.getRect()) == REC_ABOVE)
+		if (enermy.isInteract(boom->getRect()) == REC_ABOVE)
 		{
 			return COLL_OK;
 		}
@@ -296,6 +296,21 @@ int CollisionManager::isCollBetweenWaterBoomAndItemPlayer(MRectangle waterBoomRe
 		{
 			//delete item player
 			ResourceManagers::GetInstance()->managerItemPLayer()->remove(ip);
+			return COLL_OK;
+		}
+	}
+	return COLL_NOT_OK;
+}
+
+int CollisionManager::isCollBetweenWaterBoomAndBoom(MRectangle wbRec, int timeBoomExplore)
+{
+	for (auto *it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	{
+		if (wbRec.isInteract(it->getRect()) == REC_OVER_LAP)
+		{
+			//set time bomb to explore
+			if (it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
+				it->setTimeBoomExploding(timeBoomExplore);
 			return COLL_OK;
 		}
 	}

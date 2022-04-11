@@ -45,9 +45,9 @@ int Boom::getStatusBoom()
 	return b_status_boom;
 }
 
-std::list<WaterBoom> Boom::getListWaterBoom()
+std::list<WaterBoom*>* Boom::getListWaterBoom()
 {
-	return b_list_water_boom;
+	return &b_list_water_boom;
 }
 
 void Boom::setPower(int power)
@@ -73,14 +73,6 @@ void Boom::setIndexBoomExploding(int indexExploding)
 void Boom::setStatusBoom(int statusBoom)
 {
 	b_status_boom = statusBoom;
-}
-
-void Boom::setListWaterBoom(std::list<WaterBoom> lWB)
-{
-	for (auto x : lWB)
-	{
-		b_list_water_boom.push_back(x);
-	}
 }
 
 bool Boom::canBoomExplode()
@@ -109,15 +101,4 @@ MRectangle Boom::calculateLocationGenerate(MRectangle playerRec)
 }
 
 
-void Boom::removeWaterBoom(WaterBoom wb)
-{
-	auto index = b_list_water_boom.insert(b_list_water_boom.end(), wb);
-	b_list_water_boom.erase(index);
-	printf("\n\n%d\n\n", b_list_water_boom.size());
-}
-
-void Boom::updateWaterBoom()
-{
-	removeWaterBoom(*b_list_water_boom.begin());
-}
 

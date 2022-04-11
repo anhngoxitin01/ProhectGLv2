@@ -34,7 +34,7 @@ public:
 	/*in this func it also have the checkColl wb
 	* with itemMap and destroy it 
 	*/
-	void	generateLocationWaterBoom(Boom &boom);
+	void	generateLocationWaterBoom(Boom *boom);
 	void	checkcollWaterBoomAndEnermy();
 	void	generateItemMap();
 	void	generateItemPlayer(MRectangle rec);

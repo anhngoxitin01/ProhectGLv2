@@ -16,19 +16,16 @@ public:
 	int					getIndexBoomExploding();
 	float				getTimeExploding();
 	int					getStatusBoom();
-	std::list<WaterBoom> getListWaterBoom();
+	std::list<WaterBoom*>* getListWaterBoom();
 
 	void				setPower(int power);
 	void				setRec(MRectangle rec);
 	void				setTimeBoomExploding(float timeExploding);
 	void				setIndexBoomExploding(int indexExploding);
 	void				setStatusBoom(int statusBoom);
-	void				setListWaterBoom(std::list<WaterBoom> lWB);
 
 	bool				canBoomExplode();
 	MRectangle			calculateLocationGenerate(MRectangle playerRec);
-	void				removeWaterBoom(WaterBoom wb);
-	void				updateWaterBoom();
 
 private:
 	MRectangle					b_rec;
@@ -37,5 +34,5 @@ private:
 	int							b_index_boom_exploding;
 	int							b_power;
 	int							b_status_boom;
-	std::list<WaterBoom>		b_list_water_boom;
+	std::list<WaterBoom*>		b_list_water_boom;
 };

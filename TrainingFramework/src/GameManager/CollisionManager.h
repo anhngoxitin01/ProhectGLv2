@@ -23,6 +23,7 @@ public:
 	int isCollBetweenWaterBoomAndEnermy(MRectangle waterBoom , int &indexEnermy);
 	int isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int &indexMap);
 	int isCollBetweenWaterBoomAndItemPlayer(MRectangle waterBoomRec);
+	int	isCollBetweenWaterBoomAndBoom(MRectangle wbRec , int timeBoomExplore);
 
 private:
 	int smoothMovingPlayer(int orient, MRectangle pl, MRectangle barrier);

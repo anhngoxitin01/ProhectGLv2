@@ -34,8 +34,8 @@ public:
 	int			getPlayerLocationY();
 	std::string	getPlayerTextureStading(int direction);
 	MRectangle	getRectPlayer();
-	std::list<Boom>*	getPlayerListBoom();
 	bool		isPrepareNextBoom();
+	std::list<Boom*>* getPlayerListBoom();
 
 	void		movePlayer(int direction);
 	void		initBoom();
@@ -59,6 +59,6 @@ private:
 	int					p_size_y;
 
 	int					p_num_boom;
-	std::list<Boom>		p_list_boom;
+	std::list<Boom*>	p_list_boom;
 	bool				p_isPrepareNextBoom;
 };

@@ -96,7 +96,7 @@ MRectangle Player::getRectPlayer()
 	return p_rec;
 }
 
-std::list<Boom>* Player::getPlayerListBoom()
+std::list<Boom*>* Player::getPlayerListBoom()
 {
 	return &p_list_boom;
 }
@@ -197,15 +197,15 @@ void Player::initBoom()
 	if (p_list_boom.size() < p_num_boom && p_isPrepareNextBoom)
 	{
 		//create boom to init
-		Boom boom;
-		boom.setRec(boom.calculateLocationGenerate(p_rec));	//set location for boom
-		boom.setPower(p_power);								//set power for boom
+		Boom *boom = new Boom();
+		boom->setRec(boom->calculateLocationGenerate(p_rec));	//set location for boom
+		boom->setPower(p_power);								//set power for boom
 
 		//player can not init more than one him/her boom in a place
 		bool check_can_init_boom_in_this_place = true;
-		for (auto it : p_list_boom)
+		for (auto *it : p_list_boom)
 		{
-			if (it.getRect().getRecX() == boom.getRect().getRecX() && it.getRect().getRecY() == boom.getRect().getRecY())
+			if (it->getRect().getRecX() == boom->getRect().getRecX() && it->getRect().getRecY() == boom->getRect().getRecY())
 			{
 				check_can_init_boom_in_this_place = false;
 			}
@@ -225,7 +225,7 @@ void Player::reLoadBoom()
 {
 	p_list_boom.remove_if([](auto it)
 		{
-			if (it.getStatusBoom() == STATUS_BOOM_DESTROY)
+			if (it->getStatusBoom() == STATUS_BOOM_DESTROY)
 			{
 				printf("This boom was destroy\n");
 				return true;
