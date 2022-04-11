@@ -51,7 +51,7 @@ int Map::getLevelMap()
 	return map_level;
 }
 
-std::list<Enermy> Map::getSponEnermy()
+std::list<Enermy*> Map::getSponEnermy()
 {
 	return map_enermies;
 }
@@ -89,6 +89,16 @@ void Map::checkMapInCMD()
 	}
 }
 
+void Map::checkEnermies()
+{
+	printf("========show list enermy========\n");
+	for (auto enermy : map_enermies)
+	{
+		enermy->show();
+	}
+	printf("========show list enermy========\n");
+}
+
 void Map::setMapLevel(int level)
 {
 	map_level = level;
@@ -96,9 +106,6 @@ void Map::setMapLevel(int level)
 
 void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 {
-	//init temp enermy
-	Enermy termEnermy;
-
 	char c[10];
 	FILE* fptr;
 
@@ -202,19 +209,17 @@ void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 						, MAP_ITEM_ROAD);
 					break;
 				case MAP_ENERMY_SPON:
-					termEnermy.initEnermy(
-						j * Globals::item_size + Globals::item_size / 2
-						, (i + 1) * Globals::item_size - ENERMY_SIZE_Y / 2
-						, ENERMY_SIZE_X
-						, ENERMY_SIZE_Y
-						, ENERMY_MOVE_DOWN
-					);
 					map_items[i * 14 + j].setAllValue(
 						j * Globals::item_size + Globals::item_size / 2
 						, i * Globals::item_size + Globals::item_size / 2
 						, ""
 						, MAP_ITEM_ROAD);
-					map_enermies.push_back(termEnermy);
+					map_enermies.push_back(
+						new Enermy(j * Globals::item_size + Globals::item_size / 2
+							, (i + 1) * Globals::item_size - ENERMY_SIZE_Y / 2
+							, ENERMY_SIZE_X
+							, ENERMY_SIZE_Y
+							, ENERMY_MOVE_DOWN));
 					break;
 				default:
 					printf("Can not read map");
@@ -227,6 +232,9 @@ void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 	fclose(fptr);
 
 	//checkMapInCMD();
+
+	//check list enermy
+	checkEnermies();
 }
 
 void Map::setMapSponPlayer(int x, int y)

@@ -20,7 +20,7 @@ public:
 	int isCollBetweenEnermyAndBoom(MRectangle enermy);
 	
 	//waterBoom
-	int isCollBetweenWaterBoomAndEnermy(MRectangle waterBoom , int &indexEnermy);
+	int isCollBetweenWaterBoomAndEnermy(MRectangle wbRec);
 	int isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int &indexMap);
 	int isCollBetweenWaterBoomAndItemPlayer(MRectangle waterBoomRec);
 	int	isCollBetweenWaterBoomAndBoom(MRectangle wbRec , int timeBoomExplore);

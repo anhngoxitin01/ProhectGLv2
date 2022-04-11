@@ -1,6 +1,6 @@
 #include "Enermy.h"
 
-Enermy::Enermy(): e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_direction(ENERMY_MOVE_DOWN)
+Enermy::Enermy(): e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_direction(ENERMY_MOVE_DOWN) , e_time(0.0f)
 {
 	//NOT GOOD SOLUTION
 	e_path_texture[ENERMY_MOVE_DOWN] = "enermy_down.tga";
@@ -9,16 +9,21 @@ Enermy::Enermy(): e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_direction
 	e_path_texture[ENERMY_MOVE_RIGHT] = "enermy_right.tga";
 }
 
-Enermy::~Enermy()
-{
-}
-
-void Enermy::initEnermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction)
+Enermy::Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction) : e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_time(0.0f)
 {
 	setEnermyDirection(direction);
 	setEnermyLocation(location_x, location_y);
 	e_size_x = enermy_size_x;
 	e_size_y = enermy_size_y;
+
+	e_path_texture[ENERMY_MOVE_DOWN] = "enermy_down.tga";
+	e_path_texture[ENERMY_MOVE_LEFT] = "enermy_left.tga";
+	e_path_texture[ENERMY_MOVE_UP] = "enermy_up.tga";
+	e_path_texture[ENERMY_MOVE_RIGHT] = "enermy_right.tga";
+}
+
+Enermy::~Enermy() 
+{
 }
 
 void Enermy::setEnermyDirection(int direction)
@@ -36,6 +41,11 @@ void Enermy::setEnermyLocation(int x, int y)
 void Enermy::setStatus(int status)
 {
 	e_status = status;
+}
+
+void Enermy::setTimeEnermy(float time)
+{
+	e_time = time;
 }
 
 MRectangle Enermy::getRect()
@@ -56,6 +66,28 @@ int Enermy::getSpeed()
 int Enermy::getStatus()
 {
 	return e_status;
+}
+
+float Enermy::getTimeEnermy()
+{
+	return e_time;
+}
+
+void Enermy::show()
+{
+	printf("Enermy: rec:%d, %d || location:%d, %d || direction: %d || status: %d || speed: %d || time: %f\n"
+		, e_rec.getRecX()
+		, e_rec.getRecY()
+		, e_location_x
+		, e_location_y
+		, e_direction
+		, e_status
+		, e_time);
+}
+
+void Enermy::addTimeToEnermy(float addTime)
+{
+	e_time += addTime;
 }
 
 std::string Enermy::getPathTexture()

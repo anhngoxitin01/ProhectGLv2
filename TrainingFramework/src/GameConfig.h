@@ -104,6 +104,7 @@
 
 //Time
 #define	TIME_ENERMY_MOVING		0.8f
+#define TIME_BOOM_UPDATE		0.5f
 #define TIME_BOOM_EXPLORE		3.0f
 #define TIME_BOOM_DESTROY		(TIME_BOOM_EXPLORE + 1.0f)
 

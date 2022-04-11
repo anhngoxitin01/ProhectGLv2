@@ -44,7 +44,7 @@ public:
 	void	prepareForDrawingButton();
 	void	prepareForDrawingText();
 	void	prepareForDrawingPlayer();
-	void	prepareForDrawingEnermy();
+	void	updateDrawEnermy();
 	void	prepareForDrawingBoom();
 	void	updateForDrawingItemPlayer();
 	void	prepareForDrawingWaterBoom(Boom *boom);
@@ -60,7 +60,6 @@ private:
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 
 	//time
-	float	m_time_enermy_moving;
 	float	m_time_update_boom;
 
 	//key_board

@@ -52,7 +52,7 @@ public:
 	void autoSetSponToPlayerFromMap();
 
 	//Enermy
-	std::list<Enermy>* managerEnermy();
+	std::list<Enermy*>* managerEnermy();
 	void autoSetSponToEnermyFromMap();
 
 	//ItemPlayer
@@ -78,7 +78,7 @@ private:
 	Player m_player;
 
 	//Enermy
-	std::list<Enermy>	m_enermies;
+	std::list<Enermy*>	m_enermies;
 
 	//ItemPlayer
 	std::list<ItemPlayer*> m_itemPlayer;

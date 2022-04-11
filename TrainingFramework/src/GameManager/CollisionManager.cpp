@@ -258,16 +258,38 @@ int CollisionManager::isCollBetweenEnermyAndBoom(MRectangle enermy)
 	return COLL_NOT_OK;
 }
 
-int CollisionManager::isCollBetweenWaterBoomAndEnermy(MRectangle waterBoom, int &indexEnermy)
+/*
+* check coll wb and enermy and return isColl
+* set that enermy coll to dead
+*/
+int CollisionManager::isCollBetweenWaterBoomAndEnermy(MRectangle wbRec)
 {
-	for (auto enermy : *ResourceManagers::GetInstance()->managerEnermy())
+	//create a value to return => you can check and set all enermy have the same rec to dead
+	int isColl = COLL_NOT_OK;
+
+	for (auto *enermy : *ResourceManagers::GetInstance()->managerEnermy())
 	{
-		if (waterBoom.isInteract(enermy.getRect()) == REC_ABOVE)
+		if (wbRec.isInteract(enermy->getRect()) == REC_ABOVE)
 		{
-			return COLL_OK;
-		} else { indexEnermy+=1; }
+			//set that enermy to dead
+			enermy->setStatus(STATUS_DEAD);
+			isColl = COLL_OK;
+		}
 	}
-	return COLL_NOT_OK;
+
+	// remove all enermies have status die
+	ResourceManagers::GetInstance()->managerEnermy()
+		->remove_if([](Enermy *it) 
+			{
+				if (it->getStatus() == STATUS_DEAD)
+				{
+					printf("This enermy was destroy\n");
+					return true;
+				}
+				return false;
+			});
+
+	return isColl;
 }
 
 int CollisionManager::isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int& indexMap)

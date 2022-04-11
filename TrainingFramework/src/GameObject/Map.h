@@ -19,11 +19,12 @@ public:
 	MRectangle	getRectItem(int index);
 	ItemMap		getItemMap(int index);
 	int			getLevelMap();
-	std::list<Enermy>		getSponEnermy();
+	std::list<Enermy*>		getSponEnermy();
 	ItemMap*	getArrayItemMap();
 
 	void initMap();
 	void checkMapInCMD();
+	void checkEnermies();
 
 	void		setMapLevel(int level);
 
@@ -37,6 +38,6 @@ private:
 
 	int			map_level;
 
-	std::list<Enermy>  map_enermies;
+	std::list<Enermy*>  map_enermies;
 	
 };
