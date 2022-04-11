@@ -7,7 +7,6 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+) tạo object pool
-		+) Tao animation cho boom trong thoi gian cho no
 		+) kiểm tra boom với nhân vật
 		+) Làm cho enermy cái smooth change direction và cái go to end of road
 	Nên làm:

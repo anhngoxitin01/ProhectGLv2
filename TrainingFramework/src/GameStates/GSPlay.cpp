@@ -170,7 +170,6 @@ void GSPlay::Update(float deltaTime)
 		case 1 << 4://Key Space
 			//TODO init boom
 			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
-			prepareForDrawingBoom();
 			break;
 		case (1 | 1 << 4)://Key Left & Space
 			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
@@ -206,7 +205,9 @@ void GSPlay::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
-	for (auto it : m_listAnimation)
+
+	//update boom animation
+	for (auto it : m_listAnimationBoom)
 	{
 		it->Update(deltaTime);
 	}
@@ -236,13 +237,8 @@ void GSPlay::Draw()
 		it->Draw();
 	}
 
-	for (auto it : m_listAnimation)
-	{
-		it->Draw();
-	}
-
 	//boom
-	for (auto it : m_listBoom)
+	for (auto it : m_listAnimationBoom)
 	{
 		it->Draw();
 	}
@@ -424,26 +420,32 @@ void GSPlay::autoIncreaseTimeBoom()
 	//increase time boom
 	if (m_time_update_boom >= TIME_BOOM_UPDATE)
 	{
-		//reload texture
-		prepareForDrawingBoom();
-
 		for (auto *it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 		{
 			float timeBoom = it->getTimeExploding();
 			//TODO
 			//update hinh anh hoac chay animation
-
+			if (timeBoom == 0)
+				prepareForDrawingAnimationBoom();
 			//set status for boom
-			if (timeBoom >= TIME_BOOM_DESTROY)
+			else if (timeBoom >= TIME_BOOM_DESTROY)
 			{
 				it->setStatusBoom(STATUS_BOOM_DESTROY);
-				//update draw for itemPlayer if itemMap was destroy
-				updateForDrawingItemPlayer();
+				//reload texture
+				prepareForDrawingBoom();
 			}
 			else if (it->canBoomExplode() && it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
 			{
 				it->setStatusBoom(STATUS_BOOM_EXPLODE);
 				generateLocationWaterBoom(it);
+				//update draw for itemPlayer if itemMap was destroy
+				updateForDrawingItemPlayer();
+
+				//remove the last Animation it have
+				removeDrawingAnimationBoom();
+
+				//reload texture
+				prepareForDrawingBoom();
 			}
 
 			//icrease time of each boom
@@ -748,22 +750,16 @@ void GSPlay::prepareForDrawingBoom()
 	std::shared_ptr<Sprite2D> sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 	
 	//clear mListBoom and mListBoomExplode
-	m_listBoom.clear();
 	m_listBoomExplode.clear();
 
 	//add sprinte2D to list to draw
 	for (auto *it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
 		//draw boom
-		if (it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
-		{
-			texture = ResourceManagers::GetInstance()->GetTexture(it->getPathTextureBoom(0));
-			sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-			sprite2D->Set2DPosition(it->getRect().getRecX(), it->getRect().getRecY());
-			sprite2D->SetSize(it->getRect().getRecWidth(), it->getRect().getRecLength());
-			m_listBoom.push_back(sprite2D);
-		}
-		else if(it->getStatusBoom() == STATUS_BOOM_EXPLODE)
+		/*if (it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE && it->getTimeExploding() == 0)
+			prepareForDrawingAnimationBoom();
+		else */
+		if(it->getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
 			//draw water boom
 			prepareForDrawingWaterBoom(it);
@@ -825,20 +821,23 @@ void GSPlay::prepareForDrawingWaterBoom(Boom *boom)
 	}
 }
 
-void GSPlay::prepareForDrawingAnimation()
+void GSPlay::prepareForDrawingAnimationBoom()
 {
-	//creat model , texture , shader
-	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-	auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
+		//creat model , texture , shader
+		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+		auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+		auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
 
-	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 5, 0.1f);
+		Boom* tempBoom = ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom()->back();
 
-	obj->Set2DPosition(240, 400);
-	obj->SetSize(334, 223);
-	//obj->SetRotation(Vector3(0.0f, 3.14f, 0.0f));
-	m_listAnimation.push_back(obj);
+		printf("drawing animation\n");
+		texture = ResourceManagers::GetInstance()->GetTexture(tempBoom->getPathTextureBoom());
+		std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 8, 1, 0, 0.2f);
+
+		obj->Set2DPosition(tempBoom->getRect().getRecX(), tempBoom->getRect().getRecY() - 13);
+		obj->SetSize(56 * 2, 77 * 2);
+
+		m_listAnimationBoom.push_back(obj);
 }
 
 void GSPlay::updateDrawMap()
@@ -875,4 +874,10 @@ void GSPlay::updateDrawMap()
 		}
 	}
 }
+
+void GSPlay::removeDrawingAnimationBoom()
+{
+	m_listAnimationBoom.pop_front();
+}
+
 

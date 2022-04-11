@@ -10,7 +10,7 @@ public:
 	Boom();
 	~Boom();
 
-	std::string			getPathTextureBoom(int index);
+	std::string			getPathTextureBoom();
 	MRectangle			getRect();
 	int					getPower();
 	int					getIndexBoomExploding();
@@ -30,9 +30,9 @@ public:
 private:
 	MRectangle					b_rec;
 	float						b_time_boom_exploding;
-	std::string					b_pathTextureBoom[NUM_PATH_TEXTURE_BOOM];
+	std::string					b_pathTextureBoom;
 	int							b_index_boom_exploding;
 	int							b_power;
 	int							b_status_boom;
-	std::list<WaterBoom*>		b_list_water_boom;
+	std::list<WaterBoom*>		b_list_water_boom; 
 };

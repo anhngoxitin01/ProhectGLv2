@@ -2,22 +2,16 @@
 
 Boom::Boom() : b_index_boom_exploding(0)  , b_status_boom(STATUS_BOOM_PREPARE_EXPLODE) ,b_time_boom_exploding(0.0f)
 {
-	b_pathTextureBoom[0] = "boom1.tga";
-	b_pathTextureBoom[2] = "boom2.tga";
-	b_pathTextureBoom[3] = "boom3.tga";
-	b_pathTextureBoom[4] = "boom4.tga";
-	b_pathTextureBoom[5] = "boom5.tga";
-	b_pathTextureBoom[6] = "boom6.tga";
-	b_pathTextureBoom[7] = "boom7.tga";
+	b_pathTextureBoom = "boom_animation.tga";
 }
 
 Boom::~Boom()
 {
 }
 
-std::string Boom::getPathTextureBoom(int index)
+std::string Boom::getPathTextureBoom()
 {
-	return b_pathTextureBoom[index];
+	return b_pathTextureBoom;
 }
 
 MRectangle Boom::getRect()
