@@ -16,6 +16,7 @@ public:
 	int					getIndexBoomExploding();
 	float				getTimeExploding();
 	int					getStatusBoom();
+	int					getIdBoom();
 	std::list<WaterBoom*>* getListWaterBoom();
 
 	void				setPower(int power);
@@ -28,6 +29,7 @@ public:
 	MRectangle			calculateLocationGenerate(MRectangle playerRec);
 
 private:
+	int							b_id;
 	MRectangle					b_rec;
 	float						b_time_boom_exploding;
 	std::string					b_pathTextureBoom;
@@ -35,4 +37,5 @@ private:
 	int							b_power;
 	int							b_status_boom;
 	std::list<WaterBoom*>		b_list_water_boom; 
+
 };

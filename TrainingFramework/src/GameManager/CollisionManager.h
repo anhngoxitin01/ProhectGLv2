@@ -13,6 +13,8 @@ public:
 	//player
 	int isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, int direction , int &distancePlaAndBarrier , int& smoothPlayer);		//this func was run before change location of player
 	int isCollBetweenPlayerAndItemPlayer(MRectangle pl , int &kindItem);
+	/*This fun will change the parameter boomIdIsStanding*/
+	int	isCollBetweenPlayerAndBoom(MRectangle pl , int &boomIdIsStanding);
 
 	//enermy
 	int isCollBetweenEnermyAndItemMap(MRectangle enermy);

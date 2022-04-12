@@ -4,11 +4,11 @@ MRectangle::MRectangle()
 {
 }
 
-MRectangle::MRectangle(int x, int y, int length, int width)
+MRectangle::MRectangle(int x, int y, int height, int width)
 {
 	r_x = x;
 	r_y = y;
-	r_length = length;
+	r_height = height;
 	r_width = width;
 }
 
@@ -18,16 +18,16 @@ MRectangle::~MRectangle()
 
 int MRectangle::isInteract(MRectangle anotherRec)
 {
-	//printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d\n", r_x, r_y,r_length , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecLength());
+	//printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d\n", r_x, r_y,r_height , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecHeight());
 
-	int l1_x		= r_x - r_length / 2;		//	left_top_r1_x	
+	int l1_x		= r_x - r_height / 2;		//	left_top_r1_x	
 	int l1_y		= r_y - r_width / 2;		//	left_top_r1_y
-	int r1_x		= r_x + r_length / 2;		//	right_bottom_r1_x
+	int r1_x		= r_x + r_height / 2;		//	right_bottom_r1_x
 	int r1_y		= r_y + r_width / 2;		//	right_bottom_r1_y
 
-	int l2_x		= anotherRec.r_x - anotherRec.r_length / 2;		//	left_top_r2_x
+	int l2_x		= anotherRec.r_x - anotherRec.r_height / 2;		//	left_top_r2_x
 	int l2_y		= anotherRec.r_y - anotherRec.r_width / 2;		//	left_top_r2_y
-	int r2_x		= anotherRec.r_x + anotherRec.r_length / 2;		//	right_bottom_r2_x
+	int r2_x		= anotherRec.r_x + anotherRec.r_height / 2;		//	right_bottom_r2_x
 	int r2_y		= anotherRec.r_y + anotherRec.r_width / 2;		//	right_bottom_r2_y
 
 	
@@ -37,18 +37,18 @@ int MRectangle::isInteract(MRectangle anotherRec)
 		//this case is the line not the rectangle
 		return REC_IS_LINE;
 	}
-	else if (r_x == anotherRec.r_x && r_y == anotherRec.r_y && r_width == anotherRec.r_width && r_length == anotherRec.r_length)
+	else if (r_x == anotherRec.r_x && r_y == anotherRec.r_y && r_width == anotherRec.r_width && r_height == anotherRec.r_height)
 	{
 		return REC_OVER_LAP;
 	}
 	else if((r_x + r_width) <= anotherRec.getRecX() || (anotherRec.r_x + anotherRec.getRecWidth()) <= r_x 
-				|| (r_y + r_length) <= anotherRec.getRecY() || (anotherRec.getRecY() + anotherRec.getRecLength()) <= r_y)
+				|| (r_y + r_height) <= anotherRec.getRecY() || (anotherRec.getRecY() + anotherRec.getRecHeight()) <= r_y)
 	{
 		return REC_NOT_ABOVE;
 	}
 	else
 	{
-		//printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d\n", r_x, r_y,r_length , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecLength());
+		//printf("ThisRec : %d , %d , %d , %d|| anotherRec: %d ,%d , %d , %d\n", r_x, r_y,r_height , r_width , anotherRec.getRecX(), anotherRec.getRecY() , anotherRec.getRecWidth() , anotherRec.getRecHeight());
 		return REC_ABOVE;
 	}
 		
@@ -67,12 +67,12 @@ int MRectangle::caculDistanceToAnotherRecWithDirection(MRectangle anotherRec, in
 		return (r_y - r_width / 2) - (anotherRec.r_y + anotherRec.r_width / 2);
 		break;
 	case ON_THE_LEFT_REC: // so sanh voi hcn o ben trai
-		//printf(" on the top Rec %d - %d = %d \n", (r_x - r_length / 2), (anotherRec.r_x + anotherRec.r_length / 2), (r_x - r_length / 2) - (anotherRec.r_x + anotherRec.r_length / 2));
-		return (r_x - r_length / 2) - (anotherRec.r_x + anotherRec.r_length / 2);
+		//printf(" on the top Rec %d - %d = %d \n", (r_x - r_height / 2), (anotherRec.r_x + anotherRec.r_height / 2), (r_x - r_height / 2) - (anotherRec.r_x + anotherRec.r_height / 2));
+		return (r_x - r_height / 2) - (anotherRec.r_x + anotherRec.r_height / 2);
 		break;
 	case ON_THE_RIGHT_REC: // so sanh voi hcn o ben phai
-		//printf(" on the right Rec %d - %d = %d \n", (anotherRec.r_x - anotherRec.r_length / 2), (r_x + r_length / 2), (anotherRec.r_x - anotherRec.r_length / 2) - (r_x + r_length / 2));
-		return (anotherRec.r_x - anotherRec.r_length / 2) - (r_x + r_length / 2);
+		//printf(" on the right Rec %d - %d = %d \n", (anotherRec.r_x - anotherRec.r_height / 2), (r_x + r_height / 2), (anotherRec.r_x - anotherRec.r_height / 2) - (r_x + r_height / 2));
+		return (anotherRec.r_x - anotherRec.r_height / 2) - (r_x + r_height / 2);
 		break;
 	case ON_THE_BOTTOM_REC: // so sanh voi hcn o duoi
 		//printf(" on the bottom Rec %d - %d = %d \n", (anotherRec.r_y - anotherRec.r_width / 2), (r_y + r_width / 2), (anotherRec.r_y - anotherRec.r_width / 2) - (r_y + r_width / 2));
@@ -90,9 +90,9 @@ void MRectangle::setRecXY(int x, int y)
 	r_y = y;
 }
 
-void MRectangle::setRecLength(int length)
+void MRectangle::setRecHeight(int height)
 {
-	r_length = length;
+	r_height = height;
 }
 
 void MRectangle::setRecWidth(int width)
@@ -110,9 +110,9 @@ int MRectangle::getRecY()
 	return r_y;
 }
 
-int MRectangle::getRecLength()
+int MRectangle::getRecHeight()
 {
-	return r_length;
+	return r_height;
 }
 
 int MRectangle::getRecWidth()
@@ -122,5 +122,5 @@ int MRectangle::getRecWidth()
 
 void MRectangle::toString()
 {
-	printf("The rec: x= %d , y= %d , width = %d , length = %d\n", r_x, r_y, r_width, r_length);
+	printf("The rec: x= %d , y= %d , width = %d , height = %d\n", r_x, r_y, r_width, r_height);
 }

@@ -119,6 +119,7 @@ public:
 	static int Globals::colMap;
 	static int Globals::rowMap;
 	static int Globals::enermy_Id;
+	static int Globals::boom_Id;
 };
 
 // define value

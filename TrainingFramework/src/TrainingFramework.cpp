@@ -11,6 +11,7 @@ int Globals::menuGPWidth = 350;
 int Globals::colMap = 14;			//must change m_map in GSPlay too
 int Globals::rowMap = 14;			//must change m_map in GSPlay too
 int Globals::enermy_Id = 0;
+int Globals::boom_Id = 0;
 
 GLint Init(ESContext* esContext)
 {

@@ -222,6 +222,25 @@ int CollisionManager::isCollBetweenPlayerAndItemPlayer(MRectangle pl , int &kind
 	return COLL_NOT_OK;
 }
 
+int CollisionManager::isCollBetweenPlayerAndBoom(MRectangle pl, int &boomIdIsStanding)
+{
+	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	{
+		//check if player go out of the boom is stading set the boomIdIsStanding to -1 
+		if (boom->getIdBoom() == boomIdIsStanding && pl.isInteract(boom->getRect()) == REC_NOT_ABOVE)
+		{
+			boomIdIsStanding = -1;
+			continue;
+		}
+		//access the player moving in boom id is standing
+		else if (boom->getIdBoom() == boomIdIsStanding)
+			continue;
+		else if (pl.isInteract(boom->getRect()) == REC_ABOVE)
+			return COLL_OK;
+	}
+	return COLL_NOT_OK;
+}
+
 int CollisionManager::isCollBetweenEnermyAndItemMap(MRectangle enermy)
 {
 	// get arr Item Map

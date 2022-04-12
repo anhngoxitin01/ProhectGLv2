@@ -3,6 +3,11 @@
 Boom::Boom() : b_index_boom_exploding(0)  , b_status_boom(STATUS_BOOM_PREPARE_EXPLODE) ,b_time_boom_exploding(0.0f)
 {
 	b_pathTextureBoom = "boom_animation.tga";
+	//increase boom_id in globals
+	b_id = Globals::boom_Id++;
+	//reset global boom id if it has more than 100
+	if (Globals::boom_Id == 100)
+		Globals::boom_Id = 0;
 }
 
 Boom::~Boom()
@@ -37,6 +42,11 @@ float Boom::getTimeExploding()
 int Boom::getStatusBoom()
 {
 	return b_status_boom;
+}
+
+int Boom::getIdBoom()
+{
+	return b_id;
 }
 
 std::list<WaterBoom*>* Boom::getListWaterBoom()
@@ -80,7 +90,7 @@ MRectangle Boom::calculateLocationGenerate(MRectangle playerRec)
 	MRectangle newBoomRec;
 	//add value width , lenght
 	newBoomRec.setRecWidth(Globals::item_size);
-	newBoomRec.setRecLength(Globals::item_size);
+	newBoomRec.setRecHeight(Globals::item_size);
 
 	//get the index xy in map where player is standing
 	int indexX = playerRec.getRecX() / Globals::item_size;

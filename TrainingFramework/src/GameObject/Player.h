@@ -61,4 +61,5 @@ private:
 	int					p_num_boom;
 	std::list<Boom*>	p_list_boom;
 	bool				p_isPrepareNextBoom;
+	int					p_boomIdIsStanding;
 };

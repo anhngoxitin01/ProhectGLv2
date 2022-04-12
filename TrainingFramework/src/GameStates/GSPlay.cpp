@@ -25,17 +25,11 @@ void GSPlay::Init()
 {
 	m_Test = 1;
 	m_KeyPress = 0;
-	// create model , texture and shader
-	/*auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");*/
 
 	//draw background
 	prepareForDrawingBackground();
 	//draw Map
 	prepareForDrawingMap();
-	//draw Enermy
-	//updateDrawEnermy();
 	//draw PLayer
 	prepareForDrawingPlayer();
 	//draw Button
@@ -139,57 +133,33 @@ void GSPlay::Update(float deltaTime)
 		switch (m_KeyPress)//Handle Key event
 		{
 		case 1://Key Left
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_LEFT, false);
 			break;
 		case 1 << 1://Key Down
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_DOWN, false);
 			break;
 		case 1 << 2://Key Right
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_RIGHT, false);
 			break;
 		case 1 << 3://Key Up
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_UP, false);
 			break;
 		case 1 << 4://Key Space
-			//TODO init boom
 			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 			break;
 		case (1 | 1 << 4)://Key Left & Space
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_LEFT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_LEFT);
-			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_LEFT, true);
 			break;
 		case (1 << 1 | 1 << 4)://Key Down & Space
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_DOWN);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_DOWN);
-			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_DOWN, true);
 			break;
 		case (1 << 2 | 1 << 4)://Key Right & Space
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_RIGHT);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_RIGHT);
-			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_RIGHT, true);
 			break;
 		case (1 << 3 | 1 << 4)://Key Up & Space
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(true);
-			ResourceManagers::GetInstance()->managerPlayer()->movePlayer(PLAYER_MOVE_UP);
-			ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(PLAYER_MOVE_UP);
-			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
+			handlingKeyEventForPlayer(true, PLAYER_MOVE_UP, true);
 			break;
 		}
-		//check the coll player and itemPlayer then update if it coll
-		if (ResourceManagers::GetInstance()->managerPlayer()->isCollWithItemPlayer())
-			updateForDrawingItemPlayer();
 	}
 
 	for (auto it : m_listButton)
@@ -208,7 +178,6 @@ void GSPlay::Update(float deltaTime)
 	{
 		it.second->Update(deltaTime);
 	}
-
 
 	//make enermy auto moving
 	autoMovingEnermy(deltaTime);
@@ -337,8 +306,9 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				switch (enermy->getDirection())
 				{
 				case ENERMY_MOVE_DOWN:
+					// create a new rect after move enermy to test
 					tempRect = MRectangle(enermy->getRect().getRecX(), enermy->getRect().getRecY() + enermy->getSpeed(), Globals::item_size, Globals::item_size);
-					//check collision with item map
+					//check collision with ItemMap and Boom
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
 						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
 						enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + enermy->getSpeed());
@@ -359,7 +329,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				case ENERMY_MOVE_UP:
 					// create a new rect after move enermy to test
 					tempRect = MRectangle(enermy->getRect().getRecX(), enermy->getRect().getRecY() - enermy->getSpeed(), Globals::item_size, Globals::item_size);
-					//check collision
+					//check collision with ItemMap and Boom
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
 						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
 						enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() - enermy->getSpeed());
@@ -380,7 +350,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				case ENERMY_MOVE_RIGHT:
 					// create a new rect after move enermy to test
 					tempRect = MRectangle(enermy->getRect().getRecX() + enermy->getSpeed(), enermy->getRect().getRecY(), Globals::item_size, Globals::item_size);
-					//check collision
+					//check collision with ItemMap and Boom
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
 						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
 						enermy->setEnermyLocation(enermy->getLocationX() + enermy->getSpeed(), enermy->getLocationY());
@@ -401,7 +371,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				case ENERMY_MOVE_LEFT:
 					// create a new rect after move enermy to test
 					tempRect = MRectangle(enermy->getLocationX() - enermy->getSpeed(), enermy->getRect().getRecY(), Globals::item_size, Globals::item_size);
-					//check collision
+					//check collision with ItemMap and Boom
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_NOT_OK
 						&& CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_NOT_OK)		// if not coll update location enermy
 						enermy->setEnermyLocation(enermy->getLocationX() - enermy->getSpeed(), enermy->getLocationY());
@@ -826,7 +796,7 @@ void GSPlay::updateForDrawingItemPlayer()
 		texture = ResourceManagers::GetInstance()->GetTexture(ip->getPathTextureObjectPlayer());
 		sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 		sprite2D->Set2DPosition(ip->getRect().getRecX(), ip->getRect().getRecY());
-		sprite2D->SetSize(ip->getRect().getRecWidth(), ip->getRect().getRecLength());
+		sprite2D->SetSize(ip->getRect().getRecWidth(), ip->getRect().getRecHeight());
 		m_listItemPlayer.push_back(sprite2D);
 	}
 }
@@ -847,7 +817,7 @@ void GSPlay::prepareForDrawingWaterBoom(Boom *boom)
 		texture = ResourceManagers::GetInstance()->GetTexture(wb->getTexture());
 		sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
 		sprite2D->Set2DPosition(wb->getRect().getRecX(), wb->getRect().getRecY());
-		sprite2D->SetSize(wb->getRect().getRecWidth(), wb->getRect().getRecLength());
+		sprite2D->SetSize(wb->getRect().getRecWidth(), wb->getRect().getRecHeight());
 		m_listBoomExplode.push_back(sprite2D);
 	}
 }
@@ -908,6 +878,20 @@ void GSPlay::updateDrawMap()
 void GSPlay::removeDrawingAnimationBoom()
 {
 	m_listAnimationBoom.pop_front();
+}
+
+void GSPlay::handlingKeyEventForPlayer(bool isMoving, int directionMove , bool isInittingBoom)
+{
+	ResourceManagers::GetInstance()->managerPlayer()->setPlayerIsMoving(isMoving);
+	ResourceManagers::GetInstance()->managerPlayer()->setPlayerDirection(directionMove);
+	ResourceManagers::GetInstance()->managerPlayer()->movePlayer(directionMove);
+	//check the coll player and itemPlayer then update if it coll
+	if (ResourceManagers::GetInstance()->managerPlayer()->isCollWithItemPlayer())
+		updateForDrawingItemPlayer();
+
+	//init boom
+	if(isInittingBoom)
+		ResourceManagers::GetInstance()->managerPlayer()->initBoom();
 }
 
 

@@ -52,6 +52,7 @@ public:
 	void	updateDrawMap();
 
 	void    removeDrawingAnimationBoom();
+	void	handlingKeyEventForPlayer(bool isMoving , int directionMove , bool isInitingBoom);
 
     int		m_Test;
 
