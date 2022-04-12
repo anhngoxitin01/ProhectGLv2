@@ -47,8 +47,6 @@ void GSPlay::Init()
 	prepareForDrawingButton();
 	//draw Text
 	prepareForDrawingText();
-	//draw Animation
-	prepareForDrawingAnimation();
 }
 
 void GSPlay::Exit()
@@ -346,7 +344,14 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + enermy->getSpeed());
 					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-						enermy->setEnermyDirection(ENERMY_MOVE_LEFT);
+					{
+						int distanceToEndRoad = 
+							(Globals::item_size - (enermy->getRect().getRecY() + enermy->getRect().getRecWidth() / 2) % Globals::item_size);
+						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
+							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + distanceToEndRoad);
+						else
+							enermy->setEnermyDirection(ENERMY_MOVE_LEFT);
+					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
 						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
@@ -360,7 +365,14 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() - enermy->getSpeed());
 					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-						enermy->setEnermyDirection(ENERMY_MOVE_RIGHT);
+					{
+						int distanceToEndRoad = 
+							(enermy->getRect().getRecY() - enermy->getRect().getRecWidth() / 2) % Globals::item_size;
+						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
+							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() - distanceToEndRoad);
+						else
+							enermy->setEnermyDirection(ENERMY_MOVE_RIGHT);
+					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
 						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
@@ -374,7 +386,14 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						enermy->setEnermyLocation(enermy->getLocationX() + enermy->getSpeed(), enermy->getLocationY());
 					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-						enermy->setEnermyDirection(ENERMY_MOVE_DOWN);
+					{
+						int distanceToEndRoad = 
+							(Globals::item_size - (enermy->getRect().getRecX() + enermy->getRect().getRecWidth() / 2) % Globals::item_size);
+						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
+							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + distanceToEndRoad);
+						else
+							enermy->setEnermyDirection(ENERMY_MOVE_DOWN);
+					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
 						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
@@ -388,7 +407,14 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						enermy->setEnermyLocation(enermy->getLocationX() - enermy->getSpeed(), enermy->getLocationY());
 					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
-						enermy->setEnermyDirection(ENERMY_MOVE_UP);
+					{
+						int distanceToEndRoad =
+							(enermy->getRect().getRecX() - enermy->getRect().getRecWidth() / 2) % Globals::item_size;
+						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
+							enermy->setEnermyLocation(enermy->getLocationX() - distanceToEndRoad, enermy->getLocationY());
+						else
+							enermy->setEnermyDirection(ENERMY_MOVE_UP);
+					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
 						ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);

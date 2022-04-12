@@ -8,7 +8,8 @@ Mục tiêu:
 	Phải làm:
 		+) tạo object pool
 		+) kiểm tra boom với nhân vật
-		+) Làm cho enermy cái smooth change direction và cái go to end of road
+		+) Tạo màn hình thua khi nhân vật chết
+		+) Tạo animation for enermy moving
 	Nên làm:
 		+)Tạo menu tính điểm trong game screen
 		+)Tạo pause game

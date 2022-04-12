@@ -43,7 +43,7 @@
 #define ENERMY_MOVE_UP					2
 #define ENERMY_MOVE_RIGHT				3
 #define ENERMY_TEXTURE_EACH_DIRECTION	1	// run animation
-#define ENERMY_BASE_SPEED				5	// base speed
+#define ENERMY_BASE_SPEED				7	// base speed
 #define ENERMY_SIZE_X					Globals::item_size
 #define ENERMY_SIZE_Y					Globals::item_size
 #define ENERMY_SMOOTH_MOVING			4	// this variable is a range for moving when him/her want to move smooth
