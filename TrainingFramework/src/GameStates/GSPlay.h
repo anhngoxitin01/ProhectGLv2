@@ -35,7 +35,7 @@ public:
 	* with itemMap and destroy it 
 	*/
 	void	generateLocationWaterBoom(Boom *boom);
-	void	checkcollWaterBoomAndEnermy();
+	void	checkcollEnermyAndWaterBoom();
 	void	generateItemMap();
 	void	generateItemPlayer(MRectangle rec);
 
@@ -44,8 +44,8 @@ public:
 	void	prepareForDrawingButton();
 	void	prepareForDrawingText();
 	void	prepareForDrawingPlayer();
-	void	updateDrawEnermy();
-	void	prepareForDrawingBoom();
+	void	updateDrawEnermy(Enermy* enermy);
+	void	prepareForDrawingBoomExplore();
 	void	updateForDrawingItemPlayer();
 	void	prepareForDrawingWaterBoom(Boom *boom);
 	void	prepareForDrawingAnimationBoom();
@@ -59,7 +59,6 @@ private:
 	std::shared_ptr<Sprite2D>					m_background;
 	std::shared_ptr<Text>						m_score;
 	std::list<std::shared_ptr<GameButton>>		m_listButton;
-	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimationBoom;
 
 	//time
 	float	m_time_update_boom;
@@ -75,12 +74,13 @@ private:
 	std::shared_ptr<Sprite2D>					m_player;
 
 	//enermy
-	std::list<std::shared_ptr<Sprite2D>>		m_listEnermies;
+	std::map<int, std::shared_ptr<SpriteAnimation>> m_mapAniamtionEnermies;
 
 	//Item Player
 	std::list<std::shared_ptr<Sprite2D>>		m_listItemPlayer;
 
 	//boom
+	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimationBoom;
 	std::list<std::shared_ptr<Sprite2D>>		m_listBoomExplode;
 
 };

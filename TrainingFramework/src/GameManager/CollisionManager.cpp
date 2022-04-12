@@ -258,38 +258,24 @@ int CollisionManager::isCollBetweenEnermyAndBoom(MRectangle enermy)
 	return COLL_NOT_OK;
 }
 
-/*
-* check coll wb and enermy and return isColl
-* set that enermy coll to dead
-*/
-int CollisionManager::isCollBetweenWaterBoomAndEnermy(MRectangle wbRec)
+int CollisionManager::isCollBetweenEnermyAndWaterBoom(MRectangle enermyRec)
 {
-	//create a value to return => you can check and set all enermy have the same rec to dead
-	int isColl = COLL_NOT_OK;
-
-	for (auto *enermy : *ResourceManagers::GetInstance()->managerEnermy())
+	for (auto* boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
-		if (wbRec.isInteract(enermy->getRect()) == REC_ABOVE || wbRec.isInteract(enermy->getRect()) == REC_OVER_LAP)
+		if (boom->getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
-			//set that enermy to dead
-			enermy->setStatus(STATUS_DEAD);
-			isColl = COLL_OK;
+			for (auto* wb : *boom->getListWaterBoom())
+			{
+				int check = enermyRec.isInteract(wb->getRect());
+				if (check == REC_ABOVE || check == REC_OVER_LAP)
+				{
+					return COLL_OK;
+				}
+			}
 		}
 	}
 
-	// remove all enermies have status die
-	ResourceManagers::GetInstance()->managerEnermy()
-		->remove_if([](Enermy *it) 
-			{
-				if (it->getStatus() == STATUS_DEAD)
-				{
-					printf("This enermy was destroy\n");
-					return true;
-				}
-				return false;
-			});
-
-	return isColl;
+	return COLL_NOT_OK;
 }
 
 int CollisionManager::isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int& indexMap)

@@ -18,9 +18,9 @@ public:
 	int isCollBetweenEnermyAndItemMap(MRectangle enermy);
 	int isCollBetweenEnermyAndPlayer(MRectangle enermy);
 	int isCollBetweenEnermyAndBoom(MRectangle enermy);
+	int isCollBetweenEnermyAndWaterBoom(MRectangle enermyRec);
 	
 	//waterBoom
-	int isCollBetweenWaterBoomAndEnermy(MRectangle wbRec);
 	int isCollBetweenWaterBoomAndItemMap(MRectangle waterBoom, int &indexMap);
 	int isCollBetweenWaterBoomAndItemPlayer(MRectangle waterBoomRec);
 	int	isCollBetweenWaterBoomAndBoom(MRectangle wbRec , int timeBoomExplore);

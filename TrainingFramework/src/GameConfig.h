@@ -118,6 +118,7 @@ public:
 	static int Globals::menuGPWidth;
 	static int Globals::colMap;
 	static int Globals::rowMap;
+	static int Globals::enermy_Id;
 };
 
 // define value

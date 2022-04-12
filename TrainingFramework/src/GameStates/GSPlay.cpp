@@ -11,20 +11,15 @@
 #include "GameButton.h"
 #include "SpriteAnimation.h"
 
-
-
-
 GSPlay::GSPlay() : m_time_update_boom(0.0f)
 {
 
 }
 
-
 GSPlay::~GSPlay() 
 {
 	
 }
-
 
 void GSPlay::Init()
 {
@@ -40,7 +35,7 @@ void GSPlay::Init()
 	//draw Map
 	prepareForDrawingMap();
 	//draw Enermy
-	updateDrawEnermy();
+	//updateDrawEnermy();
 	//draw PLayer
 	prepareForDrawingPlayer();
 	//draw Button
@@ -54,7 +49,6 @@ void GSPlay::Exit()
 	printf("%d", m_Test);
 }
 
-
 void GSPlay::Pause()
 {
 }
@@ -62,7 +56,6 @@ void GSPlay::Pause()
 void GSPlay::Resume()
 {
 }
-
 
 void GSPlay::HandleEvents()
 {
@@ -210,6 +203,13 @@ void GSPlay::Update(float deltaTime)
 		it->Update(deltaTime);
 	}
 
+	//update enermy animation
+	for (auto it : m_mapAniamtionEnermies)
+	{
+		it.second->Update(deltaTime);
+	}
+
+
 	//make enermy auto moving
 	autoMovingEnermy(deltaTime);
 
@@ -254,9 +254,9 @@ void GSPlay::Draw()
 	}
 
 	//Enermy
-	for (auto it : m_listEnermies)
+	for (auto it : m_mapAniamtionEnermies)
 	{
-		it->Draw();
+		it.second->Draw();
 	}
 
 	//text
@@ -432,10 +432,9 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 			}
 
 		}
-		
+		//draw again that enermy
+		updateDrawEnermy(enermy);
 	}
-	//update value texture for draw in map 
-	updateDrawEnermy();
 }
 
 void GSPlay::autoIncreaseTimeBoom()
@@ -458,7 +457,7 @@ void GSPlay::autoIncreaseTimeBoom()
 			{
 				it->setStatusBoom(STATUS_BOOM_DESTROY);
 				//reload texture
-				prepareForDrawingBoom();
+				prepareForDrawingBoomExplore();
 			}
 			else if (it->canBoomExplode() && it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
 			{
@@ -471,7 +470,7 @@ void GSPlay::autoIncreaseTimeBoom()
 				removeDrawingAnimationBoom();
 
 				//reload texture
-				prepareForDrawingBoom();
+				prepareForDrawingBoomExplore();
 			}
 
 			//icrease time of each boom
@@ -610,22 +609,28 @@ void GSPlay::generateLocationWaterBoom(Boom *boom)
 	}
 }
 
-void GSPlay::checkcollWaterBoomAndEnermy()
+void GSPlay::checkcollEnermyAndWaterBoom()
 {
-	for (auto *boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+	for (auto* enermy : *ResourceManagers::GetInstance()->managerEnermy())
 	{
-		if (boom->getStatusBoom() == STATUS_BOOM_EXPLODE)
+		if (CollisionManager::GetInstance()->isCollBetweenEnermyAndWaterBoom(enermy->getRect()) == COLL_OK)
 		{
-			for (auto *wb : *boom->getListWaterBoom())
-			{
-				//this fun can return isColl || enermy was set to dead in this func
-				CollisionManager::GetInstance()->isCollBetweenWaterBoomAndEnermy(wb->getRect());
-			}
+			enermy->setStatus(STATUS_DEAD);
+			updateDrawEnermy(enermy);
 		}
 	}
 
-	//draw again Enermy if it dead
-	updateDrawEnermy();
+	// remove all enermies have status die
+	ResourceManagers::GetInstance()->managerEnermy()
+		->remove_if([](Enermy* it)
+			{
+				if (it->getStatus() == STATUS_DEAD)
+				{
+					printf("This enermy was destroy\n");
+					return true;
+				}
+				return false;
+			});
 }
 
 void GSPlay::generateItemMap()
@@ -741,50 +746,41 @@ void GSPlay::prepareForDrawingPlayer()
 	m_player->SetSize(PLAYER_SIZE_X, PLAYER_SIZE_Y);
 }
 
-void GSPlay::updateDrawEnermy()
+void GSPlay::updateDrawEnermy(Enermy *enermy)
 {
-	//create model , texture , shader
-	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	//find the animation have the id enermy and pop/remove it out if it have
+	//find animation enermy has
+	auto tempEnermyAnimation = m_mapAniamtionEnermies.find(enermy->getEnermyId());
+	//erase it if find the enermy in this map
+	if (tempEnermyAnimation != m_mapAniamtionEnermies.end())
+		m_mapAniamtionEnermies.erase(tempEnermyAnimation);
 
-	//create enermy sprite2D
-	std::shared_ptr<Sprite2D> enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-
-	//reset the m_list_enermies
-	m_listEnermies.clear();
-
-	//get element in list enermy from ResourceManagers
-	for (auto *enermy : *ResourceManagers::GetInstance()->managerEnermy())
-	{
-		texture = ResourceManagers::GetInstance()->GetTexture(enermy->getPathTexture());
-		enermySprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-		enermySprite2D->Set2DPosition(enermy->getLocationX(), enermy->getLocationY());
-		enermySprite2D->SetSize(enermy->getSizeX(), enermy->getSizeY());
-		m_listEnermies.push_back(enermySprite2D);
-	}
-}
-
-void GSPlay::prepareForDrawingBoom()
-{
 	//creat model , texture , shader
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
 
-	//create boom sprite2D
-	std::shared_ptr<Sprite2D> sprite2D = std::make_shared<Sprite2D>(model, shader, texture);
-	
+	printf("drawing enermy animation\n");
+	texture = ResourceManagers::GetInstance()->GetTexture(enermy->getPathTexture());
+	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 2, 4, enermy->getDirection(), TIME_ENERMY_MOVING / 2);
+
+	//update the enermy animation
+	obj->Set2DPosition(enermy->getRect().getRecX(), enermy->getRect().getRecY());
+	obj->SetSize(Globals::item_size * 2.5, Globals::item_size * 2.5);
+
+	// if the enermy is live just update its animation , if it was dead do not update any thing
+	if (enermy->getStatus() == STATUS_LIVE)
+		m_mapAniamtionEnermies.insert({enermy->getEnermyId(), obj});
+}
+
+void GSPlay::prepareForDrawingBoomExplore()
+{	
 	//clear mListBoom and mListBoomExplode
 	m_listBoomExplode.clear();
 
 	//add sprinte2D to list to draw
 	for (auto *it : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
-		//draw boom
-		/*if (it->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE && it->getTimeExploding() == 0)
-			prepareForDrawingAnimationBoom();
-		else */
 		if(it->getStatusBoom() == STATUS_BOOM_EXPLODE)
 		{
 			//draw water boom
@@ -797,7 +793,7 @@ void GSPlay::prepareForDrawingBoom()
 			updateDrawMap();
 
 			//check water boom coll with enermy
-			checkcollWaterBoomAndEnermy();
+			checkcollEnermyAndWaterBoom();
 		}
 	}
 }
@@ -849,21 +845,20 @@ void GSPlay::prepareForDrawingWaterBoom(Boom *boom)
 
 void GSPlay::prepareForDrawingAnimationBoom()
 {
-		//creat model , texture , shader
-		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-		auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-		auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
+	//creat model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
 
-		Boom* tempBoom = ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom()->back();
+	Boom* tempBoom = ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom()->back();
 
-		printf("drawing animation\n");
-		texture = ResourceManagers::GetInstance()->GetTexture(tempBoom->getPathTextureBoom());
-		std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 8, 1, 0, 0.2f);
+	/*printf("drawing boom animation\n");*/
+	texture = ResourceManagers::GetInstance()->GetTexture(tempBoom->getPathTextureBoom());
+	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 8, 1, 0, 0.2f);
 
-		obj->Set2DPosition(tempBoom->getRect().getRecX(), tempBoom->getRect().getRecY() - 13);
-		obj->SetSize(56 * 2, 77 * 2);
-
-		m_listAnimationBoom.push_back(obj);
+	obj->Set2DPosition(tempBoom->getRect().getRecX(), tempBoom->getRect().getRecY() - 13);
+	obj->SetSize(56 * 2, 77 * 2);
+	m_listAnimationBoom.push_back(obj);
 }
 
 void GSPlay::updateDrawMap()

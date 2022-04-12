@@ -3,10 +3,9 @@
 Enermy::Enermy(): e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_direction(ENERMY_MOVE_DOWN) , e_time(0.0f)
 {
 	//NOT GOOD SOLUTION
-	e_path_texture[ENERMY_MOVE_DOWN] = "enermy_down.tga";
-	e_path_texture[ENERMY_MOVE_LEFT] = "enermy_left.tga";
-	e_path_texture[ENERMY_MOVE_UP] = "enermy_up.tga";
-	e_path_texture[ENERMY_MOVE_RIGHT] = "enermy_right.tga";
+	e_path_texture = "enermy_animation.tga";
+	//increase the id enermy system
+	e_id = Globals::enermy_Id++;
 }
 
 Enermy::Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction) : e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_time(0.0f)
@@ -16,10 +15,9 @@ Enermy::Enermy(int location_x, int location_y, int enermy_size_x, int enermy_siz
 	e_size_x = enermy_size_x;
 	e_size_y = enermy_size_y;
 
-	e_path_texture[ENERMY_MOVE_DOWN] = "enermy_down.tga";
-	e_path_texture[ENERMY_MOVE_LEFT] = "enermy_left.tga";
-	e_path_texture[ENERMY_MOVE_UP] = "enermy_up.tga";
-	e_path_texture[ENERMY_MOVE_RIGHT] = "enermy_right.tga";
+	e_path_texture = "enermy_animation.tga";
+	//increase the id enermy system
+	e_id = Globals::enermy_Id++;
 }
 
 Enermy::~Enermy() 
@@ -90,9 +88,14 @@ void Enermy::addTimeToEnermy(float addTime)
 	e_time += addTime;
 }
 
+int Enermy::getEnermyId()
+{
+	return e_id;
+}
+
 std::string Enermy::getPathTexture()
 {
-	return e_path_texture[e_direction];
+	return e_path_texture;
 }
 
 int Enermy::getLocationX()

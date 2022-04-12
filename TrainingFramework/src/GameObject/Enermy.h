@@ -15,8 +15,8 @@ public:
 	void		setTimeEnermy(float time);
 	
 
-
-	std::string getPathTexture();		//getTexture of the direction the enermy is having
+	int			getEnermyId();
+	std::string getPathTexture();
 	int			getLocationX();
 	int			getLocationY();
 	int			getSizeX();
@@ -31,12 +31,13 @@ public:
 	void		addTimeToEnermy(float addTime);
 
 private:
+	int			e_id;
 	int			e_status;
 	int			e_speed;
 	int			e_direction;
 	float		e_time;
 	MRectangle	e_rec;
-	std::string	e_path_texture[ENERMY_TEXTURE_EACH_DIRECTION * 4];
+	std::string	e_path_texture;
 	int			e_size_x;
 	int			e_size_y;
 	int			e_location_x;
