@@ -153,6 +153,11 @@ void SpriteAnimation::Set2DPosition(Vector2 pos)
 	CaculateWorldMatrix();
 }
 
+void SpriteAnimation::SetCurrentAction(int numCurrentAction)
+{
+	m_currentAction = numCurrentAction;
+}
+
 Vector2 SpriteAnimation::Get2DPosition()
 {
 	return m_Vec2DPos;

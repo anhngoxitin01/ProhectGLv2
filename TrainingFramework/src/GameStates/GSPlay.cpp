@@ -748,29 +748,38 @@ void GSPlay::prepareForDrawingPlayer()
 
 void GSPlay::updateDrawEnermy(Enermy *enermy)
 {
-	//find the animation have the id enermy and pop/remove it out if it have
-	//find animation enermy has
+	//find the animation have the id enermy then erease/update/create it 
+	//find animation enermy has in map
 	auto tempEnermyAnimation = m_mapAniamtionEnermies.find(enermy->getEnermyId());
-	//erase it if find the enermy in this map
+
 	if (tempEnermyAnimation != m_mapAniamtionEnermies.end())
-		m_mapAniamtionEnermies.erase(tempEnermyAnimation);
+	{
+		if (enermy->getStatus() == STATUS_LIVE)
+		{
+			tempEnermyAnimation->second->Set2DPosition(enermy->getRect().getRecX(), enermy->getRect().getRecY());
+			tempEnermyAnimation->second->SetCurrentAction(enermy->getDirection());
+		}
+		else if(enermy->getStatus() == STATUS_DEAD)
+			m_mapAniamtionEnermies.erase(tempEnermyAnimation);
+	}
+	else
+	{
+		//creat model , texture , shader
+		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+		auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+		auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
 
-	//creat model , texture , shader
-	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-	auto shader = ResourceManagers::GetInstance()->GetShader("Animation");
+		printf("drawing enermy animation\n");
+		texture = ResourceManagers::GetInstance()->GetTexture(enermy->getPathTexture());
+		std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 2, 4, enermy->getDirection(), TIME_ENERMY_MOVING / 2);
 
-	printf("drawing enermy animation\n");
-	texture = ResourceManagers::GetInstance()->GetTexture(enermy->getPathTexture());
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 2, 4, enermy->getDirection(), TIME_ENERMY_MOVING / 2);
+		//update the enermy animation
+		obj->Set2DPosition(enermy->getRect().getRecX(), enermy->getRect().getRecY());
+		obj->SetSize(Globals::item_size * 2.5, Globals::item_size * 2.5);
 
-	//update the enermy animation
-	obj->Set2DPosition(enermy->getRect().getRecX(), enermy->getRect().getRecY());
-	obj->SetSize(Globals::item_size * 2.5, Globals::item_size * 2.5);
-
-	// if the enermy is live just update its animation , if it was dead do not update any thing
-	if (enermy->getStatus() == STATUS_LIVE)
-		m_mapAniamtionEnermies.insert({enermy->getEnermyId(), obj});
+		m_mapAniamtionEnermies.insert({ enermy->getEnermyId(), obj });
+	}
+	
 }
 
 void GSPlay::prepareForDrawingBoomExplore()

@@ -26,6 +26,7 @@ public:
 
 	void		Set2DPosition(GLfloat x, GLfloat y);
 	void		Set2DPosition(Vector2 pos);
+	void		SetCurrentAction(int numCurrentAction);
 
 	Vector2		Get2DPosition();
 	void		SetSize(GLint width, GLint height);
