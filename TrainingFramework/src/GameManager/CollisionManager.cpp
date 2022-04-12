@@ -269,7 +269,7 @@ int CollisionManager::isCollBetweenWaterBoomAndEnermy(MRectangle wbRec)
 
 	for (auto *enermy : *ResourceManagers::GetInstance()->managerEnermy())
 	{
-		if (wbRec.isInteract(enermy->getRect()) == REC_ABOVE)
+		if (wbRec.isInteract(enermy->getRect()) == REC_ABOVE || wbRec.isInteract(enermy->getRect()) == REC_OVER_LAP)
 		{
 			//set that enermy to dead
 			enermy->setStatus(STATUS_DEAD);

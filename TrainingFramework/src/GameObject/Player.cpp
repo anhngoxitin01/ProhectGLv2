@@ -215,7 +215,7 @@ void Player::initBoom()
 		if (check_can_init_boom_in_this_place)
 		{
 			p_list_boom.push_back(boom);
-			printf("size of boom %d", p_list_boom.size());
+			printf("size of boom %d\n", p_list_boom.size());
 			p_isPrepareNextBoom = false;
 		}
 	}

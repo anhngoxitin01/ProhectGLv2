@@ -390,7 +390,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						int distanceToEndRoad = 
 							(Globals::item_size - (enermy->getRect().getRecX() + enermy->getRect().getRecWidth() / 2) % Globals::item_size);
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
-							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + distanceToEndRoad);
+							enermy->setEnermyLocation(enermy->getLocationX() + distanceToEndRoad, enermy->getLocationY());
 						else
 							enermy->setEnermyDirection(ENERMY_MOVE_DOWN);
 					}
@@ -557,8 +557,8 @@ void GSPlay::generateLocationWaterBoom(Boom *boom)
 			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
-				// destroy the item map by change the kind of item map to road
-				printf("kind of block%d\n", ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock());
+				//// destroy the item map by change the kind of item map to road
+				//printf("kind of block%d\n", ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock());
 				if (ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].getKindBlock() == MAP_ITEM_CAN_DESTROY)
 				{
 					ResourceManagers::GetInstance()->managerMap()->getArrayItemMap()[index].changeToRoadItem();
