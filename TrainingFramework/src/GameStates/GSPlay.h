@@ -36,6 +36,7 @@ public:
 	*/
 	void	generateLocationWaterBoom(Boom *boom);
 	void	checkcollEnermyAndWaterBoom();
+	void	checkcollWaterBoomAndPlayer(Boom *boom);
 	void	generateItemMap();
 	void	generateItemPlayer(MRectangle rec);
 

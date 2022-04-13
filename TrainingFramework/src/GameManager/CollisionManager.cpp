@@ -344,6 +344,14 @@ int CollisionManager::isCollBetweenWaterBoomAndBoom(MRectangle wbRec, int timeBo
 	return COLL_NOT_OK;
 }
 
+int CollisionManager::isCollBetweenWaterBoomAndPlayer(MRectangle wbRec)
+{
+	if (wbRec.isInteract(ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer()) == REC_OVER_LAP
+		|| wbRec.isInteract(ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer()) == REC_ABOVE)
+		return COLL_OK;
+	return COLL_NOT_OK;
+}
+
 /*
 * return the distance from player to the road
 */

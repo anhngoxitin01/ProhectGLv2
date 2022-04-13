@@ -7,7 +7,6 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+) tạo object pool
-		+) Kiểm tra water boom vs nhân vật
 		+) Tạo màn hình thua khi nhân vật chết
 	Nên làm:
 		+)Tạo menu tính điểm trong game screen

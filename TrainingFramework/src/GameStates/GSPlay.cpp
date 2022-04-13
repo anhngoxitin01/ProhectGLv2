@@ -603,6 +603,19 @@ void GSPlay::checkcollEnermyAndWaterBoom()
 			});
 }
 
+void GSPlay::checkcollWaterBoomAndPlayer(Boom *boom)
+{
+	for (auto wb : *boom->getListWaterBoom())
+	{
+		if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndPlayer(wb->getRect()) == COLL_OK)
+		{
+			// change status player to dead
+			ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
+		}
+	}
+	
+}
+
 void GSPlay::generateItemMap()
 {
 	//read map from file
@@ -773,6 +786,10 @@ void GSPlay::prepareForDrawingBoomExplore()
 
 			//check water boom coll with enermy
 			checkcollEnermyAndWaterBoom();
+
+			//check water boom coll with player
+			checkcollWaterBoomAndPlayer(it);
+
 		}
 	}
 }
