@@ -70,11 +70,10 @@ void GSMenu::Init()
 	m_textGameName = std::make_shared< Text>(shader, font, "Boom", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
 	m_textGameName->Set2DPosition(Vector2(60, 200));
 
-	std::string name = "soundMenu.wav";
+
+	//sound
 	if (!GameStateMachine::GetInstance()->isMute())
-	{
-		ResourceManagers::GetInstance()->PlaySound(name, true);
-	}
+		ResourceManagers::GetInstance()->PlaySound("soundMenu.wav", true);
 	
 }
 

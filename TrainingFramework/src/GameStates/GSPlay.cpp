@@ -11,7 +11,7 @@
 #include "GameButton.h"
 #include "SpriteAnimation.h"
 
-GSPlay::GSPlay() : m_time_update_boom(0.0f)
+GSPlay::GSPlay() : m_time_update_boom(0.0f) , m_score(0) , m_scoreText(nullptr) , m_gameplayBackground(nullptr) , m_scoreBackground(nullptr) 
 {
 
 }
@@ -27,15 +27,16 @@ void GSPlay::Init()
 	m_KeyPress = 0;
 
 	//draw background
-	prepareForDrawingBackground();
+	prepareForDrawingBackgroundGamepLay();
+	prepareForDrawingBackgroundScore();
 	//draw Map
 	prepareForDrawingMap();
 	//draw PLayer
 	prepareForDrawingPlayer();
 	//draw Button
 	prepareForDrawingButton();
-	//draw Text
-	prepareForDrawingText();
+	//draw Score
+	updateDrawScore();
 }
 
 void GSPlay::Exit()
@@ -191,7 +192,8 @@ void GSPlay::Update(float deltaTime)
 void GSPlay::Draw()
 {
 	//background
-	m_background->Draw();
+	m_gameplayBackground->Draw();
+	m_scoreBackground->Draw();
 	
 	//map
 	for (auto it : m_listItemsMap)
@@ -228,8 +230,8 @@ void GSPlay::Draw()
 		it.second->Draw();
 	}
 
-	//text
-	m_score->Draw();
+	//score
+	m_scoreText->Draw();
 
 	//Player 
 	if (!ResourceManagers::GetInstance()->managerPlayer()->isPlayerMoving())
@@ -471,7 +473,7 @@ void GSPlay::generateLocationWaterBoom(Boom *boom)
 		//	up water boom
 		else if (i <= power)
 		{
-			tempRec = MRectangle(boom->getRect().getRecX(), boom->getRect().getRecY() + Globals::item_size * i, Globals::item_size, Globals::item_size);
+			tempRec = MRectangle(boom->getRect().getRecX(), boom->getRect().getRecY() - Globals::item_size * i, Globals::item_size, Globals::item_size);
 			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
@@ -522,7 +524,7 @@ void GSPlay::generateLocationWaterBoom(Boom *boom)
 		//	down water boom
 		else if (i <= power * 3)
 		{
-			tempRec = MRectangle(boom->getRect().getRecX(), boom->getRect().getRecY() - Globals::item_size * (i - power * 2), Globals::item_size, Globals::item_size);
+			tempRec = MRectangle(boom->getRect().getRecX(), boom->getRect().getRecY() + Globals::item_size * (i - power * 2), Globals::item_size, Globals::item_size);
 			//check coll wb with itemMap
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndItemMap(tempRec, index) == COLL_OK)
 			{
@@ -587,6 +589,9 @@ void GSPlay::checkcollEnermyAndWaterBoom()
 		{
 			enermy->setStatus(STATUS_DEAD);
 			updateDrawEnermy(enermy);
+
+			//icrease score
+			increaseScore();
 		}
 	}
 
@@ -632,16 +637,29 @@ void GSPlay::generateItemPlayer(MRectangle rec)
 	/*ResourceManagers::GetInstance()->checkListItemPLayer();*/
 }
 
-void GSPlay::prepareForDrawingBackground()
+void GSPlay::prepareForDrawingBackgroundScore()
+{
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("score_background.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	m_scoreBackground = std::make_shared<Sprite2D>(model, shader, texture);
+	m_scoreBackground->Set2DPosition(700 + 300/ 2, 700 / 2);
+	m_scoreBackground->SetSize(300,700);
+
+}
+
+void GSPlay::prepareForDrawingBackgroundGamepLay()
 {
 	//create model , texture , shader
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 
-	m_background = std::make_shared<Sprite2D>(model, shader, texture);
-	m_background->Set2DPosition(700 / 2, 700 / 2);
-	m_background->SetSize(Globals::item_size * 12, Globals::item_size * 12);
+	m_gameplayBackground = std::make_shared<Sprite2D>(model, shader, texture);
+	m_gameplayBackground->Set2DPosition(700 / 2, 700 / 2);
+	m_gameplayBackground->SetSize(Globals::item_size * 12, Globals::item_size * 12);
 }
 
 void GSPlay::prepareForDrawingMap()
@@ -697,19 +715,6 @@ void GSPlay::prepareForDrawingButton()
 		GameStateMachine::GetInstance()->PopState();
 		});
 	m_listButton.push_back(button);
-}
-
-void GSPlay::prepareForDrawingText()
-{
-	//create model , texture , shader
-	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
-	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-
-	//score
-	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
-	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
-	m_score->Set2DPosition(Vector2(Globals::screenWidth - Globals::menuGPWidth + 50, 25));
 }
 
 void GSPlay::prepareForDrawingPlayer()
@@ -892,6 +897,18 @@ void GSPlay::updateDrawMap()
 	}
 }
 
+void GSPlay::updateDrawScore()
+{
+	//create shader
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	// score
+	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
+	m_scoreText = std::make_shared< Text>(shader, font, std::to_string(m_score), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
+	m_scoreText->Set2DPosition(Vector2(Globals::screenWidth - 200, Globals::screenHeight / 6));
+}
+
 void GSPlay::removeDrawingAnimationBoom()
 {
 	m_listAnimationBoom.pop_front();
@@ -909,6 +926,12 @@ void GSPlay::handlingKeyEventForPlayer(bool isMoving, int directionMove , bool i
 	//init boom
 	if(isInittingBoom)
 		ResourceManagers::GetInstance()->managerPlayer()->initBoom();
+}
+
+void GSPlay::increaseScore()
+{
+	m_score += 100;
+	updateDrawScore();
 }
 
 

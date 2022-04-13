@@ -39,9 +39,10 @@ void GSSetting::Init()
 	button->SetSize(200, 200);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->changeMute();
-		if (GameStateMachine::GetInstance()->isMute()) {
+		if (GameStateMachine::GetInstance()->isMute()) 
 			ResourceManagers::GetInstance()->StopSound("soundMenu.wav");
-		}
+		else 
+			ResourceManagers::GetInstance()->PlaySound("soundMenu.wav", true);
 		});
 	m_listButton.push_back(button);
 
@@ -50,8 +51,6 @@ void GSSetting::Init()
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_textGameName = std::make_shared< Text>(shader, font, "Setting", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
 	m_textGameName->Set2DPosition(Vector2(60, 200));
-
-	//sound
 }
 
 

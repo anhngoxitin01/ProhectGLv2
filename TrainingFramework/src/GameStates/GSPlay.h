@@ -40,10 +40,10 @@ public:
 	void	generateItemMap();
 	void	generateItemPlayer(MRectangle rec);
 
-	void	prepareForDrawingBackground();
+	void	prepareForDrawingBackgroundScore();
+	void	prepareForDrawingBackgroundGamepLay();
 	void	prepareForDrawingMap();
 	void	prepareForDrawingButton();
-	void	prepareForDrawingText();
 	void	prepareForDrawingPlayer();
 	void	updateDrawEnermy(Enermy* enermy);
 	void	prepareForDrawingBoomExplore();
@@ -51,19 +51,25 @@ public:
 	void	prepareForDrawingWaterBoom(Boom *boom);
 	void	prepareForDrawingAnimationBoom();
 	void	updateDrawMap();
+	void	updateDrawScore();
 
 	void    removeDrawingAnimationBoom();
 	void	handlingKeyEventForPlayer(bool isMoving , int directionMove , bool isInitingBoom);
+	void	increaseScore();
 
     int		m_Test;
 
 private:
-	std::shared_ptr<Sprite2D>					m_background;
-	std::shared_ptr<Text>						m_score;
+	std::shared_ptr<Sprite2D>					m_gameplayBackground;
+	std::shared_ptr<Sprite2D>					m_scoreBackground;
+	std::shared_ptr<Text>						m_scoreText;
 	std::list<std::shared_ptr<GameButton>>		m_listButton;
 
 	//time
 	float	m_time_update_boom;
+
+	//score
+	int		m_score;
 
 	//key_board
 	int			m_KeyPress;
