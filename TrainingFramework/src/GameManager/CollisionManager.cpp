@@ -65,7 +65,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_UP, pl, forward_right_block.getRect());
 				//cacul to go to end road
-				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_TOP_REC);
+				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_right_block.getRect(), ON_THE_TOP_REC);
 				return COLL_OK;
 			}
 		}
@@ -108,7 +108,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_LEFT, pl, forward_right_block.getRect());
 				//cacul to go to end road
-				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_LEFT_REC);
+				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_right_block.getRect(), ON_THE_LEFT_REC);
 				return COLL_OK;
 			}
 		}
@@ -150,7 +150,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_DOWN, pl, forward_right_block.getRect());
 				//cacul to go to end road
-				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_BOTTOM_REC);
+				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_right_block.getRect(), ON_THE_BOTTOM_REC);
 				return COLL_OK;
 			}
 		}
@@ -193,7 +193,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 				else if (forward_left_block.getKindBlock() != MAP_ITEM_ROAD && forward_right_block.getKindBlock() == MAP_ITEM_ROAD)
 					smoothPLayer = smoothMovingPlayer(PLAYER_MOVE_RIGHT, pl, forward_right_block.getRect());
 				//cacul to go to end road
-				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_block.getRect(), ON_THE_RIGHT_REC);
+				distancePlaAndBarrier = pl.caculDistanceToAnotherRecWithDirection(forward_right_block.getRect(), ON_THE_RIGHT_REC);
 				return COLL_OK;
 			}
 		}
@@ -226,18 +226,19 @@ int CollisionManager::isCollBetweenPlayerAndBoom(MRectangle pl, int &boomIdIsSta
 {
 	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
-		//check if player go out of the boom is stading set the boomIdIsStanding to -1 
-		if (boom->getIdBoom() == boomIdIsStanding && pl.isInteract(boom->getRect()) == REC_NOT_ABOVE)
-		{
-			boomIdIsStanding = -1;
-			continue;
-		}
 		//access the player moving in boom id is standing
-		else if (boom->getIdBoom() == boomIdIsStanding)
+		if (boom->getIdBoom() == boomIdIsStanding)
 			continue;
 		else if (pl.isInteract(boom->getRect()) == REC_ABOVE)
 			return COLL_OK;
 	}
+	return COLL_NOT_OK;
+}
+
+int CollisionManager::isCollBetweenPlayerAndBoom(MRectangle pl, MRectangle boom)
+{
+	if (pl.isInteract(boom) == REC_ABOVE || pl.isInteract(boom) == REC_OVER_LAP)
+		return COLL_OK;
 	return COLL_NOT_OK;
 }
 
@@ -353,7 +354,11 @@ int CollisionManager::isCollBetweenWaterBoomAndPlayer(MRectangle wbRec)
 
 	if (wbRec.isInteract(tempRectPlayer) == REC_OVER_LAP
 		|| wbRec.isInteract(tempRectPlayer) == REC_ABOVE)
+	{
+		ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer().toString();
 		return COLL_OK;
+	}
+		
 	return COLL_NOT_OK;
 }
 

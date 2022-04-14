@@ -36,6 +36,7 @@ public:
 	MRectangle	getRectPlayer();
 	bool		isPrepareNextBoom();
 	std::list<Boom*>* getPlayerListBoom();
+	Boom*		getBoomById(int boomId);
 
 	void		movePlayer(int direction);
 	void		initBoom();

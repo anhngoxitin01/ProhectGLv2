@@ -14,7 +14,7 @@
 GSPlay::GSPlay() : m_time_update_boom(0.0f) , m_score(0) , m_scoreText(nullptr) , m_gameplayBackground(nullptr) , m_scoreBackground(nullptr) ,
 				m_listButton(std::list<std::shared_ptr<GameButton>>{})
 {
-
+	ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_LIVE);
 }
 
 GSPlay::~GSPlay() 
@@ -30,6 +30,7 @@ void GSPlay::Init()
 	//draw background
 	prepareForDrawingBackgroundGamepLay();
 	prepareForDrawingBackgroundScore();
+	prepareForDrawingGameOverBackground();
 	//draw Map
 	prepareForDrawingMap();
 	//draw PLayer
@@ -1001,7 +1002,6 @@ void GSPlay::increaseScore()
 void GSPlay::setPlayerDead()
 {
 	ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
-	prepareForDrawingGameOverBackground();
 	prepareForDrawingButtonWhenPlayerDead();
 }
 

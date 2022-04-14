@@ -101,6 +101,16 @@ std::list<Boom*>* Player::getPlayerListBoom()
 	return &p_list_boom;
 }
 
+Boom* Player::getBoomById(int boomId)
+{
+	for (auto* boom : *getPlayerListBoom())
+	{
+		if (boom->getIdBoom() == boomId)
+			return boom;
+	}
+	return nullptr;
+}
+
 bool Player::isPrepareNextBoom()
 {
 	return p_isPrepareNextBoom;
@@ -251,6 +261,12 @@ void Player::movePlayer(int direction)
 		printf("Something wrong in movePlayer");
 		break;
 	}
+
+	//update isStanding on boom of player
+	if(p_boomIdIsStanding != -1 && 
+		CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(getRectPlayer() , getBoomById(p_boomIdIsStanding)->getRect()) == COLL_NOT_OK)
+			p_boomIdIsStanding = -1;
+		
 	
 }
 

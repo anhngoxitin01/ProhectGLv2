@@ -15,6 +15,7 @@ public:
 	int isCollBetweenPlayerAndItemPlayer(MRectangle pl , int &kindItem);
 	/*This fun will change the parameter boomIdIsStanding*/
 	int	isCollBetweenPlayerAndBoom(MRectangle pl , int &boomIdIsStanding);
+	int	isCollBetweenPlayerAndBoom(MRectangle pl , MRectangle boom);
 
 	//enermy
 	int isCollBetweenEnermyAndItemMap(MRectangle enermy);
