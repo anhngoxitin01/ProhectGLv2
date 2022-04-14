@@ -41,6 +41,7 @@ public:
 	void		initBoom();
 	void		reLoadBoom();
 	int			isCollWithItemPlayer();		//return 0 is true and 1 is false
+	void		resetData();
 
 private:
 	void		updatePlayerWithItemPlayer(int kindItem);

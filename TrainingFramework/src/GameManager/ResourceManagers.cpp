@@ -208,6 +208,16 @@ void ResourceManagers::StopSound(const std::string& name)
 	m_Soloud.stopAudioSource(*wave);
 }
 
+void ResourceManagers::changeIsPLayingSoundMenu(bool isPLayingSoundMenu)
+{
+	isPlayingSoundMenu = isPLayingSoundMenu;
+}
+
+bool ResourceManagers::isPLayingSoundMenu()
+{
+	return isPlayingSoundMenu;
+}
+
 //============ MAP ================
 Map* ResourceManagers::managerMap()
 {
@@ -236,7 +246,7 @@ std::list<Enermy*>* ResourceManagers::managerEnermy()
 
 void ResourceManagers::autoSetSponToEnermyFromMap()
 {
-	m_enermies = m_map.getSponEnermy();
+	m_enermies = *m_map.getSponEnermy();
 }
 
 std::list<ItemPlayer*>* ResourceManagers::managerItemPLayer()
@@ -272,4 +282,32 @@ void ResourceManagers::checkListItemPLayer()
 		ip->show();
 	}
 	printf("===== list item player ====\n");
+}
+
+void ResourceManagers::resetData()
+{
+	//player
+	m_player.resetData();
+
+	//enermy
+	// generate map will clear the data for you
+
+	//itemPLayer
+	for (auto* x : m_itemPlayer)
+	{
+		delete x;
+	}
+	m_itemPlayer.clear();
+
+	//boom
+	for (auto *x : *m_player.getPlayerListBoom())
+	{
+		for (auto wb : *x->getListWaterBoom())
+			delete wb;
+		delete x;
+	}
+	m_player.getPlayerListBoom()->clear();
+
+	//itemMap
+	//do not need to delete
 }

@@ -3,6 +3,8 @@
 GSSetting::GSSetting() : GameStateBase(StateType::STATE_SETTING),
 m_background(nullptr), m_listButton(std::list<std::shared_ptr<GameButton>>{}), m_textGameName(nullptr)
 {
+	if (!GameStateMachine::GetInstance()->isMute())
+		ResourceManagers::GetInstance()->changeIsPLayingSoundMenu(true);
 }
 
 
@@ -39,10 +41,17 @@ void GSSetting::Init()
 	button->SetSize(200, 200);
 	button->SetOnClick([]() {
 		GameStateMachine::GetInstance()->changeMute();
-		if (GameStateMachine::GetInstance()->isMute()) 
+		if (GameStateMachine::GetInstance()->isMute())
+		{
 			ResourceManagers::GetInstance()->StopSound("soundMenu.wav");
-		else 
+			ResourceManagers::GetInstance()->changeIsPLayingSoundMenu(false);
+		}
+		else
+		{
 			ResourceManagers::GetInstance()->PlaySound("soundMenu.wav", true);
+			ResourceManagers::GetInstance()->changeIsPLayingSoundMenu(true);
+		}
+			
 		});
 	m_listButton.push_back(button);
 

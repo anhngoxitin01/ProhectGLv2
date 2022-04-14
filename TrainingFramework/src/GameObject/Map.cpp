@@ -51,9 +51,9 @@ int Map::getLevelMap()
 	return map_level;
 }
 
-std::list<Enermy*> Map::getSponEnermy()
+std::list<Enermy*>* Map::getSponEnermy()
 {
-	return map_enermies;
+	return &map_enermies;
 }
 
 ItemMap* Map::getArrayItemMap()
@@ -61,10 +61,18 @@ ItemMap* Map::getArrayItemMap()
 	return map_items;
 }
 
+void Map::clearData()
+{
+	map_enermies.clear();
+}
+
 
 
 void Map::initMap()
 {
+	//clear the data wwhen init new map
+	clearData();
+
 	switch (map_level)
 	{
 	case MAP_LEVEL_1: case MAP_LEVEL_2: case MAP_LEVEL_3:
@@ -234,7 +242,7 @@ void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 	//checkMapInCMD();
 
 	//check list enermy
-	checkEnermies();
+	//checkEnermies();
 }
 
 void Map::setMapSponPlayer(int x, int y)

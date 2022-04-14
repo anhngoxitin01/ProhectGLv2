@@ -3,6 +3,7 @@
 GSMenu::GSMenu() : GameStateBase(StateType::STATE_MENU), 
 	m_background(nullptr), m_listButton(std::list<std::shared_ptr<GameButton>>{}), m_textGameName(nullptr)
 {
+	
 }
 
 
@@ -69,12 +70,10 @@ void GSMenu::Init()
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_textGameName = std::make_shared< Text>(shader, font, "Boom", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
 	m_textGameName->Set2DPosition(Vector2(60, 200));
-
-
-	//sound
-	if (!GameStateMachine::GetInstance()->isMute())
-		ResourceManagers::GetInstance()->PlaySound("soundMenu.wav", true);
 	
+	if (!GameStateMachine::GetInstance()->isMute())
+		if(!ResourceManagers::GetInstance()->isPLayingSoundMenu())
+			ResourceManagers::GetInstance()->PlaySound("soundMenu.wav", true);
 }
 
 void GSMenu::Exit()

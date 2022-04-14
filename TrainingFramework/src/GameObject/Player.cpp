@@ -119,7 +119,7 @@ int Player::getPlayerLocationY()
 void Player::movePlayer(int direction)
 {
 	int newLocation = 0;
-	int distancePlaAndBarrier;
+	int distancePlaAndBarrier = 0;
 	int smoothPlayer = 0;
 	//for coll player and boom
 	MRectangle tempRec;
@@ -240,6 +240,7 @@ void Player::movePlayer(int direction)
 					newLocation = newLocation - p_speed + distanceToEndRoad;
 				else
 					newLocation = newLocation - p_speed;
+
 			}
 
 			//set new player location
@@ -307,6 +308,20 @@ int Player::isCollWithItemPlayer()
 		return true;
 	}
 	return false;
+}
+
+void Player::resetData()
+{
+	p_speed = PLAYER_BASE_SPEED;
+	p_status_live = STATUS_LIVE;
+	p_direction = PLAYER_MOVE_DOWN;
+	p_is_move = false;
+	p_location_x = 25;
+	p_location_y = 75;
+	p_num_boom = PLAYER_BOMB_NUM;
+	p_isPrepareNextBoom = true;
+	p_power = PLAYER_BOMB_STRENGTH;
+	p_boomIdIsStanding = -1;
 }
 
 void Player::updatePlayerWithItemPlayer(int kindItem)

@@ -42,8 +42,10 @@ public:
 
 	void	prepareForDrawingBackgroundScore();
 	void	prepareForDrawingBackgroundGamepLay();
+	void	prepareForDrawingGameOverBackground();
 	void	prepareForDrawingMap();
-	void	prepareForDrawingButton();
+	void	prepareForDrawingButtonNormal();
+	void	prepareForDrawingButtonWhenPlayerDead();
 	void	prepareForDrawingPlayer();
 	void	updateDrawEnermy(Enermy* enermy);
 	void	prepareForDrawingBoomExplore();
@@ -53,15 +55,20 @@ public:
 	void	updateDrawMap();
 	void	updateDrawScore();
 
-	void    removeDrawingAnimationBoom();
+	void    removeDrawingAnimationBoom(Boom *boom);
+	void	removeButtonPlayerDead();
 	void	handlingKeyEventForPlayer(bool isMoving , int directionMove , bool isInitingBoom);
 	void	increaseScore();
+	void	setPlayerDead();
+
+	void	restartGame();
 
     int		m_Test;
 
 private:
 	std::shared_ptr<Sprite2D>					m_gameplayBackground;
 	std::shared_ptr<Sprite2D>					m_scoreBackground;
+	std::shared_ptr<Sprite2D>					m_gameoverBackground;
 	std::shared_ptr<Text>						m_scoreText;
 	std::list<std::shared_ptr<GameButton>>		m_listButton;
 
@@ -88,7 +95,7 @@ private:
 	std::list<std::shared_ptr<Sprite2D>>		m_listItemPlayer;
 
 	//boom
-	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimationBoom;
+	std::map<int,std::shared_ptr<SpriteAnimation>>	m_mapAnimationBoom;
 	std::list<std::shared_ptr<Sprite2D>>		m_listBoomExplode;
 
 };

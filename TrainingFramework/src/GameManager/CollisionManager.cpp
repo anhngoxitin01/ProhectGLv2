@@ -346,8 +346,13 @@ int CollisionManager::isCollBetweenWaterBoomAndBoom(MRectangle wbRec, int timeBo
 
 int CollisionManager::isCollBetweenWaterBoomAndPlayer(MRectangle wbRec)
 {
-	if (wbRec.isInteract(ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer()) == REC_OVER_LAP
-		|| wbRec.isInteract(ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer()) == REC_ABOVE)
+	//custom rectangle of player to make the game is easier
+	MRectangle tempRectPlayer = ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer();
+	tempRectPlayer.setRecWidth(tempRectPlayer.getRecWidth() - 5);
+	tempRectPlayer.setRecHeight(tempRectPlayer.getRecHeight() - 5);
+
+	if (wbRec.isInteract(tempRectPlayer) == REC_OVER_LAP
+		|| wbRec.isInteract(tempRectPlayer) == REC_ABOVE)
 		return COLL_OK;
 	return COLL_NOT_OK;
 }
