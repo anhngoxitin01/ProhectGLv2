@@ -18,17 +18,14 @@ public:
 	int			getKindOfBlock(int index_x, int index_y);
 	MRectangle	getRectItem(int index);
 	ItemMap		getItemMap(int index);
-	int			getLevelMap();
 	std::list<Enermy*>*		getSponEnermy();
 	ItemMap*	getArrayItemMap();
 
 	void clearData();
 
-	void initMap();
+	void initMap(int map_level);
 	void checkMapInCMD();
 	void checkEnermies();
-
-	void		setMapLevel(int level);
 
 private:
 	void readMapFromFile(char* namePath, ItemMap map_items[]);
@@ -37,8 +34,6 @@ private:
 	ItemMap		map_items[MAP_SIZE_Y * MAP_SIZE_Y];
 	int			map_spon_player_x;
 	int			map_spon_player_y;
-
-	int			map_level;
 
 	std::list<Enermy*>  map_enermies;
 	

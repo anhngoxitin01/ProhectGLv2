@@ -224,6 +224,16 @@ Map* ResourceManagers::managerMap()
 	return &m_map;
 }
 
+int ResourceManagers::getLevelMap()
+{
+	return m_levelMap;
+}
+
+void ResourceManagers::setLevelMap(int levelMap)
+{
+	m_levelMap = levelMap;
+}
+
 //============ PLAYER ================
 
 Player* ResourceManagers::managerPlayer()
@@ -288,6 +298,9 @@ void ResourceManagers::resetData()
 {
 	//player
 	m_player.resetData();
+
+	//reset level
+	m_levelMap = MAP_LEVEL_1;
 
 	//enermy
 	// generate map will clear the data for you

@@ -12,9 +12,10 @@
 #include "SpriteAnimation.h"
 
 GSPlay::GSPlay() : m_time_update_boom(0.0f) , m_score(0) , m_scoreText(nullptr) , m_gameplayBackground(nullptr) , m_scoreBackground(nullptr) ,
-				m_listButton(std::list<std::shared_ptr<GameButton>>{})
+				m_listButton(std::list<std::shared_ptr<GameButton>>{}) , m_levelText(nullptr)
 {
 	ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_LIVE);
+	ResourceManagers::GetInstance()->setLevelMap(MAP_LEVEL_1);
 }
 
 GSPlay::~GSPlay() 
@@ -37,8 +38,9 @@ void GSPlay::Init()
 	prepareForDrawingPlayer();
 	//draw Button
 	prepareForDrawingButtonNormal();
-	//draw Score
+	//draw Text
 	updateDrawScore();
+	updateTextDrawLevelMap();
 }
 
 void GSPlay::Exit()
@@ -194,6 +196,8 @@ void GSPlay::Draw()
 	m_scoreBackground->Draw();
 	//score
 	m_scoreText->Draw();
+	//level map 
+	m_levelText->Draw();
 
 	//background
 	m_gameplayBackground->Draw();
@@ -294,6 +298,15 @@ void GSPlay::Draw()
 
 	for (auto it : m_listButton)
 	{
+		if (it->GetName().compare("btn_volumn") == 0)
+		{
+			if (GameStateMachine::GetInstance()->isMute())
+			{
+				it->SetTexture(ResourceManagers::GetInstance()->GetTexture("btn_sfx_off.tga"));
+			}
+			else
+				it->SetTexture(ResourceManagers::GetInstance()->GetTexture("btn_sfx.tga"));
+		}
 		it->Draw();
 	}
 
@@ -632,8 +645,8 @@ void GSPlay::checkcollWaterBoomAndPlayer(Boom *boom)
 void GSPlay::generateItemMap()
 {
 	//read map from file
-	ResourceManagers::GetInstance()->managerMap()->setMapLevel(MAP_LEVEL_1);
-	ResourceManagers::GetInstance()->managerMap()->initMap();
+	int level = ResourceManagers::GetInstance()->getLevelMap();
+	ResourceManagers::GetInstance()->managerMap()->initMap(level);
 }
 
 void GSPlay::generateItemPlayer(MRectangle rec)
@@ -725,15 +738,36 @@ void GSPlay::prepareForDrawingButtonNormal()
 	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_main_menu.tga");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 
-	//// button close
-	//texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
-	//std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
-	//button->Set2DPosition(Globals::screenWidth /2 , Globals::screenHeight / 2);
-	//button->SetSize(100, 100);
-	//button->SetOnClick([this]() {
-	//	GameStateMachine::GetInstance()->PopState();
-	//	});
-	//m_listButton.push_back(button);
+	// button close
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_home.tga");
+	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(Globals::screenWidth - 200, Globals::screenHeight / 2);
+	button->SetSize(100, 100);
+	button->SetOnClick([this]() {
+		GameStateMachine::GetInstance()->PopState();
+		});
+	m_listButton.push_back(button);
+
+	// volumn turn on button
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->SetName("btn_volumn");
+	button->Set2DPosition(Globals::screenWidth - 100, Globals::screenHeight / 2);
+	button->SetSize(100, 100);
+	button->SetOnClick([]() {
+		GameStateMachine::GetInstance()->changeMute();
+		if (GameStateMachine::GetInstance()->isMute())
+		{
+			ResourceManagers::GetInstance()->StopSound("soundMenu.wav");
+			ResourceManagers::GetInstance()->changeIsPLayingSoundMenu(false);
+		}
+		else
+		{
+			ResourceManagers::GetInstance()->PlaySound("soundMenu.wav", true);
+			ResourceManagers::GetInstance()->changeIsPLayingSoundMenu(true);
+		}
+
+		});
+	m_listButton.push_back(button);
 }
 
 void GSPlay::prepareForDrawingButtonWhenPlayerDead()
@@ -959,6 +993,18 @@ void GSPlay::updateDrawScore()
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_scoreText = std::make_shared< Text>(shader, font, std::to_string(m_score), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
 	m_scoreText->Set2DPosition(Vector2(Globals::screenWidth - 200, Globals::screenHeight / 6));
+}
+
+void GSPlay::updateTextDrawLevelMap()
+{
+	//create shader
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	// score
+	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
+	m_levelText = std::make_shared< Text>(shader, font, "Level " + std::to_string(ResourceManagers::GetInstance()->getLevelMap()), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
+	m_levelText->Set2DPosition(Vector2(Globals::screenWidth - 250, Globals::screenHeight / 4));
 }
 
 void GSPlay::removeDrawingAnimationBoom(Boom *boom)

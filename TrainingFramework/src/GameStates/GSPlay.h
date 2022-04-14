@@ -54,6 +54,7 @@ public:
 	void	prepareForDrawingAnimationBoom();
 	void	updateDrawMap();
 	void	updateDrawScore();
+	void	updateTextDrawLevelMap();
 
 	void    removeDrawingAnimationBoom(Boom *boom);
 	void	removeButtonPlayerDead();
@@ -70,6 +71,7 @@ private:
 	std::shared_ptr<Sprite2D>					m_scoreBackground;
 	std::shared_ptr<Sprite2D>					m_gameoverBackground;
 	std::shared_ptr<Text>						m_scoreText;
+	std::shared_ptr<Text>						m_levelText;
 	std::list<std::shared_ptr<GameButton>>		m_listButton;
 
 	//time

@@ -46,11 +46,6 @@ ItemMap Map::getItemMap(int index)
 	return map_items[index];
 }
 
-int Map::getLevelMap()
-{
-	return map_level;
-}
-
 std::list<Enermy*>* Map::getSponEnermy()
 {
 	return &map_enermies;
@@ -68,7 +63,7 @@ void Map::clearData()
 
 
 
-void Map::initMap()
+void Map::initMap(int map_level)
 {
 	//clear the data wwhen init new map
 	clearData();
@@ -105,11 +100,6 @@ void Map::checkEnermies()
 		enermy->show();
 	}
 	printf("========show list enermy========\n");
-}
-
-void Map::setMapLevel(int level)
-{
-	map_level = level;
 }
 
 void Map::readMapFromFile(char* namePath, ItemMap map_items[])

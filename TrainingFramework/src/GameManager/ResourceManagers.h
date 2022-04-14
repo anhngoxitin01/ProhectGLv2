@@ -48,6 +48,8 @@ public:
 
 	//Map
 	Map* managerMap();
+	int		getLevelMap();
+	void	setLevelMap(int levelMap);
 
 	//Player
 	Player* managerPlayer();
@@ -77,6 +79,7 @@ private:
 
 	//Map
 	Map m_map;
+	int m_levelMap;
 
 	//Player
 	Player m_player;
