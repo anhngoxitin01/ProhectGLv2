@@ -43,9 +43,11 @@ public:
 	void	prepareForDrawingBackgroundScore();
 	void	prepareForDrawingBackgroundGamepLay();
 	void	prepareForDrawingGameOverBackground();
+	void	prepareForDrawingCompleteGameBackground();
 	void	prepareForDrawingMap();
 	void	prepareForDrawingButtonNormal();
 	void	prepareForDrawingButtonWhenPlayerDead();
+	void	prepareForDrawingButtonWhenCompleteGame();
 	void	prepareForDrawingPlayer();
 	void	updateDrawEnermy(Enermy* enermy);
 	void	prepareForDrawingBoomExplore();
@@ -57,12 +59,13 @@ public:
 	void	updateTextDrawLevelMap();
 
 	void    removeDrawingAnimationBoom(Boom *boom);
-	void	removeButtonPlayerDead();
 	void	handlingKeyEventForPlayer(bool isMoving , int directionMove , bool isInitingBoom);
 	void	increaseScore();
 	void	setPlayerDead();
+	void	checkToNextLevel();
+	void	increaseLevel();
 
-	void	restartGame();
+	void	restartGame(bool isIncreaseLevel);
 
     int		m_Test;
 
@@ -70,9 +73,11 @@ private:
 	std::shared_ptr<Sprite2D>					m_gameplayBackground;
 	std::shared_ptr<Sprite2D>					m_scoreBackground;
 	std::shared_ptr<Sprite2D>					m_gameoverBackground;
+	std::shared_ptr<Sprite2D>					m_completeBackground;
 	std::shared_ptr<Text>						m_scoreText;
 	std::shared_ptr<Text>						m_levelText;
 	std::list<std::shared_ptr<GameButton>>		m_listButton;
+	int											m_state_game;
 
 	//time
 	float	m_time_update_boom;

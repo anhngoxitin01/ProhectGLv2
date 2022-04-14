@@ -299,9 +299,6 @@ void ResourceManagers::resetData()
 	//player
 	m_player.resetData();
 
-	//reset level
-	m_levelMap = MAP_LEVEL_1;
-
 	//enermy
 	// generate map will clear the data for you
 

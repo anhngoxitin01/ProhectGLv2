@@ -12,7 +12,7 @@
 #include "SpriteAnimation.h"
 
 GSPlay::GSPlay() : m_time_update_boom(0.0f) , m_score(0) , m_scoreText(nullptr) , m_gameplayBackground(nullptr) , m_scoreBackground(nullptr) ,
-				m_listButton(std::list<std::shared_ptr<GameButton>>{}) , m_levelText(nullptr)
+				m_listButton(std::list<std::shared_ptr<GameButton>>{}) , m_levelText(nullptr) , m_state_game(STATE_PLAYING) , m_completeBackground(nullptr)
 {
 	ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_LIVE);
 	ResourceManagers::GetInstance()->setLevelMap(MAP_LEVEL_1);
@@ -130,60 +130,64 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
-	if (ResourceManagers::GetInstance()->managerPlayer()->getPlayerStatusLive() == STATUS_LIVE)
+	if (m_state_game == STATE_PLAYING)
 	{
-		m_time_update_boom += deltaTime;
-
-		//process key input
-		switch (m_KeyPress)//Handle Key event
+		if (ResourceManagers::GetInstance()->managerPlayer()->getPlayerStatusLive() == STATUS_LIVE)
 		{
-		case 1://Key Left
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_LEFT, false);
-			break;
-		case 1 << 1://Key Down
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_DOWN, false);
-			break;
-		case 1 << 2://Key Right
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_RIGHT, false);
-			break;
-		case 1 << 3://Key Up
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_UP, false);
-			break;
-		case 1 << 4://Key Space
-			ResourceManagers::GetInstance()->managerPlayer()->initBoom();
-			break;
-		case (1 | 1 << 4)://Key Left & Space
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_LEFT, true);
-			break;
-		case (1 << 1 | 1 << 4)://Key Down & Space
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_DOWN, true);
-			break;
-		case (1 << 2 | 1 << 4)://Key Right & Space
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_RIGHT, true);
-			break;
-		case (1 << 3 | 1 << 4)://Key Up & Space
-			handlingKeyEventForPlayer(true, PLAYER_MOVE_UP, true);
-			break;
+			m_time_update_boom += deltaTime;
+
+			//process key input
+			switch (m_KeyPress)//Handle Key event
+			{
+			case 1://Key Left
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_LEFT, false);
+				break;
+			case 1 << 1://Key Down
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_DOWN, false);
+				break;
+			case 1 << 2://Key Right
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_RIGHT, false);
+				break;
+			case 1 << 3://Key Up
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_UP, false);
+				break;
+			case 1 << 4://Key Space
+				ResourceManagers::GetInstance()->managerPlayer()->initBoom();
+				break;
+			case (1 | 1 << 4)://Key Left & Space
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_LEFT, true);
+				break;
+			case (1 << 1 | 1 << 4)://Key Down & Space
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_DOWN, true);
+				break;
+			case (1 << 2 | 1 << 4)://Key Right & Space
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_RIGHT, true);
+				break;
+			case (1 << 3 | 1 << 4)://Key Up & Space
+				handlingKeyEventForPlayer(true, PLAYER_MOVE_UP, true);
+				break;
+			}
+
+			//update boom animation
+			for (auto it : m_mapAnimationBoom)
+			{
+				it.second->Update(deltaTime);
+			}
+
+			//update enermy animation
+			for (auto it : m_mapAniamtionEnermies)
+			{
+				it.second->Update(deltaTime);
+			}
+
+			//make enermy auto moving
+			autoMovingEnermy(deltaTime);
+
+			//make boom increase time to explode
+			autoIncreaseTimeBoom();
 		}
-
-		//update boom animation
-		for (auto it : m_mapAnimationBoom)
-		{
-			it.second->Update(deltaTime);
-		}
-
-		//update enermy animation
-		for (auto it : m_mapAniamtionEnermies)
-		{
-			it.second->Update(deltaTime);
-		}
-
-		//make enermy auto moving
-		autoMovingEnermy(deltaTime);
-
-		//make boom increase time to explode
-		autoIncreaseTimeBoom();
 	}
+	
 
 	for (auto it : m_listButton)
 	{
@@ -290,10 +294,15 @@ void GSPlay::Draw()
 		}
 	}
 	m_player->Draw();
-	
+
 	if (ResourceManagers::GetInstance()->managerPlayer()->getPlayerStatusLive() == STATUS_DEAD)
 	{
 		m_gameoverBackground->Draw();
+	}
+	
+	if (m_state_game == STATE_COMPLETE_LEVEL)
+	{
+		m_completeBackground->Draw();
 	}
 
 	for (auto it : m_listButton)
@@ -472,6 +481,9 @@ void GSPlay::autoIncreaseTimeBoom()
 		//reset check time boom
 		m_time_update_boom = 0;
 	}
+
+	//check to update level map when all enermies was destroyed
+	checkToNextLevel();
 }
 
 void GSPlay::generateLocationWaterBoom(Boom *boom)
@@ -695,6 +707,18 @@ void GSPlay::prepareForDrawingGameOverBackground()
 	m_gameoverBackground->SetSize(Globals::item_size * 6, Globals::item_size * 6);
 }
 
+void GSPlay::prepareForDrawingCompleteGameBackground()
+{
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("MissionComplete.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	m_completeBackground = std::make_shared<Sprite2D>(model, shader, texture);
+	m_completeBackground->Set2DPosition(700 / 2, 700 / 2);
+	m_completeBackground->SetSize(Globals::item_size * 6, Globals::item_size * 6);
+}
+
 void GSPlay::prepareForDrawingMap()
 {
 	//create model , texture , shader
@@ -787,7 +811,7 @@ void GSPlay::prepareForDrawingButtonWhenPlayerDead()
 	button->Set2DPosition(700 / 2 + 40, 700 / 2 + Globals::item_size * 3 + 35);
 	button->SetSize(70, 70);
 	button->SetOnClick([this]() {
-		restartGame();
+		restartGame(false);
 		});
 	m_listButton.push_back(button);
 
@@ -801,6 +825,40 @@ void GSPlay::prepareForDrawingButtonWhenPlayerDead()
 		});
 	m_listButton.push_back(button);
 
+}
+
+void GSPlay::prepareForDrawingButtonWhenCompleteGame()
+{
+	//two button
+	// first play next
+	// second go GSmenu
+
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	// button play again
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_next.tga");
+	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(700 / 2 + 40, 700 / 2 + Globals::item_size * 3 + 35);
+	button->SetSize(70, 70);
+	button->SetOnClick([this]() {
+		increaseLevel();
+		restartGame(true);
+		m_state_game = STATE_PLAYING;
+		});
+	m_listButton.push_back(button);
+
+	//button go GSMenu
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(700 / 2 - 40, 700 / 2 + Globals::item_size * 3 + 35);
+	button->SetSize(70, 70);
+	button->SetOnClick([this]() {
+		GameStateMachine::GetInstance()->PopState();
+		});
+	m_listButton.push_back(button);
 }
 
 void GSPlay::prepareForDrawingPlayer()
@@ -880,7 +938,6 @@ void GSPlay::prepareForDrawingBoomExplore()
 
 			//check water boom coll with player
 			checkcollWaterBoomAndPlayer(it);
-
 		}
 	}
 }
@@ -1003,7 +1060,7 @@ void GSPlay::updateTextDrawLevelMap()
 	// score
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
-	m_levelText = std::make_shared< Text>(shader, font, "Level " + std::to_string(ResourceManagers::GetInstance()->getLevelMap()), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
+	m_levelText = std::make_shared< Text>(shader, font, "Level " + std::to_string(ResourceManagers::GetInstance()->getLevelMap() + 1), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
 	m_levelText->Set2DPosition(Vector2(Globals::screenWidth - 250, Globals::screenHeight / 4));
 }
 
@@ -1011,18 +1068,6 @@ void GSPlay::removeDrawingAnimationBoom(Boom *boom)
 {
 	auto tempBoomAnimation = m_mapAnimationBoom.find(boom->getIdBoom());
 	m_mapAnimationBoom.erase(tempBoomAnimation);
-}
-
-void GSPlay::removeButtonPlayerDead()
-{
-	/*printf("size button before %d\n", m_listButton.size());*/
-
-	//pop button play again
-	m_listButton.pop_back();
-	//pop button go GSMenu
-	m_listButton.pop_back();
-
-	/*printf("size button after %d\n", m_listButton.size());*/
 }
 
 void GSPlay::handlingKeyEventForPlayer(bool isMoving, int directionMove , bool isInittingBoom)
@@ -1051,8 +1096,31 @@ void GSPlay::setPlayerDead()
 	prepareForDrawingButtonWhenPlayerDead();
 }
 
-void GSPlay::restartGame()
+void GSPlay::checkToNextLevel()
 {
+	if (ResourceManagers::GetInstance()->managerEnermy()->size() == 0)
+	{
+		prepareForDrawingCompleteGameBackground();
+		prepareForDrawingButtonWhenCompleteGame();
+		m_state_game = STATE_COMPLETE_LEVEL;
+	}
+}
+
+void GSPlay::increaseLevel()
+{
+	int level = ResourceManagers::GetInstance()->getLevelMap();
+	level++;
+	ResourceManagers::GetInstance()->setLevelMap(level);
+}
+
+void GSPlay::restartGame(bool isIncreaseLevel)
+{
+	if (!isIncreaseLevel)
+	{
+		//reset level
+		ResourceManagers::GetInstance()->setLevelMap(MAP_LEVEL_1);
+		m_score = 0;
+	} 
 	//do somthng here
 	//reset all value game
 	ResourceManagers::GetInstance()->resetData();
@@ -1063,9 +1131,9 @@ void GSPlay::restartGame()
 	m_mapAniamtionEnermies.clear();
 	m_player.reset();
 	m_time_update_boom = 0.0f;
-	m_score = 0;
 	Init();
-	removeButtonPlayerDead();
+	m_listButton.clear();
+	updateTextDrawLevelMap();
 }
 
 

@@ -18,6 +18,10 @@
 // define game debug  -------------------	1: yes	0: no
 #define GAME_DEBUG 1
 
+//state game
+#define STATE_PLAYING					0	
+#define	STATE_COMPLETE_LEVEL			1
+
 //Status object game
 #define STATUS_LIVE						0	// status 
 #define STATUS_BUBBLE					1
