@@ -67,16 +67,7 @@ void Map::initMap(int map_level)
 {
 	//clear the data wwhen init new map
 	clearData();
-
-	switch (map_level)
-	{
-	case MAP_LEVEL_1: case MAP_LEVEL_2: case MAP_LEVEL_3:
-		readMapFromFile(PATHFILE_MAP_1 , map_items);
-		break;
-	default:
-		printf("Out range level to read map");
-		break;
-	}
+	readMapFromFile(map_level);
 }
 
 void Map::checkMapInCMD()
@@ -102,10 +93,28 @@ void Map::checkEnermies()
 	printf("========show list enermy========\n");
 }
 
-void Map::readMapFromFile(char* namePath, ItemMap map_items[])
+void Map::readMapFromFile(int level)
 {
 	char c[10];
 	FILE* fptr;
+
+	char* namePath;
+
+	switch (level)
+	{
+	case MAP_LEVEL_1:
+		namePath = PATHFILE_MAP_1;
+		break;
+	case MAP_LEVEL_2:
+		namePath = PATHFILE_MAP_2;
+		break;
+	case MAP_LEVEL_3:
+		namePath = PATHFILE_MAP_2;
+		break;
+	default:
+		printf("Can not read map\n");
+		break;
+	}
 
 	if ((fptr = fopen(namePath, "r")) == NULL)
 	{
@@ -217,7 +226,8 @@ void Map::readMapFromFile(char* namePath, ItemMap map_items[])
 							, (i + 1) * Globals::item_size - ENERMY_SIZE_Y / 2
 							, ENERMY_SIZE_X
 							, ENERMY_SIZE_Y
-							, ENERMY_MOVE_DOWN));
+							, ENERMY_MOVE_DOWN
+							, level));
 					break;
 				default:
 					printf("Can not read map");

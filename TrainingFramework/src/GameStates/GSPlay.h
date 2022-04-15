@@ -64,6 +64,7 @@ public:
 	void	setPlayerDead();
 	void	checkToNextLevel();
 	void	increaseLevel();
+	int		randomDirection();
 
 	void	restartGame(bool isIncreaseLevel);
 

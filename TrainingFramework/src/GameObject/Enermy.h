@@ -6,7 +6,7 @@ class Enermy
 {
 public:
 	Enermy();
-	Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction);
+	Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction , int level);
 	~Enermy();
 
 	void		setEnermyDirection(int direction);

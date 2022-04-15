@@ -54,6 +54,7 @@
 
 //define map
 #define PATHFILE_MAP_1			"..\\Data\\Map\\map1.txt"
+#define PATHFILE_MAP_2			"..\\Data\\Map\\map2.txt"
 #define MAP_SIZE_X				14
 #define MAP_SIZE_Y				14
 #define MAP_TOP_LEFT_CORNER		48					//so 0
@@ -107,7 +108,6 @@
 #define ON_THE_RIGHT_REC				3
 
 //Time
-#define	TIME_ENERMY_MOVING		0.8f
 #define TIME_BOOM_UPDATE		0.5f
 #define TIME_BOOM_EXPLORE		3.0f
 #define TIME_BOOM_DESTROY		(TIME_BOOM_EXPLORE + 1.0f)
@@ -124,6 +124,7 @@ public:
 	static int Globals::rowMap;
 	static int Globals::enermy_Id;
 	static int Globals::boom_Id;
+	static float Globals::timeEnermyMoving;
 };
 
 // define value

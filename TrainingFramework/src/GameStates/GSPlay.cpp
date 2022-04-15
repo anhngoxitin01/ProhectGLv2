@@ -332,7 +332,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 		if (enermy->getStatus() == STATUS_LIVE)
 		{
 			//Get time of enermy
-			if (enermy->getTimeEnermy() >= TIME_ENERMY_MOVING)
+			if (enermy->getTimeEnermy() >= Globals::timeEnermyMoving)
 			{
 				switch (enermy->getDirection())
 				{
@@ -351,7 +351,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + distanceToEndRoad);
 						else
-							enermy->setEnermyDirection(ENERMY_MOVE_LEFT);
+							enermy->setEnermyDirection(randomDirection());
 					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
@@ -372,7 +372,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() - distanceToEndRoad);
 						else
-							enermy->setEnermyDirection(ENERMY_MOVE_RIGHT);
+							enermy->setEnermyDirection(randomDirection());
 					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
@@ -393,7 +393,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX() + distanceToEndRoad, enermy->getLocationY());
 						else
-							enermy->setEnermyDirection(ENERMY_MOVE_DOWN);
+							enermy->setEnermyDirection(randomDirection());
 					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
@@ -414,7 +414,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX() - distanceToEndRoad, enermy->getLocationY());
 						else
-							enermy->setEnermyDirection(ENERMY_MOVE_UP);
+							enermy->setEnermyDirection(randomDirection());
 					}
 					//check collision with player
 					if (CollisionManager::GetInstance()->isCollBetweenEnermyAndPlayer(tempRect) == COLL_OK)
@@ -903,7 +903,7 @@ void GSPlay::updateDrawEnermy(Enermy *enermy)
 
 		//printf("drawing enermy animation\n");
 		texture = ResourceManagers::GetInstance()->GetTexture(enermy->getPathTexture());
-		std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 2, 4, enermy->getDirection(), TIME_ENERMY_MOVING / 2);
+		std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 2, 4, enermy->getDirection(), Globals::timeEnermyMoving / 2);
 
 		//update the enermy animation
 		obj->Set2DPosition(enermy->getRect().getRecX(), enermy->getRect().getRecY());
@@ -1111,6 +1111,13 @@ void GSPlay::increaseLevel()
 	int level = ResourceManagers::GetInstance()->getLevelMap();
 	level++;
 	ResourceManagers::GetInstance()->setLevelMap(level);
+}
+
+int GSPlay::randomDirection()
+{
+	//srand(time(0));
+	//random direction
+	return (rand() % 4);
 }
 
 void GSPlay::restartGame(bool isIncreaseLevel)

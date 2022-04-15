@@ -28,7 +28,7 @@ public:
 	void checkEnermies();
 
 private:
-	void readMapFromFile(char* namePath, ItemMap map_items[]);
+	void readMapFromFile(int level);
 	void setMapSponPlayer(int x, int y);
 	
 	ItemMap		map_items[MAP_SIZE_Y * MAP_SIZE_Y];

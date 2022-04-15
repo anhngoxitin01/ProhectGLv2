@@ -8,12 +8,29 @@ Enermy::Enermy(): e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_direction
 	e_id = Globals::enermy_Id++;
 }
 
-Enermy::Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction) : e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_time(0.0f)
+Enermy::Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction, int level) : e_status(STATUS_LIVE), e_time(0.0f)
 {
 	setEnermyDirection(direction);
 	setEnermyLocation(location_x, location_y);
 	e_size_x = enermy_size_x;
 	e_size_y = enermy_size_y;
+
+	//update time enermy moving
+	switch (level)
+	{
+	case MAP_LEVEL_1:
+		Globals::timeEnermyMoving = 0.8f;
+		e_speed = ENERMY_BASE_SPEED;
+		break;
+	case MAP_LEVEL_2:
+		Globals::timeEnermyMoving = 0.2f;
+		e_speed = ENERMY_BASE_SPEED + 5;
+		break;
+	case MAP_LEVEL_3:
+		break;
+	default:
+		break;
+	}
 
 	e_path_texture = "enermy_animation.tga";
 	//increase the id enermy system
