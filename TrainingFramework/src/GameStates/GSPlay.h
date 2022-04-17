@@ -37,7 +37,8 @@ public:
 	*/
 	void	generateLocationWaterBoom(Boom *boom);
 	void	checkcollEnermyAndWaterBoom();
-	void	checkcollWaterBoomAndPlayer(Boom *boom);
+	void	checkcollWaterBoomAndPlayer(std::list<WaterBoom*> *listWaterBoom);
+	void	checkcollWaterBoomAndItemPlayer(std::list<WaterBoom*> *listWaterBoom);
 	void	generateItemMap();
 	void	generateItemPlayer(MRectangle rec);
 
@@ -54,7 +55,8 @@ public:
 	void	updateDrawBoss(Boss* boss);
 	void	prepareForDrawingBoomExplore();
 	void	updateForDrawingItemPlayer();
-	void	prepareForDrawingWaterBoom(Boom *boom);
+	// kind 1: player , kind 2 : boss
+	void	prepareForDrawingWaterBoom(std::list<WaterBoom*> *listWaterBoom, int kind);
 	void	prepareForDrawingAnimationBoom();
 	void	updateDrawMap();
 	void	updateDrawScore();
@@ -103,6 +105,7 @@ private:
 
 	//boss
 	std::map<int, std::shared_ptr<SpriteAnimation>> m_mapAniamtionBoss;
+	std::list<std::shared_ptr<Sprite2D>>			m_listBossBoomExplode;
 
 	//Item Player
 	std::list<std::shared_ptr<Sprite2D>>		m_listItemPlayer;

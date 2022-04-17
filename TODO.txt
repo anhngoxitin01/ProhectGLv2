@@ -10,6 +10,7 @@ Mục tiêu:
 		+) xóa score 
 		+) thay phông nền bãi biển cho màn hình chờ
 		+) thêm sound effect
+		+) Luu y check va cham wb vs boss se bi xoa enermy trong boss => can than
 		+) làm hai skill + hiệu ứng cho boss
 			+) Skill 1 : nổ về phía trước
 			+) Skill 2 : nổ xung quanh 5 lớp
