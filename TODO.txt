@@ -7,6 +7,16 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+) tạo object pool
+		+) xóa score 
+		+) thay phông nền bãi biển cho màn hình chờ
+		+) thêm sound effect
+		+) làm hai skill + hiệu ứng cho boss
+			+) Skill 1 : nổ về phía trước
+			+) Skill 2 : nổ xung quanh 5 lớp
+		+) boss sẽ hy sinh sau khi bị dính 10 phát boom ngoại trừ chính nó
+		+) boss va chạm với boom sẽ khiến boom nổ
+		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
+			thay vì phải di chuyển đến hết mapo thì mới đổi direction
 	Nên làm:
 		+) func generate waterBoom nên để vào trong object boom
 		+)Tạo menu tính điểm trong game screen
@@ -16,6 +26,7 @@ Mục tiêu:
 		+)func isCollBetweenPlayerAndItemMap thực hiện thêm những chức năng
 			đáng lẽ không phải nó thực hiện => cần phẫu thuật
 		+)func check collission được check rất nheiefu lần cần sửa lại sao cho chỉ check một lần
+			(chuyên checkCollision vào trong từng đói tượng thay vì để GSplay gánh hết)
 	Muốn làm:
 		+) Đặt nhiều boom khi giữ space và di chuyển
 		+) two player

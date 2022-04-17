@@ -6,6 +6,7 @@ Boss::Boss()
 
 Boss::Boss(Enermy e)
 {
+	e.setSpeed(1);
 	enermy = e;
 }
 

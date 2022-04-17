@@ -34,7 +34,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 
 		//check kind of block
 		//if the player move in a col of map just check the forward block
-		if ((pl.getRecX() - Globals::item_size / 2) % Globals::item_size == 0)
+		if (((int)pl.getRecX() - Globals::item_size / 2) % Globals::item_size == 0)
 		{
 			//get index forward block
 			index_x = pl.getRecX() / Globals::item_size;
@@ -78,7 +78,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 
 		//check kind of block
 		//if the player move in a row of map just check the forward block
-		if ((pl.getRecY() - Globals::item_size / 2) % Globals::item_size == 0)
+		if (((int)pl.getRecY() - Globals::item_size / 2) % Globals::item_size == 0)
 		{
 			//get index forward block
 			index_y = pl.getRecY() / Globals::item_size;
@@ -121,7 +121,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 
 		//check kind of block
 		//if the player move in a col of map just check the forward block
-		if ((pl.getRecX() - Globals::item_size / 2) % Globals::item_size == 0)
+		if (((int)pl.getRecX() - Globals::item_size / 2) % Globals::item_size == 0)
 		{
 			//get index forward block
 			index_x = pl.getRecX() / Globals::item_size;
@@ -163,7 +163,7 @@ int CollisionManager::isCollBetweenPlayerAndItemMap(MRectangle pl, int speed, in
 
 		//check kind of block
 		//if the player move in a row of map just check the forward block
-		if ((pl.getRecY() - Globals::item_size / 2) % Globals::item_size == 0)
+		if (((int)pl.getRecY() - Globals::item_size / 2) % Globals::item_size == 0)
 		{
 			//get index forward block
 			index_y = pl.getRecY() / Globals::item_size;

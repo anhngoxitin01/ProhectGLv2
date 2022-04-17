@@ -155,7 +155,7 @@ void Player::movePlayer(int direction)
 			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(tempRec, p_boomIdIsStanding) == COLL_OK)
 			{
 				int distanceToEndRoad =
-					(Globals::item_size - (p_rec.getRecX() + p_rec.getRecWidth() / 2) % Globals::item_size);
+					(Globals::item_size - ((int)p_rec.getRecX() + p_rec.getRecWidth() / 2) % Globals::item_size);
 				if (distanceToEndRoad < p_speed && distanceToEndRoad != 0)
 					newLocation = newLocation - p_speed + distanceToEndRoad;
 				else
@@ -185,7 +185,7 @@ void Player::movePlayer(int direction)
 			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(tempRec, p_boomIdIsStanding) == COLL_OK)
 			{
 				int distanceToEndRoad =
-					((p_rec.getRecX() - p_rec.getRecWidth() / 2) % Globals::item_size);
+					(((int)p_rec.getRecX() - p_rec.getRecWidth() / 2) % Globals::item_size);
 				if (distanceToEndRoad < p_speed && distanceToEndRoad != 0)
 					newLocation = newLocation + p_speed - distanceToEndRoad;
 				else
@@ -215,7 +215,7 @@ void Player::movePlayer(int direction)
 			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(tempRec, p_boomIdIsStanding) == COLL_OK)
 			{
 				int distanceToEndRoad =
-					(p_rec.getRecY() - p_rec.getRecWidth() / 2) % Globals::item_size;
+					((int)p_rec.getRecY() - p_rec.getRecWidth() / 2) % Globals::item_size;
 				if (distanceToEndRoad < p_speed && distanceToEndRoad != 0)
 					newLocation = newLocation + p_speed - distanceToEndRoad;
 				else
@@ -245,7 +245,7 @@ void Player::movePlayer(int direction)
 			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(tempRec, p_boomIdIsStanding) == COLL_OK)
 			{
 				int distanceToEndRoad =
-					(Globals::item_size - (p_rec.getRecY() + p_rec.getRecWidth() / 2) % Globals::item_size);
+					(Globals::item_size - ((int)p_rec.getRecY() + p_rec.getRecWidth() / 2) % Globals::item_size);
 				if (distanceToEndRoad < p_speed && distanceToEndRoad != 0)
 					newLocation = newLocation - p_speed + distanceToEndRoad;
 				else

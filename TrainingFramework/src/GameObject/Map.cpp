@@ -114,7 +114,7 @@ void Map::readMapFromFile(int level)
 		namePath = PATHFILE_MAP_2;
 		break;
 	case MAP_LEVEL_3:
-		namePath = PATHFILE_MAP_2;
+		namePath = PATHFILE_MAP_3;
 		break;
 	default:
 		printf("Can not read map\n");

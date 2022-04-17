@@ -46,13 +46,14 @@
 #define ENERMY_MOVE_LEFT				1
 #define ENERMY_MOVE_UP					2
 #define ENERMY_MOVE_RIGHT				3
-#define ENERMY_TEXTURE_EACH_DIRECTION	1	// run animation
-#define ENERMY_BASE_SPEED				7	// base speed
+#define ENERMY_TEXTURE_EACH_DIRECTION	1		// run animation
+#define ENERMY_BASE_SPEED				0.5f	// base speed
 #define ENERMY_SMOOTH_MOVING			5	// this variable is a range for moving when him/her want to move smooth
 
 //define map
 #define PATHFILE_MAP_1			"..\\Data\\Map\\map1.txt"
 #define PATHFILE_MAP_2			"..\\Data\\Map\\map2.txt"
+#define PATHFILE_MAP_3			"..\\Data\\Map\\map3.txt"
 #define MAP_SIZE_X				14
 #define MAP_SIZE_Y				14
 #define MAP_TOP_LEFT_CORNER		48					//so 0

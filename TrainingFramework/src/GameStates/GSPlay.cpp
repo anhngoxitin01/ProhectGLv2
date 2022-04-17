@@ -346,9 +346,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 	{
 		if (enermy->getStatus() == STATUS_LIVE)
 		{
-			//Get time of enermy
-			if (enermy->getTimeEnermy() >= Globals::timeEnermyMoving)
-			{
+			
 				switch (enermy->getDirection())
 				{
 				case ENERMY_MOVE_DOWN:
@@ -362,7 +360,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
 						int distanceToEndRoad = 
-							(Globals::item_size - (enermy->getRect().getRecY() + enermy->getRect().getRecHeight() / 2) % Globals::item_size);
+							(int)(Globals::item_size - (enermy->getRect().getRecY() + enermy->getRect().getRecHeight() / 2)) % Globals::item_size;
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + distanceToEndRoad);
 						else
@@ -383,7 +381,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
 						int distanceToEndRoad = 
-							(enermy->getRect().getRecY() - enermy->getRect().getRecHeight() / 2) % Globals::item_size;
+							(int)((enermy->getRect().getRecY() - enermy->getRect().getRecHeight() / 2)) % Globals::item_size;
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() - distanceToEndRoad);
 						else
@@ -403,8 +401,9 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 					else if (CollisionManager::GetInstance()->isCollBetweenEnermyAndItemMap(tempRect) == COLL_OK
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
-						int distanceToEndRoad = 
-							(Globals::item_size - (enermy->getRect().getRecX() + enermy->getRect().getRecWidth() / 2) % Globals::item_size);
+						float distanceToEndRoad = 
+							Globals::item_size - ((int)(enermy->getRect().getRecX() + enermy->getRect().getRecWidth() / 2) % Globals::item_size);
+						
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX() + distanceToEndRoad, enermy->getLocationY());
 						else
@@ -425,7 +424,7 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
 						int distanceToEndRoad =
-							(enermy->getRect().getRecX() - enermy->getRect().getRecWidth() / 2) % Globals::item_size;
+							(int)(enermy->getRect().getRecX() - enermy->getRect().getRecWidth() / 2) % enermy->getRect().getRecWidth();
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX() - distanceToEndRoad, enermy->getLocationY());
 						else
@@ -438,14 +437,6 @@ void GSPlay::autoMovingEnermy(float deltaTime)
 				default:
 					break;
 				}
-
-				//reset time of enermy to continue increase
-				enermy->setTimeEnermy(0.0f);
-			}
-			else {
-				//update time to trigger the next movement 
-				enermy->addTimeToEnermy(deltaTime);
-			}
 
 		}
 		//draw again that enermy
@@ -465,9 +456,7 @@ void GSPlay::autoMovingBoss(float deltaTime)
 	{
 		if (enermy->getStatus() == STATUS_LIVE)
 		{
-			//Get time of enermy
-			if (enermy->getTimeEnermy() >= 0.05f)
-			{
+			
 				switch (enermy->getDirection())
 				{
 				case ENERMY_MOVE_DOWN:
@@ -481,7 +470,7 @@ void GSPlay::autoMovingBoss(float deltaTime)
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
 						int distanceToEndRoad =
-							(enermy->getRect().getRecHeight() - (enermy->getRect().getRecY() + enermy->getRect().getRecHeight() / 2) % enermy->getRect().getRecHeight());
+							(int)(enermy->getRect().getRecHeight() - (enermy->getRect().getRecY() + enermy->getRect().getRecHeight() / 2)) % enermy->getRect().getRecHeight();
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() + distanceToEndRoad);
 						else
@@ -502,7 +491,7 @@ void GSPlay::autoMovingBoss(float deltaTime)
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
 						int distanceToEndRoad =
-							(enermy->getRect().getRecY() - enermy->getRect().getRecWidth() / 2) % enermy->getRect().getRecHeight();
+							(int)((enermy->getRect().getRecY() - enermy->getRect().getRecHeight() / 2)) % enermy->getRect().getRecHeight();
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX(), enermy->getLocationY() - distanceToEndRoad);
 						else
@@ -523,7 +512,7 @@ void GSPlay::autoMovingBoss(float deltaTime)
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
 						int distanceToEndRoad =
-							(enermy->getRect().getRecWidth() - (enermy->getRect().getRecX() + enermy->getRect().getRecWidth() / 2) % enermy->getRect().getRecWidth());
+							(int)(enermy->getRect().getRecWidth() - (enermy->getRect().getRecX() + enermy->getRect().getRecWidth() / 2)) % enermy->getRect().getRecWidth();
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX() + distanceToEndRoad, enermy->getLocationY());
 						else
@@ -544,7 +533,7 @@ void GSPlay::autoMovingBoss(float deltaTime)
 						|| CollisionManager::GetInstance()->isCollBetweenEnermyAndBoom(tempRect) == COLL_OK)		// if coll change direction enermy
 					{
 						int distanceToEndRoad =
-							(enermy->getRect().getRecX() - enermy->getRect().getRecWidth() / 2) % enermy->getRect().getRecWidth();
+							(int)(enermy->getRect().getRecX() - enermy->getRect().getRecWidth() / 2) % enermy->getRect().getRecWidth();
 						if (distanceToEndRoad < enermy->getSpeed() && distanceToEndRoad != 0)
 							enermy->setEnermyLocation(enermy->getLocationX() - distanceToEndRoad, enermy->getLocationY());
 						else
@@ -557,14 +546,6 @@ void GSPlay::autoMovingBoss(float deltaTime)
 				default:
 					break;
 				}
-
-				//reset time of enermy to continue increase
-				enermy->setTimeEnermy(0.0f);
-			}
-			else {
-				//update time to trigger the next movement 
-				enermy->addTimeToEnermy(deltaTime);
-			}
 
 		}
 
@@ -1072,6 +1053,8 @@ void GSPlay::updateDrawBoss(Boss* boss)
 		}
 		else
 		{
+			printf("speed of enermy: %f\n", enermy->getSpeed());
+
 			//creat model , texture , shader
 			auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 			auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");

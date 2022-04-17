@@ -4,7 +4,7 @@ MRectangle::MRectangle()
 {
 }
 
-MRectangle::MRectangle(int x, int y, int height, int width)
+MRectangle::MRectangle(float x, float y, int height, int width)
 {
 	r_x = x;
 	r_y = y;
@@ -86,7 +86,7 @@ int MRectangle::caculDistanceToAnotherRecWithDirection(MRectangle anotherRec, in
 	return 0;
 }
 
-void MRectangle::setRecXY(int x, int y)
+void MRectangle::setRecXY(float x, float y)
 {
 	r_x = x;
 	r_y = y;
@@ -102,12 +102,12 @@ void MRectangle::setRecWidth(int width)
 	r_width = width;
 }
 
-int MRectangle::getRecX()
+float MRectangle::getRecX()
 {
 	return r_x;
 }
 
-int MRectangle::getRecY()
+float MRectangle::getRecY()
 {
 	return r_y;
 }
