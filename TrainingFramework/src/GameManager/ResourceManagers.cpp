@@ -259,6 +259,16 @@ void ResourceManagers::autoSetSponToEnermyFromMap()
 	m_enermies = *m_map.getSponEnermy();
 }
 
+Boss* ResourceManagers::managerBoss()
+{
+	return m_boss;
+}
+
+void ResourceManagers::autoSetSponBossFromMap()
+{
+	m_boss = m_map.getBoss();
+}
+
 std::list<ItemPlayer*>* ResourceManagers::managerItemPLayer()
 {
 	return &m_itemPlayer;

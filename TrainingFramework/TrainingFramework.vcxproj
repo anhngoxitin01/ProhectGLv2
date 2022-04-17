@@ -347,6 +347,7 @@
     <ClCompile Include="src\GameManager\CollisionManager.cpp" />
     <ClCompile Include="src\GameManager\ResourceManagers.cpp" />
     <ClCompile Include="src\GameObject\Boom.cpp" />
+    <ClCompile Include="src\GameObject\Boss.cpp" />
     <ClCompile Include="src\GameObject\Enermy.cpp" />
     <ClCompile Include="src\GameObject\Font.cpp" />
     <ClCompile Include="src\GameObject\GameButton.cpp" />
@@ -380,6 +381,7 @@
     <ClInclude Include="src\GameManager\Singleton.h" />
     <ClInclude Include="src\GameObject\BaseObject.h" />
     <ClInclude Include="src\GameObject\Boom.h" />
+    <ClInclude Include="src\GameObject\Boss.h" />
     <ClInclude Include="src\GameObject\Enermy.h" />
     <ClInclude Include="src\GameObject\Font.h" />
     <ClInclude Include="src\GameObject\GameButton.h" />

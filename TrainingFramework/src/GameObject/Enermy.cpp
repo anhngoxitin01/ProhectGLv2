@@ -8,10 +8,12 @@ Enermy::Enermy(): e_status(STATUS_LIVE), e_speed(ENERMY_BASE_SPEED), e_direction
 	e_id = Globals::enermy_Id++;
 }
 
-Enermy::Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction, int level) : e_status(STATUS_LIVE), e_time(0.0f)
+Enermy::Enermy(int location_x, int location_y,int width , int height,  int enermy_size_x, int enermy_size_y, int direction, int level) : e_status(STATUS_LIVE), e_time(0.0f)
 {
 	setEnermyDirection(direction);
-	setEnermyLocation(location_x, location_y);
+	e_location_x = location_x;
+	e_location_y = location_y;
+	e_rec = MRectangle(e_location_x, e_location_y, width, height);
 	e_size_x = enermy_size_x;
 	e_size_y = enermy_size_y;
 
@@ -50,7 +52,14 @@ void Enermy::setEnermyLocation(int x, int y)
 {
 	e_location_x = x;
 	e_location_y = y;
-	e_rec = MRectangle(e_location_x, e_location_y , Globals::item_size, Globals::item_size);
+	e_rec.setRecXY(x, y);
+}
+
+void Enermy::setEnermyLocation(int x, int y, int width, int height)
+{
+	e_location_x = x;
+	e_location_y = y;
+	e_rec = MRectangle(e_location_x, e_location_y, width, height);
 }
 
 void Enermy::setStatus(int status)
@@ -61,6 +70,11 @@ void Enermy::setStatus(int status)
 void Enermy::setTimeEnermy(float time)
 {
 	e_time = time;
+}
+
+void Enermy::setSpeed(int speed)
+{
+	e_speed = speed;
 }
 
 MRectangle Enermy::getRect()

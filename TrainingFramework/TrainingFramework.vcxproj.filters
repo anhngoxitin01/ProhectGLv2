@@ -102,6 +102,9 @@
     <ClCompile Include="src\GameObject\ItemPlayer.cpp">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameObject\Boss.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -192,6 +195,9 @@
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\ItemPlayer.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\Boss.h">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>

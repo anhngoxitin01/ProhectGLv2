@@ -7,8 +7,8 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+) tạo object pool
-		+) Tạo màn hình thua khi nhân vật chết
 	Nên làm:
+		+) func generate waterBoom nên để vào trong object boom
 		+)Tạo menu tính điểm trong game screen
 		+)Tạo pause game
 		+)Tạo GSInfor 

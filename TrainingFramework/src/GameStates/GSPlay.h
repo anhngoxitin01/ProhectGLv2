@@ -30,6 +30,7 @@ public:
 	void	Draw() override;
 
 	void	autoMovingEnermy(float deltaTime);
+	void	autoMovingBoss(float deltaTime);
 	void	autoIncreaseTimeBoom();
 	/*in this func it also have the checkColl wb
 	* with itemMap and destroy it 
@@ -50,6 +51,7 @@ public:
 	void	prepareForDrawingButtonWhenCompleteGame();
 	void	prepareForDrawingPlayer();
 	void	updateDrawEnermy(Enermy* enermy);
+	void	updateDrawBoss(Boss* boss);
 	void	prepareForDrawingBoomExplore();
 	void	updateForDrawingItemPlayer();
 	void	prepareForDrawingWaterBoom(Boom *boom);
@@ -98,6 +100,9 @@ private:
 
 	//enermy
 	std::map<int, std::shared_ptr<SpriteAnimation>> m_mapAniamtionEnermies;
+
+	//boss
+	std::map<int, std::shared_ptr<SpriteAnimation>> m_mapAniamtionBoss;
 
 	//Item Player
 	std::list<std::shared_ptr<Sprite2D>>		m_listItemPlayer;

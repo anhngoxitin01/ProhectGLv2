@@ -59,6 +59,10 @@ public:
 	std::list<Enermy*>* managerEnermy();
 	void autoSetSponToEnermyFromMap();
 
+	//Boss
+	Boss* managerBoss();
+	void autoSetSponBossFromMap();
+
 	//ItemPlayer
 	std::list<ItemPlayer*> *managerItemPLayer();
 	void addRandomItemPlayer(MRectangle rec);
@@ -86,6 +90,9 @@ private:
 
 	//Enermy
 	std::list<Enermy*>	m_enermies;
+
+	//Boss
+	Boss* m_boss;
 
 	//ItemPlayer
 	std::list<ItemPlayer*> m_itemPlayer;

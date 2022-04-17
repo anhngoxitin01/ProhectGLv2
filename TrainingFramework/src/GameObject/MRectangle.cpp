@@ -41,8 +41,10 @@ int MRectangle::isInteract(MRectangle anotherRec)
 	{
 		return REC_OVER_LAP;
 	}
-	else if((r_x + r_width) <= anotherRec.getRecX() || (anotherRec.r_x + anotherRec.getRecWidth()) <= r_x 
-				|| (r_y + r_height) <= anotherRec.getRecY() || (anotherRec.getRecY() + anotherRec.getRecHeight()) <= r_y)
+	else if((r_x + r_width/2) <= (anotherRec.getRecX() - anotherRec.getRecWidth()/2) 
+				|| (anotherRec.r_x + anotherRec.getRecWidth()/2) <= (r_x - r_width/2)
+				|| (r_y + r_height/2) <= (anotherRec.getRecY() - anotherRec.getRecHeight()/2) 
+				|| (anotherRec.getRecY() + anotherRec.getRecHeight()/2) <= (r_y - r_height/2))
 	{
 		return REC_NOT_ABOVE;
 	}

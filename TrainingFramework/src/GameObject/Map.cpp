@@ -1,6 +1,6 @@
 #include "Map.h"
 
-Map::Map()
+Map::Map(): map_boss(nullptr)
 {
 }
 
@@ -54,6 +54,11 @@ std::list<Enermy*>* Map::getSponEnermy()
 ItemMap* Map::getArrayItemMap()
 {
 	return map_items;
+}
+
+Boss* Map::getBoss()
+{
+	return map_boss;
 }
 
 void Map::clearData()
@@ -223,9 +228,26 @@ void Map::readMapFromFile(int level)
 						, MAP_ITEM_ROAD);
 					map_enermies.push_back(
 						new Enermy(j * Globals::item_size + Globals::item_size / 2
-							, (i + 1) * Globals::item_size - ENERMY_SIZE_Y / 2
-							, ENERMY_SIZE_X
-							, ENERMY_SIZE_Y
+							, (i + 1) * Globals::item_size - Globals::item_size / 2
+							, Globals::item_size
+							, Globals::item_size
+							, Globals::item_size * 2.5
+							, Globals::item_size * 2.5
+							, ENERMY_MOVE_DOWN
+							, level));
+					break;
+				case MAP_BOSS:
+					map_items[i * 14 + j].setAllValue(
+						j * Globals::item_size + Globals::item_size / 2
+						, i * Globals::item_size + Globals::item_size / 2
+						, ""
+						, MAP_ITEM_ROAD);
+					map_boss = new Boss( Enermy (j * Globals::item_size + Globals::item_size / 2
+							, (i + 2) * Globals::item_size - Globals::item_size / 2 
+							, Globals::item_size * 3
+							, Globals::item_size * 2
+							, Globals::item_size * 16
+							, Globals::item_size * 8
 							, ENERMY_MOVE_DOWN
 							, level));
 					break;

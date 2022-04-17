@@ -18,6 +18,7 @@ protected:
 
 public:
 	SpriteAnimation(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLint numFrames, GLint numActions, GLint currentAction, GLfloat frameTime);
+	SpriteAnimation(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, int iwidth , int iheight, GLint numFrames, GLint numActions, GLint currentAction, GLfloat frameTime);
 	~SpriteAnimation();
 
 	void		Init() override;

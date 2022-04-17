@@ -6,13 +6,15 @@ class Enermy
 {
 public:
 	Enermy();
-	Enermy(int location_x, int location_y, int enermy_size_x, int enermy_size_y, int direction , int level);
+	Enermy(int location_x, int location_y,int width , int height, int enermy_size_x, int enermy_size_y, int direction , int level);
 	~Enermy();
 
 	void		setEnermyDirection(int direction);
 	void		setEnermyLocation(int x, int y);		// auto create Rect for player
+	void		setEnermyLocation(int x, int y, int width , int height);		// custom
 	void		setStatus(int status);
 	void		setTimeEnermy(float time);
+	void		setSpeed(int speed);
 	
 
 	int			getEnermyId();
@@ -33,7 +35,7 @@ public:
 private:
 	int			e_id;
 	int			e_status;
-	int			e_speed;
+	float		e_speed;
 	int			e_direction;
 	float		e_time;
 	MRectangle	e_rec;

@@ -48,8 +48,6 @@
 #define ENERMY_MOVE_RIGHT				3
 #define ENERMY_TEXTURE_EACH_DIRECTION	1	// run animation
 #define ENERMY_BASE_SPEED				7	// base speed
-#define ENERMY_SIZE_X					Globals::item_size
-#define ENERMY_SIZE_Y					Globals::item_size
 #define ENERMY_SMOOTH_MOVING			5	// this variable is a range for moving when him/her want to move smooth
 
 //define map
@@ -70,6 +68,7 @@
 #define MAP_PLAYER_SPON			63					//ki tu ?
 #define MAP_ENERMY_SPON			36					//kí tu $
 #define MAP_NOTHING				111					//ki tu o
+#define MAP_BOSS				66					//B
 
 #define MAP_ITEM_CAN_DESTROY		0				//item which can be destroy
 #define MAP_ITEM_CAN_NOT_DESTROY	1				//item which can not be destroy

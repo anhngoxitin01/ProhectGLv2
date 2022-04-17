@@ -34,6 +34,27 @@ SpriteAnimation::SpriteAnimation(std::shared_ptr<Model> model, std::shared_ptr<S
 	m_scale = Vector3((float)m_iWidth /  Globals::screenWidth, (float)m_iHeight /  Globals::screenHeight, 1);
 }
 
+SpriteAnimation::SpriteAnimation(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, int iwidth, int iheight, GLint numFrames, GLint numActions, GLint currentAction, GLfloat frameTime)
+	: BaseObject()
+{
+	m_pModel = model;
+	m_pShader = shader;
+	m_pCamera = nullptr;
+	m_pTexture = texture;
+	m_numFrames = numFrames;
+	m_numActions = numActions;
+	m_frameTime = frameTime;
+	m_currentFrame = 0;
+	m_currentAction = 0;
+	m_currentTime = 0.0f;
+	m_currentAction = currentAction;
+
+	m_position = Vector3(0, 0, 0);
+	m_iHeight = iheight;
+	m_iWidth = iwidth;
+	m_scale = Vector3((float)m_iWidth / Globals::screenWidth, (float)m_iHeight / Globals::screenHeight, 1);
+}
+
 SpriteAnimation::~SpriteAnimation()
 {
 }

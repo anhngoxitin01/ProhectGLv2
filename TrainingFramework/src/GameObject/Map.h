@@ -5,6 +5,7 @@
 #include "GameConfig.h"
 #include "ItemMap.h"
 #include "Enermy.h"
+#include "Boss.h"
 
 
 class Map
@@ -20,6 +21,7 @@ public:
 	ItemMap		getItemMap(int index);
 	std::list<Enermy*>*		getSponEnermy();
 	ItemMap*	getArrayItemMap();
+	Boss*		getBoss();
 
 	void clearData();
 
@@ -36,5 +38,5 @@ private:
 	int			map_spon_player_y;
 
 	std::list<Enermy*>  map_enermies;
-	
+	Boss*				map_boss;
 };
