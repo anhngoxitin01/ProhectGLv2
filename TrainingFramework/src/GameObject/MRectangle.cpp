@@ -124,5 +124,5 @@ int MRectangle::getRecWidth()
 
 void MRectangle::toString()
 {
-	printf("The rec: x= %d , y= %d , width = %d , height = %d\n", r_x, r_y, r_width, r_height);
+	printf("The rec: x= %f , y= %f , width = %d , height = %d\n", r_x, r_y, r_width, r_height);
 }

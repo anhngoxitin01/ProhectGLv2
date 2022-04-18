@@ -53,18 +53,18 @@ void Boss::useSkill_1()
 	case ENERMY_MOVE_DOWN:
 	{
 		//cacul the number block from enermy to the map border
-		int range = MAP_SIZE_Y  - (int)(enermy.getRect().getRecY() + enermy.getRect().getRecHeight() / 2) / Globals::item_size;
+		int range = MAP_SIZE_Y  - (int)(enermy.getRect().getRecY() + enermy.getRect().getRecHeight() / 2) / Globals::item_size - 1;
 		for (int i = 0; column < 3; i++)
 		{
 			if (i == range)
 			{
 				column++;
-				i = 0;
+				i = -1;
 				continue;
 			}
 			else {
 				float x = enermy.getRect().getRecX() - (1 - column) * Globals::item_size;
-				float y = enermy.getRect().getRecY() + enermy.getRect().getRecHeight() / 2 + i * Globals::item_size / 2;
+				float y = enermy.getRect().getRecY() + enermy.getRect().getRecHeight() / 2 + i * Globals::item_size + Globals::item_size / 2;
 				MRectangle recWB = MRectangle(x, y, Globals::item_size, Globals::item_size);
 				WaterBoom* wb = new WaterBoom(recWB, "bombbang_down_1.tga");
 				boss_list_waterBoom.push_back(wb);
@@ -75,17 +75,17 @@ void Boss::useSkill_1()
 	case ENERMY_MOVE_LEFT:
 	{
 		//cacul the number block from enermy to the map border
-		int range = (int)(enermy.getRect().getRecX() - enermy.getRect().getRecWidth() / 2) / Globals::item_size;
+		int range = (int)(enermy.getRect().getRecX() - enermy.getRect().getRecWidth() / 2) / Globals::item_size - 1;
 		for (int i = 0; column < 3; i++)
 		{
 			if (i == range)
 			{
 				column++;
-				i = 0;
+				i = -1;
 				continue;
 			}
 			else {
-				float x = enermy.getRect().getRecX() - enermy.getRect().getRecWidth()/2 - i * Globals::item_size/2;
+				float x = enermy.getRect().getRecX() - enermy.getRect().getRecWidth()/2 - i * Globals::item_size - Globals::item_size / 2;
 				float y = enermy.getRect().getRecY() + (column - 1) * Globals::item_size ;
 				MRectangle recWB = MRectangle(x, y, Globals::item_size, Globals::item_size);
 				WaterBoom* wb = new WaterBoom(recWB, "bombbang_left_1.tga");
@@ -97,18 +97,18 @@ void Boss::useSkill_1()
 	case ENERMY_MOVE_UP:
 	{
 		//cacul the number block from enermy to the map border
-		int range = (int)(enermy.getRect().getRecY() - enermy.getRect().getRecHeight() / 2) / Globals::item_size;
+		int range = (int)(enermy.getRect().getRecY() - enermy.getRect().getRecHeight() / 2) / Globals::item_size - 1;
 		for (int i = 0; column < 3; i++)
 		{
 			if (i == range)
 			{
 				column++;
-				i = 0;
+				i = -1;
 				continue;
 			}
 			else {
 				float x = enermy.getRect().getRecX() - (column - 1) * Globals::item_size;
-				float y = enermy.getRect().getRecY() - enermy.getRect().getRecHeight() / 2 - i * Globals::item_size / 2;
+				float y = enermy.getRect().getRecY() - enermy.getRect().getRecHeight() / 2 - i * Globals::item_size - Globals::item_size / 2;
 				MRectangle recWB = MRectangle(x, y, Globals::item_size, Globals::item_size);
 				WaterBoom* wb = new WaterBoom(recWB, "bombbang_up_1.tga");
 				boss_list_waterBoom.push_back(wb);
@@ -119,17 +119,17 @@ void Boss::useSkill_1()
 	case ENERMY_MOVE_RIGHT:
 	{
 		//cacul the number block from enermy to the map border
-		int range = MAP_SIZE_Y - (int)(enermy.getRect().getRecX() + enermy.getRect().getRecWidth() / 2) / Globals::item_size ;
+		int range = MAP_SIZE_Y - (int)(enermy.getRect().getRecX() + enermy.getRect().getRecWidth() / 2) / Globals::item_size  - 1;
 		for (int i = 0; column < 3; i++)
 		{
 			if (i == range)
 			{
 				column++;
-				i = 0;
+				i = -1;
 				continue;
 			}
 			else {
-				float x = enermy.getRect().getRecX() + enermy.getRect().getRecWidth() / 2 + i * Globals::item_size / 2;
+				float x = enermy.getRect().getRecX() + enermy.getRect().getRecWidth() / 2 + i * Globals::item_size + Globals::item_size / 2;
 				float y = enermy.getRect().getRecY() + (column - 1) * Globals::item_size;
 				MRectangle recWB = MRectangle(x, y, Globals::item_size, Globals::item_size);
 				WaterBoom* wb = new WaterBoom(recWB, "bombbang_right_1.tga");

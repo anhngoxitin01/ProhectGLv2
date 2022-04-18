@@ -87,8 +87,6 @@ void Sprite2D::Draw()
 	if (iTempShaderVaribleGLID != -1)
 		glUniformMatrix4fv(iTempShaderVaribleGLID, 1, GL_FALSE, wvpMatrix.m[0]);
 
-
-
 	glDrawElements(GL_TRIANGLES, m_pModel->GetNumIndiceObject(), GL_UNSIGNED_INT, 0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

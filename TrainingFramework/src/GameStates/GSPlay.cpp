@@ -1115,7 +1115,7 @@ void GSPlay::updateDrawBoss(Boss* boss)
 
 void GSPlay::prepareForDrawingBoomExplore()
 {	
-	//clear mListBoom and mListBoomExplode
+	//clear mListBoomExplode
 	m_listBoomExplode.clear();
 
 	//add sprinte2D to list to draw
@@ -1199,8 +1199,6 @@ void GSPlay::prepareForDrawingWaterBoom(std::list<WaterBoom*>* listWaterBoom , i
 			m_listBossBoomExplode.push_back(sprite2D);
 		}
 	}
-
-	
 }
 
 void GSPlay::prepareForDrawingAnimationBoom()
