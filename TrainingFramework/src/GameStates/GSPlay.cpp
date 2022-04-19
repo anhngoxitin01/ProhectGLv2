@@ -463,14 +463,15 @@ void GSPlay::autoMovingBoss(float deltaTime)
 			//add time to boss
 			ResourceManagers::GetInstance()->managerBoss()->addTimeUseSkill(deltaTime);
 
-			//clear water boom if it have
-			if (m_listBossBoomExplode.size() != 0 && ResourceManagers::GetInstance()->managerBoss()->getTimeUseSkill() >= 0)
-				m_listBossBoomExplode.clear();
-			//check to move ing or use skill (make the boss stand after 2.0f time)
+			//check to move or use skill (make the boss stand after 2.0f time)
 			if (ResourceManagers::GetInstance()->managerBoss()->getTimeUseSkill() >= 0)
 			{
-				if (!ResourceManagers::GetInstance()->managerBoss()->checkTimeUseSkill())
+				if (!ResourceManagers::GetInstance()->managerBoss()->checkTimeUseSkill() && ResourceManagers::GetInstance()->managerBoss()->skillIsUsingSkill() == -1)
 				{
+					//clear the list water boom explore
+					if (m_listBossBoomExplode.size() != 0)
+						m_listBossBoomExplode.clear();
+
 					switch (enermy->getDirection())
 					{
 					case ENERMY_MOVE_DOWN:
@@ -561,20 +562,74 @@ void GSPlay::autoMovingBoss(float deltaTime)
 						break;
 					}
 				}
-				else {
-					//use skill
-					ResourceManagers::GetInstance()->managerBoss()->useSkill_1();
+				else if (ResourceManagers::GetInstance()->managerBoss()->checkTimeUseSkill()){
+					//random use skill for boss if it was not using skill
+					if (ResourceManagers::GetInstance()->managerBoss()->skillIsUsingSkill() == -1)
+					{
+						int skill = rand() % 2;
+						if (skill == 0)
+						{
+							ResourceManagers::GetInstance()->managerBoss()->useSkill_1();
+							checkcollForSkillBoss();
+						}
+						else if (skill == 1)
+						{
+							ResourceManagers::GetInstance()->managerBoss()->useSkill_2(1);
+							checkcollForSkillBoss();
+						}
+						//set the skill is using
+						ResourceManagers::GetInstance()->managerBoss()->setSkillIsUsingSkill(skill);
+					}
+					else if (ResourceManagers::GetInstance()->managerBoss()->skillIsUsingSkill() == 0)
+					{
+						if (ResourceManagers::GetInstance()->managerBoss()->getTimeUseSkill() >= TIME_USE_SKILL + 1.2f)
+						{
+							//resset time
+							ResourceManagers::GetInstance()->managerBoss()->setTimeUseSkill(0);
+							//change the skill is using to -1
+							ResourceManagers::GetInstance()->managerBoss()->setSkillIsUsingSkill(-1.0f);
+							//clear explore boom
+							m_listBossBoomExplode.clear();
+						}
+					}
+					else if (ResourceManagers::GetInstance()->managerBoss()->skillIsUsingSkill() == 1)
+					{
+						if (ResourceManagers::GetInstance()->managerBoss()->getTimeUseSkill() >= TIME_USE_SKILL + 0.6f)
+						{
+							//change the skill is using 
+							ResourceManagers::GetInstance()->managerBoss()->setSkillIsUsingSkill(1.2f);
+							//change the phase 2 to skill 2
+							ResourceManagers::GetInstance()->managerBoss()->useSkill_2(2);
+							//clear the list boom explore
+							m_listBossBoomExplode.clear();
 
-					//resetTime
-					ResourceManagers::GetInstance()->managerBoss()->setTimeUseSkill(-1.2f);
+							checkcollForSkillBoss();
+						}
+					}
+					else if (ResourceManagers::GetInstance()->managerBoss()->skillIsUsingSkill() == 1.2f)
+					{
+						if (ResourceManagers::GetInstance()->managerBoss()->getTimeUseSkill() >= TIME_USE_SKILL + 1.2f) {
+							//change the skill is using 
+							ResourceManagers::GetInstance()->managerBoss()->setSkillIsUsingSkill(1.3f);
+							//change the phase 2 to skill 2
+							ResourceManagers::GetInstance()->managerBoss()->useSkill_2(3);
+							//clear the list boom explore
+							m_listBossBoomExplode.clear();
 
-					//draw waterboom
-					prepareForDrawingWaterBoom(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom(), 2);
-
-					//check coll with pLayer
-					checkcollWaterBoomAndPlayer(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom());
-					//check coll with Item Player
-					checkcollWaterBoomAndItemPlayer(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom());
+							checkcollForSkillBoss();
+						}
+					}
+					else if (ResourceManagers::GetInstance()->managerBoss()->skillIsUsingSkill() == 1.3f)
+					{
+						if (ResourceManagers::GetInstance()->managerBoss()->getTimeUseSkill() >= TIME_USE_SKILL + 1.8f) {
+							//resset time
+							ResourceManagers::GetInstance()->managerBoss()->setTimeUseSkill(0);
+							//change the skill is using to -1
+							ResourceManagers::GetInstance()->managerBoss()->setSkillIsUsingSkill(-1);
+							//clear explore boom
+							m_listBossBoomExplode.clear();
+						}
+					}
 				}
 			}
 		}
@@ -808,6 +863,17 @@ void GSPlay::checkcollWaterBoomAndItemPlayer(std::list<WaterBoom*>* listWaterBoo
 	}
 	//update ui for itemplayer
 	updateForDrawingItemPlayer();
+}
+
+void GSPlay::checkcollForSkillBoss()
+{
+	//draw waterboom
+	prepareForDrawingWaterBoom(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom(), 2);
+
+	//check coll with pLayer
+	checkcollWaterBoomAndPlayer(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom());
+	//check coll with Item Player
+	checkcollWaterBoomAndItemPlayer(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom());
 }
 
 void GSPlay::generateItemMap()

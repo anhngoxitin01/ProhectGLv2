@@ -5,7 +5,7 @@ class MRectangle
 {
 public:
 	MRectangle();
-	MRectangle(float x, float y, int height, int width);
+	MRectangle(float x, float y, int width, int height);
 	~MRectangle();
 
 	int isInteract(MRectangle anotherRec);

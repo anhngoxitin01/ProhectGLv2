@@ -4,12 +4,12 @@ MRectangle::MRectangle()
 {
 }
 
-MRectangle::MRectangle(float x, float y, int height, int width)
+MRectangle::MRectangle(float x, float y, int width, int height)
 {
 	r_x = x;
 	r_y = y;
-	r_height = height;
 	r_width = width;
+	r_height = height;
 }
 
 MRectangle::~MRectangle()

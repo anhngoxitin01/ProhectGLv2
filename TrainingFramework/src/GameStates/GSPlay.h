@@ -39,6 +39,7 @@ public:
 	void	checkcollEnermyAndWaterBoom();
 	void	checkcollWaterBoomAndPlayer(std::list<WaterBoom*> *listWaterBoom);
 	void	checkcollWaterBoomAndItemPlayer(std::list<WaterBoom*> *listWaterBoom);
+	void    checkcollForSkillBoss();
 	void	generateItemMap();
 	void	generateItemPlayer(MRectangle rec);
 

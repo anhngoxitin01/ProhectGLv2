@@ -7,13 +7,12 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+) tạo object pool
+		+) Suy nghĩ về việc có nên để statusOnBoom khi người chơi đứng trên cả hai quả boom hay ko 
+			=> Có : chỉ set bằng false nếu người chơi ko còn va chạm với boom còn nêu strue thì bỏ qua va chạm với boom
 		+) xóa score 
 		+) thay phông nền bãi biển cho màn hình chờ
 		+) thêm sound effect
 		+) Luu y check va cham wb vs boss se bi xoa enermy trong boss => can than
-		+) làm hai skill + hiệu ứng cho boss
-			+) Skill 1 : nổ về phía trước
-			+) Skill 2 : nổ xung quanh 5 lớp
 		+) boss sẽ hy sinh sau khi bị dính 10 phát boom ngoại trừ chính nó
 		+) boss va chạm với boom sẽ khiến boom nổ
 		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
