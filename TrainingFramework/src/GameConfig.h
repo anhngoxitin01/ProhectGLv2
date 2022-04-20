@@ -57,7 +57,7 @@
 #define TIME_BOSS_COLL_WB				1.0f
 
 //define map
-#define PATHFILE_MAP_1			"..\\Data\\Map\\map1.txt"
+#define PATHFILE_MAP_1			"..\\Data\\Map\\map3.txt"
 #define PATHFILE_MAP_2			"..\\Data\\Map\\map2.txt"
 #define PATHFILE_MAP_3			"..\\Data\\Map\\map3.txt"
 #define MAP_SIZE_X				14

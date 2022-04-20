@@ -11,11 +11,11 @@ Mục tiêu:
 		+) Suy nghĩ về việc có nên để statusOnBoom khi người chơi đứng trên cả hai quả boom hay ko 
 			=> Có : chỉ set bằng false nếu người chơi ko còn va chạm với boom còn nêu strue thì bỏ qua va chạm với boom
 		+) thêm sound effect
-		+) check coll wb boss và boom player
 		+) thêm đọc map có itemPLayer ở map 3
 		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
 			thay vì phải di chuyển đến hết mapo thì mới đổi direction
 	Nên làm:
+		+) xem lai updateAllDrawingWhenBoomExplore() tron GSPlay vi tri dat => nên thay đổi vị trí sử dụng để tránh để trong vòng lặp
 		+) func generate waterBoom nên để vào trong object boom
 		+)Tạo GSInfor 
 		+)func isCollBetweenPlayerAndItemMap thực hiện thêm những chức năng

@@ -30,7 +30,7 @@ void GSPlay::Init()
 
 	//draw background
 	prepareForDrawingBackgroundGamepLay();
-	prepareForDrawingBackgroundScore();
+	prepareForDrawingBackgroundGameMenu();
 	//draw Map
 	prepareForDrawingMap();
 	//draw PLayer
@@ -670,16 +670,7 @@ void GSPlay::autoIncreaseTimeBoom()
 			}
 			else if (boom->canBoomExplode() && boom->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE)
 			{
-				boom->setStatusBoom(STATUS_BOOM_EXPLODE);
-				generateLocationWaterBoom(boom);
-				//update draw for itemPlayer if itemMap was destroy
-				updateForDrawingItemPlayer();
-
-				//reload texture
-				prepareForDrawingBoomExplore();
-
-				//remove the last Animation it have
-				removeDrawingAnimationBoom(boom);
+				updateAllDrawingWhenBoomExplore(boom);
 			}
 
 			//icrease time of each boom
@@ -907,6 +898,22 @@ void GSPlay::checkcollForSkillBoss()
 	checkcollWaterBoomAndPlayer(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom());
 	//check coll with Item Player
 	checkcollWaterBoomAndItemPlayer(ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom());
+
+	//check coll wb boss with boom player
+	for (auto wbb : *ResourceManagers::GetInstance()->managerBoss()->getListWaterBoom())
+	{
+		for (auto b : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
+		{
+			int checkColl = wbb->getRect().isInteract(b->getRect());
+			if(b->getStatusBoom() == STATUS_BOOM_PREPARE_EXPLODE 
+				&& (checkColl == REC_OVER_LAP || checkColl == REC_ABOVE))
+			{
+				//set time boom to explore
+				b->setTimeBoomExploding(TIME_BOOM_EXPLORE);
+				updateAllDrawingWhenBoomExplore(b);
+			}
+		}
+	}
 }
 
 void GSPlay::generateItemMap()
@@ -925,7 +932,23 @@ void GSPlay::generateItemPlayer(MRectangle rec)
 	/*ResourceManagers::GetInstance()->checkListItemPLayer();*/
 }
 
-void GSPlay::prepareForDrawingBackgroundScore()
+void GSPlay::updateAllDrawingWhenBoomExplore(Boom* boom)
+{
+	//set boom to explore
+	boom->setStatusBoom(STATUS_BOOM_EXPLODE);
+
+	generateLocationWaterBoom(boom);
+	//update draw for itemPlayer if itemMap was destroy
+	updateForDrawingItemPlayer();
+
+	//reload texture
+	prepareForDrawingBoomExplore();
+
+	//remove the last Animation it have
+	removeDrawingAnimationBoom(boom);
+}
+
+void GSPlay::prepareForDrawingBackgroundGameMenu()
 {
 	//create model , texture , shader
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");

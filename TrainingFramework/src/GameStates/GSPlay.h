@@ -44,7 +44,10 @@ public:
 	void	generateItemMap();
 	void	generateItemPlayer(MRectangle rec);
 
-	void	prepareForDrawingBackgroundScore();
+	void	updateAllDrawingWhenBoomExplore(Boom* boom);
+
+
+	void	prepareForDrawingBackgroundGameMenu();
 	void	prepareForDrawingBackgroundGamepLay();
 	void	prepareForDrawingGameOverBackground();
 	void	prepareForDrawingCompleteGameBackground(std::string pathTexture);
