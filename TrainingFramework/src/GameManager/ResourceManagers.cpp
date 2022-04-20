@@ -318,7 +318,8 @@ void ResourceManagers::resetData()
 	// generate map will clear the data for you
 
 	//boss
-	m_boss = nullptr;
+	if(m_boss != nullptr)
+		m_boss = nullptr;
 
 	//itemPLayer
 	for (auto* x : m_itemPlayer)

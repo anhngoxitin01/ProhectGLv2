@@ -1527,11 +1527,11 @@ int GSPlay::randomDirection()
 
 void GSPlay::restartGame(bool isIncreaseLevel)
 {
-	if (!isIncreaseLevel)
-	{
-		//reset level
-		ResourceManagers::GetInstance()->setLevelMap(MAP_LEVEL_1);
-	} 
+	//if (!isIncreaseLevel)
+	//{
+	//	//reset level
+	//	ResourceManagers::GetInstance()->setLevelMap(MAP_LEVEL_1);
+	//} 
 	//do somethng here
 	//reset all value game
 	ResourceManagers::GetInstance()->resetData();
@@ -1544,6 +1544,9 @@ void GSPlay::restartGame(bool isIncreaseLevel)
 	m_player.reset();
 	m_time_update_boom = 0.0f;
 	m_listButton.clear();
+	m_listHeartBoss.clear();
+	m_mapAniamtionBoss.clear();
+	m_listBossBoomExplode.clear();
 	Init();
 	updateTextDrawLevelMap();
 	m_state_game = STATE_PLAYING;
