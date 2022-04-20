@@ -851,17 +851,18 @@ void GSPlay::checkcollWaterBoomAndBoss(Boom* boom)
 {
 	if (ResourceManagers::GetInstance()->managerBoss() != nullptr)
 	{
+		//printf("hp boss : %d \n", ResourceManagers::GetInstance()->managerBoss()->getHpBoss());
 		for (auto wb : *boom->getListWaterBoom())
 		{
 			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndBoss(wb->getRect()) == COLL_OK)
 			{
 				//decrease the hp boss
 				ResourceManagers::GetInstance()->managerBoss()->decreaseHpBoss();
+				break;
 			}
 		}
 
 		//check if boss has zero hp throw win game 
-
 		if (ResourceManagers::GetInstance()->managerBoss()->getHpBoss() <= 0)
 		{
 			//throw screen win game
@@ -1391,9 +1392,6 @@ void GSPlay::updateDrawHeartBoss()
 
 	//create item_map sprite2D
 	std::shared_ptr<Sprite2D> heart = std::make_shared<Sprite2D>(model, shader, texture);
-
-	printf("hp boss : %d \n", ResourceManagers::GetInstance()->managerBoss()->getHpBoss());
-
 
 	//draw heart
 	for (int i = 0; i < ResourceManagers::GetInstance()->managerBoss()->getHpBoss(); i++)
