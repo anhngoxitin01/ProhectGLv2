@@ -38,7 +38,7 @@
 #define PLAYER_SIZE_X					Globals::item_size
 #define PLAYER_SIZE_Y					(Globals::item_size + 24)
 #define PLAYER_SMOOTH_MOVING			4	// this variable is a range for moving when him/her want to move smooth
-#define PLAYER_BOMB_NUM					1
+#define PLAYER_BOMB_NUM					5
 #define PLAYER_BOMB_STRENGTH			5
 
 //Enermy

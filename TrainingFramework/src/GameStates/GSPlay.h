@@ -47,11 +47,12 @@ public:
 	void	prepareForDrawingBackgroundScore();
 	void	prepareForDrawingBackgroundGamepLay();
 	void	prepareForDrawingGameOverBackground();
-	void	prepareForDrawingCompleteGameBackground();
+	void	prepareForDrawingCompleteGameBackground(std::string pathTexture);
 	void	prepareForDrawingMap();
 	void	prepareForDrawingButtonNormal();
 	void	prepareForDrawingButtonWhenPlayerDead();
 	void	prepareForDrawingButtonWhenCompleteGame();
+	void	prepareForDrawingButtonWhenWinGame();
 	void	prepareForDrawingPlayer();
 	void	updateDrawEnermy(Enermy* enermy);
 	void	updateDrawBoss(Boss* boss);

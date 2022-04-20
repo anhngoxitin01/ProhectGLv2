@@ -13,14 +13,12 @@ Mục tiêu:
 		+) thay phông nền bãi biển cho màn hình chờ
 		+) thêm sound effect
 		+) check coll wb boss và boom player
+		+) thêm đọc map có itemPLayer ở map 3
 		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
 			thay vì phải di chuyển đến hết mapo thì mới đổi direction
 	Nên làm:
 		+) func generate waterBoom nên để vào trong object boom
-		+)Tạo menu tính điểm trong game screen
-		+)Tạo pause game
 		+)Tạo GSInfor 
-		+)Tạo animation
 		+)func isCollBetweenPlayerAndItemMap thực hiện thêm những chức năng
 			đáng lẽ không phải nó thực hiện => cần phẫu thuật
 		+)func check collission được check rất nheiefu lần cần sửa lại sao cho chỉ check một lần

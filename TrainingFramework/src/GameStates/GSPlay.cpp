@@ -963,16 +963,25 @@ void GSPlay::prepareForDrawingGameOverBackground()
 	m_gameoverBackground->SetSize(Globals::item_size * 6, Globals::item_size * 6);
 }
 
-void GSPlay::prepareForDrawingCompleteGameBackground()
+void GSPlay::prepareForDrawingCompleteGameBackground(std::string pathTexture)
 {
 	//create model , texture , shader
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("MissionComplete.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture(pathTexture);
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 
-	m_completeBackground = std::make_shared<Sprite2D>(model, shader, texture);
-	m_completeBackground->Set2DPosition(700 / 2, 700 / 2);
-	m_completeBackground->SetSize(Globals::item_size * 6, Globals::item_size * 6);
+	if (pathTexture.compare("win_game.tga") == 0)
+	{
+		m_completeBackground = std::make_shared<Sprite2D>(model, shader, texture);
+		m_completeBackground->Set2DPosition(700 / 2, 700 / 2);
+		m_completeBackground->SetSize(Globals::item_size * 8, Globals::item_size * 6);
+	}
+	else {
+		m_completeBackground = std::make_shared<Sprite2D>(model, shader, texture);
+		m_completeBackground->Set2DPosition(700 / 2, 700 / 2);
+		m_completeBackground->SetSize(Globals::item_size * 6, Globals::item_size * 6);
+	}
+	
 }
 
 void GSPlay::prepareForDrawingMap()
@@ -1112,6 +1121,26 @@ void GSPlay::prepareForDrawingButtonWhenCompleteGame()
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(700 / 2 - 40, 700 / 2 + Globals::item_size * 3 + 35);
+	button->SetSize(70, 70);
+	button->SetOnClick([this]() {
+		GameStateMachine::GetInstance()->PopState();
+		});
+	m_listButton.push_back(button);
+}
+
+void GSPlay::prepareForDrawingButtonWhenWinGame()
+{
+	//one button
+	//go home
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background_gameplay.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	//button go GSMenu
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_home.tga");
+	std::shared_ptr<GameButton> button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(700 / 2, 700 / 2 + Globals::item_size * 3 + 35);
 	button->SetSize(70, 70);
 	button->SetOnClick([this]() {
 		GameStateMachine::GetInstance()->PopState();
@@ -1444,21 +1473,19 @@ void GSPlay::setPlayerDead()
 
 void GSPlay::checkToNextLevel()
 {
-	if (ResourceManagers::GetInstance()->managerEnermy()->size() == 0)
+	if (ResourceManagers::GetInstance()->managerBoss() != nullptr
+		&& ResourceManagers::GetInstance()->managerBoss()->getHpBoss() <= 0
+		&& ResourceManagers::GetInstance()->managerEnermy()->size() == 0)
 	{
-		if (ResourceManagers::GetInstance()->managerBoss() != nullptr
-			&& ResourceManagers::GetInstance()->managerBoss()->getEnermy()->getStatus() == STATUS_DEAD)
-		{
-			prepareForDrawingCompleteGameBackground();
-			prepareForDrawingButtonWhenCompleteGame();
-			m_state_game = STATE_COMPLETE_LEVEL;
-		}
-		else if (ResourceManagers::GetInstance()->managerBoss() == nullptr)
-		{
-			prepareForDrawingCompleteGameBackground();
-			prepareForDrawingButtonWhenCompleteGame();
-			m_state_game = STATE_COMPLETE_LEVEL;
-		}
+		prepareForDrawingCompleteGameBackground("win_game.tga");
+		prepareForDrawingButtonWhenWinGame();
+		m_state_game = STATE_COMPLETE_LEVEL;
+	}
+	else if (ResourceManagers::GetInstance()->managerEnermy()->size() == 0 && ResourceManagers::GetInstance()->managerBoss() == nullptr)
+	{
+		prepareForDrawingCompleteGameBackground("MissionComplete.tga");
+		prepareForDrawingButtonWhenCompleteGame();
+		m_state_game = STATE_COMPLETE_LEVEL;
 	}
 }
 
