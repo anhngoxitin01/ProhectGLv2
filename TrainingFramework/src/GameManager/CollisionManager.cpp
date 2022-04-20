@@ -336,7 +336,8 @@ int CollisionManager::isCollBetweenWaterBoomAndItemPlayer(MRectangle waterBoomRe
 {
 	for (auto *ip : *ResourceManagers::GetInstance()->managerItemPLayer())
 	{
-		if (waterBoomRec.isInteract(ip->getRect()) == REC_OVER_LAP)
+		int check = waterBoomRec.isInteract(ip->getRect());
+		if (check == REC_OVER_LAP || check == REC_ABOVE)
 		{
 			//delete item player
 			ResourceManagers::GetInstance()->managerItemPLayer()->remove(ip);
