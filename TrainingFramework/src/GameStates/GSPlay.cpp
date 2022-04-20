@@ -31,7 +31,6 @@ void GSPlay::Init()
 	//draw background
 	prepareForDrawingBackgroundGamepLay();
 	prepareForDrawingBackgroundScore();
-	prepareForDrawingGameOverBackground();
 	//draw Map
 	prepareForDrawingMap();
 	//draw PLayer
@@ -321,7 +320,7 @@ void GSPlay::Draw()
 	}
 	m_player->Draw();
 
-	if (ResourceManagers::GetInstance()->managerPlayer()->getPlayerStatusLive() == STATUS_DEAD)
+	if (m_state_game == STATE_GAME_OVER)
 	{
 		m_gameoverBackground->Draw();
 	}
@@ -344,8 +343,6 @@ void GSPlay::Draw()
 		}
 		it->Draw();
 	}
-
-	
 }
 
 void GSPlay::autoMovingEnermy(float deltaTime)
@@ -1468,12 +1465,18 @@ void GSPlay::increaseScore()
 void GSPlay::setPlayerDead()
 {
 	ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_DEAD);
-	prepareForDrawingButtonWhenPlayerDead();
+	checkToNextLevel();
 }
 
 void GSPlay::checkToNextLevel()
 {
-	if (ResourceManagers::GetInstance()->managerBoss() != nullptr
+	if (ResourceManagers::GetInstance()->managerPlayer()->getPlayerStatusLive() == STATUS_DEAD)
+	{
+		prepareForDrawingGameOverBackground();
+		prepareForDrawingButtonWhenPlayerDead();
+		m_state_game = STATE_GAME_OVER;
+	}
+	else if (ResourceManagers::GetInstance()->managerBoss() != nullptr
 		&& ResourceManagers::GetInstance()->managerBoss()->getHpBoss() <= 0
 		&& ResourceManagers::GetInstance()->managerEnermy()->size() == 0)
 	{
@@ -1522,9 +1525,10 @@ void GSPlay::restartGame(bool isIncreaseLevel)
 	m_mapAniamtionBoss.clear();
 	m_player.reset();
 	m_time_update_boom = 0.0f;
-	Init();
 	m_listButton.clear();
+	Init();
 	updateTextDrawLevelMap();
+	m_state_game = STATE_PLAYING;
 }
 
 

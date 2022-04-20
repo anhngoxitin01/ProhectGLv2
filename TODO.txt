@@ -16,6 +16,7 @@ Mục tiêu:
 		+) thêm đọc map có itemPLayer ở map 3
 		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
 			thay vì phải di chuyển đến hết mapo thì mới đổi direction
+		+) fix bug nếu nổ nhiều boom mọt lúc quái bị trừ nhiều hp
 	Nên làm:
 		+) func generate waterBoom nên để vào trong object boom
 		+)Tạo GSInfor 

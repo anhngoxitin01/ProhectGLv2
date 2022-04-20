@@ -21,6 +21,8 @@
 //state game
 #define STATE_PLAYING					0	
 #define	STATE_COMPLETE_LEVEL			1
+#define	STATE_GAME_OVER					2
+
 
 //Status object game
 #define STATUS_LIVE						0	// status 
