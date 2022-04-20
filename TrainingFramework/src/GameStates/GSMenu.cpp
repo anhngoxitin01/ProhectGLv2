@@ -58,8 +58,8 @@ void GSMenu::Init()
 	// game title
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
-	m_textGameName = std::make_shared< Text>(shader, font, "Boom", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
-	m_textGameName->Set2DPosition(Globals::screenWidth / 2 - 100, Globals::screenHeight / 2 - 200);
+	m_textGameName = std::make_shared< Text>(shader, font, "The Boomer", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
+	m_textGameName->Set2DPosition(Globals::screenWidth / 2 - 200, Globals::screenHeight / 2 - 150);
 	
 	if (!GameStateMachine::GetInstance()->isMute())
 		if(!ResourceManagers::GetInstance()->isPLayingSoundMenu())
