@@ -7,9 +7,7 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+) tạo object pool
-		+) update powerPoint + chayj Release in game
-		+) thêm sound effect
-		+) giam toc do cuar giay tang luc
+		+) chayj Release in game
 		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
 			thay vì phải di chuyển đến hết mapo thì mới đổi direction
 	Nên làm:

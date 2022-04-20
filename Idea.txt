@@ -1,5 +1,5 @@
 Game: Boom(zing)
-Name: Boom
+Name: The Boomer
 Gameplay:
 	Game sẽ có 3 màn chơi ( bao gồm 2 màn thường và 1 màn boss)
 	Game 1 người chơi kiểu 2D, nhiệm vụ của người chơi là đặt bom để bom nổ sau một khoảng thời gian 
