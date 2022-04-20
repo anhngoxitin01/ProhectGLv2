@@ -188,9 +188,12 @@ void GSPlay::Update(float deltaTime)
 				it.second->Update(deltaTime);
 			}
 
-			//make boss moving
-			autoMovingBoss(deltaTime);
-
+			if (ResourceManagers::GetInstance()->managerBoss() != nullptr)
+			{
+				//make boss moving
+				autoMovingBoss(deltaTime);
+			}
+			
 			//make enermy auto moving
 			autoMovingEnermy(deltaTime);
 
@@ -459,6 +462,9 @@ void GSPlay::autoMovingBoss(float deltaTime)
 
 	//get enermy from boss
 	Enermy* enermy = ResourceManagers::GetInstance()->managerBoss()->getEnermy();
+
+	//add time for check coll boss and wb
+	ResourceManagers::GetInstance()->managerBoss()->addTimeCollWithWB(deltaTime);
 
 	if (enermy)
 	{
@@ -846,7 +852,8 @@ void GSPlay::checkcollEnermyAndWaterBoom()
 
 void GSPlay::checkcollWaterBoomAndBoss(Boom* boom)
 {
-	if (ResourceManagers::GetInstance()->managerBoss() != nullptr)
+	if (ResourceManagers::GetInstance()->managerBoss() != nullptr 
+		&& ResourceManagers::GetInstance()->managerBoss()->getTimeCollWithWB() >= TIME_BOSS_COLL_WB)
 	{
 		//printf("hp boss : %d \n", ResourceManagers::GetInstance()->managerBoss()->getHpBoss());
 		for (auto wb : *boom->getListWaterBoom())
@@ -855,10 +862,11 @@ void GSPlay::checkcollWaterBoomAndBoss(Boom* boom)
 			{
 				//decrease the hp boss
 				ResourceManagers::GetInstance()->managerBoss()->decreaseHpBoss();
+				//reset time to the next check
+				ResourceManagers::GetInstance()->managerBoss()->setTimeCollWithWB(0);
 				break;
 			}
 		}
-
 		//check if boss has zero hp throw win game 
 		if (ResourceManagers::GetInstance()->managerBoss()->getHpBoss() <= 0)
 		{

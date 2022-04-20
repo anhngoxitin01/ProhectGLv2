@@ -54,6 +54,7 @@
 
 //BOSS
 #define TIME_USE_SKILL					8.0f
+#define TIME_BOSS_COLL_WB				3.0f
 
 //define map
 #define PATHFILE_MAP_1			"..\\Data\\Map\\map3.txt"

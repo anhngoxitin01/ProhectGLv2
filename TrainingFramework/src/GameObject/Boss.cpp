@@ -1,10 +1,10 @@
 #include "Boss.h"
 
-Boss::Boss() : boss_time_use_skill(0) ,skill_boss_is_using_skill(-1.0f) , boss_hp(10)
+Boss::Boss() : boss_time_use_skill(0) ,skill_boss_is_using_skill(-1.0f) , boss_hp(10) , boss_time_coll_with_waterboom(0)
 {
 }
 
-Boss::Boss(Enermy e) : boss_time_use_skill(0), skill_boss_is_using_skill(-1.0f) , boss_hp(10)
+Boss::Boss(Enermy e) : boss_time_use_skill(0), skill_boss_is_using_skill(-1.0f) , boss_hp(10) , boss_time_coll_with_waterboom(0)
 {
 	e.setSpeed(1);
 	boss_enermy = e;
@@ -57,6 +57,21 @@ void Boss::setHpBoss(int newHp)
 void Boss::decreaseHpBoss()
 {
 	boss_hp -= 1;
+}
+
+float Boss::getTimeCollWithWB()
+{
+	return boss_time_coll_with_waterboom;
+}
+
+void Boss::addTimeCollWithWB(float addTime)
+{
+	boss_time_coll_with_waterboom += addTime;
+}
+
+void Boss::setTimeCollWithWB(float newTime)
+{
+	boss_time_coll_with_waterboom = newTime;
 }
 
 bool Boss::checkTimeUseSkill()

@@ -12,21 +12,29 @@ public:
 	Boss(Enermy e);
 	~Boss();
 
+	
+
+	//skill
 	float	getTimeUseSkill();
 	void	setTimeUseSkill(float time);
 	void	addTimeUseSkill(float time);
-	std::list<WaterBoom*>* getListWaterBoom();
 	float	skillIsUsingSkill();
 	void	setSkillIsUsingSkill(float skill);
-	int		getHpBoss();
-	void	setHpBoss(int newHp);
-	void	decreaseHpBoss();
-
 	bool	checkTimeUseSkill();
-
 	void	useSkill_1();
 	void    useSkill_2(int phase);
 
+	//hp
+	int		getHpBoss();
+	void	setHpBoss(int newHp);
+	void	decreaseHpBoss();
+	//time coll boom
+	float	getTimeCollWithWB();
+	void	addTimeCollWithWB(float addTime);
+	void	setTimeCollWithWB(float newTime);
+
+	
+	std::list<WaterBoom*>* getListWaterBoom();
 	void	clearWaterBoom();
 	Enermy*	getEnermy();
 private:
@@ -35,5 +43,6 @@ private:
 	std::list<WaterBoom*>	boss_list_waterBoom;
 	float					boss_time_use_skill;
 	float					skill_boss_is_using_skill;
+	float					boss_time_coll_with_waterboom;
 	int						boss_hp;
 };

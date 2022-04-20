@@ -7,6 +7,7 @@ Lưu ý :
 Mục tiêu:
 	Phải làm:
 		+) tạo object pool
+		+) update powerPoint + chayj Release in game
 		+) Suy nghĩ về việc có nên để statusOnBoom khi người chơi đứng trên cả hai quả boom hay ko 
 			=> Có : chỉ set bằng false nếu người chơi ko còn va chạm với boom còn nêu strue thì bỏ qua va chạm với boom
 		+) xóa score 
@@ -15,7 +16,6 @@ Mục tiêu:
 		+) thêm đọc map có itemPLayer ở map 3
 		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
 			thay vì phải di chuyển đến hết mapo thì mới đổi direction
-		+) fix bug nếu nổ nhiều boom mọt lúc quái bị trừ nhiều hp
 	Nên làm:
 		+) func generate waterBoom nên để vào trong object boom
 		+)Tạo GSInfor 
