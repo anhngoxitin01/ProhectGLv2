@@ -33,6 +33,8 @@ public:
 	void	addTimeCollWithWB(float addTime);
 	void	setTimeCollWithWB(float newTime);
 
+	int		findDirectionPlayer(MRectangle pl);
+
 	
 	std::list<WaterBoom*>* getListWaterBoom();
 	void	clearWaterBoom();

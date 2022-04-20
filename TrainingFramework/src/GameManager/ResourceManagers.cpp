@@ -317,6 +317,9 @@ void ResourceManagers::resetData()
 	//enermy
 	// generate map will clear the data for you
 
+	//boss
+	m_boss = nullptr;
+
 	//itemPLayer
 	for (auto* x : m_itemPlayer)
 	{

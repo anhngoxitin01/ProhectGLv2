@@ -74,6 +74,35 @@ void Boss::setTimeCollWithWB(float newTime)
 	boss_time_coll_with_waterboom = newTime;
 }
 
+int Boss::findDirectionPlayer(MRectangle pl)
+{
+	MRectangle boss = boss_enermy.getRect();
+	if (boss.getRecX() > pl.getRecX() && abs((int)boss.getRecY() - pl.getRecY()) <= 100)
+		return ENERMY_MOVE_LEFT;
+	else if (boss.getRecX() < pl.getRecX() && abs((int)boss.getRecY() - pl.getRecY()) <= 100)
+		return ENERMY_MOVE_RIGHT;
+	else if (abs((int)boss.getRecX() - pl.getRecX()) <= 100 && boss.getRecY() > pl.getRecY())
+		return ENERMY_MOVE_UP;
+	else if (abs((int)boss.getRecX() - pl.getRecX()) <= 100 && boss.getRecY() < pl.getRecY())
+		return ENERMY_MOVE_DOWN;
+	else if (abs((int)boss.getRecX() - pl.getRecX()) >= abs((int)boss.getRecY() - pl.getRecY()))
+	{
+		if (boss.getRecX() > pl.getRecX())
+			return ENERMY_MOVE_LEFT;
+		else
+			return ENERMY_MOVE_RIGHT;
+	}
+	else if (abs((int)boss.getRecX() - pl.getRecX()) < abs((int)boss.getRecY() - pl.getRecY()))
+	{
+		if (boss.getRecY() < pl.getRecY())
+			return ENERMY_MOVE_DOWN;
+		else
+			return ENERMY_MOVE_UP;
+	}
+	else
+		return boss_enermy.getDirection();
+}
+
 bool Boss::checkTimeUseSkill()
 {
 	if(boss_time_use_skill >= TIME_USE_SKILL)

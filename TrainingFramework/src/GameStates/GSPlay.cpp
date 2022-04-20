@@ -479,6 +479,11 @@ void GSPlay::autoMovingBoss(float deltaTime)
 					if (m_listBossBoomExplode.size() != 0)
 						m_listBossBoomExplode.clear();
 
+					//random direction of boss
+					float timingMoveAi = fabs(ResourceManagers::GetInstance()->managerBoss()->getTimeUseSkill() - TIME_USE_SKILL / 2);
+					if ((timingMoveAi >= 2.5f && timingMoveAi <= 3.5f) || (timingMoveAi >= 5.5f && timingMoveAi <= 6.5f))
+						enermy->setEnermyDirection(ResourceManagers::GetInstance()->managerBoss()->findDirectionPlayer(ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer()));
+
 					switch (enermy->getDirection())
 					{
 					case ENERMY_MOVE_DOWN:
@@ -597,6 +602,8 @@ void GSPlay::autoMovingBoss(float deltaTime)
 							ResourceManagers::GetInstance()->managerBoss()->setSkillIsUsingSkill(-1.0f);
 							//clear explore boom
 							m_listBossBoomExplode.clear();
+							//update direction for boss
+							enermy->setEnermyDirection(ResourceManagers::GetInstance()->managerBoss()->findDirectionPlayer(ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer()));
 						}
 					}
 					else if (ResourceManagers::GetInstance()->managerBoss()->skillIsUsingSkill() == 1)
@@ -635,6 +642,8 @@ void GSPlay::autoMovingBoss(float deltaTime)
 							ResourceManagers::GetInstance()->managerBoss()->setSkillIsUsingSkill(-1);
 							//clear explore boom
 							m_listBossBoomExplode.clear();
+							//update direction for boss
+							enermy->setEnermyDirection(ResourceManagers::GetInstance()->managerBoss()->findDirectionPlayer(ResourceManagers::GetInstance()->managerPlayer()->getRectPlayer()));
 						}
 					}
 				}
