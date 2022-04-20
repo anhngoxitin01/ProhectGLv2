@@ -23,6 +23,7 @@ public:
 	void setPlayerIsMoving(bool isMoving);
 	void setPlayerLocation(int x, int y);		// auto create Rect for player
 	void setPrepateNextBoom(bool status);
+	void addIdBoomIsStanding(int id);
 
 	int			getPlayerDirection();
 	int			getPlayerSpeed();
@@ -37,12 +38,15 @@ public:
 	bool		isPrepareNextBoom();
 	std::list<Boom*>* getPlayerListBoom();
 	Boom*		getBoomById(int boomId);
+	std::list<int> getListIdBoomIsStanding();
 
 	void		movePlayer(int direction);
 	void		initBoom();
 	void		reLoadBoom();
 	int			isCollWithItemPlayer();		//return 0 is true and 1 is false
 	void		resetData();
+	void		removeIdBoomIsStanding(int id);
+	void		updateIsStandingOnBoom();
 
 private:
 	void		updatePlayerWithItemPlayer(int kindItem);
@@ -63,5 +67,5 @@ private:
 	int					p_num_boom;
 	std::list<Boom*>	p_list_boom;
 	bool				p_isPrepareNextBoom;
-	int					p_boomIdIsStanding;
+	std::list<int>		p_boomIdIsStanding;
 };

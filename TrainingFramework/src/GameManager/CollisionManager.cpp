@@ -222,15 +222,31 @@ int CollisionManager::isCollBetweenPlayerAndItemPlayer(MRectangle pl , int &kind
 	return COLL_NOT_OK;
 }
 
-int CollisionManager::isCollBetweenPlayerAndBoom(MRectangle pl, int &boomIdIsStanding)
+int CollisionManager::isCollBetweenPlayerAndBoom(MRectangle pl, std::list<int> idBoomIsStanding)
 {
 	for (auto boom : *ResourceManagers::GetInstance()->managerPlayer()->getPlayerListBoom())
 	{
-		//access the player moving in boom id is standing
-		if (boom->getIdBoom() == boomIdIsStanding)
-			continue;
+		if(idBoomIsStanding.size() > 0)
+		{
+			//check is having boom is Standing
+			bool check = false;
+
+			for (auto idPass : idBoomIsStanding)
+			{
+				//access the player moving in boom id is standing
+				if (boom->getIdBoom() == idPass)
+				{
+					check = true;
+					break;
+				}
+			}
+
+			if (check == false && pl.isInteract(boom->getRect()) == REC_ABOVE)
+				return COLL_OK;
+		}
 		else if (pl.isInteract(boom->getRect()) == REC_ABOVE)
 			return COLL_OK;
+		
 	}
 	return COLL_NOT_OK;
 }

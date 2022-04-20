@@ -2,8 +2,7 @@
 #include "GameManager/CollisionManager.h"
 
 Player::Player() : p_speed(PLAYER_BASE_SPEED), p_status_live(STATUS_LIVE), p_direction(PLAYER_MOVE_DOWN), p_is_move(false) 
-					, p_location_x(25) , p_location_y(75) , p_num_boom(PLAYER_BOMB_NUM) , p_isPrepareNextBoom(true) , p_power(PLAYER_BOMB_STRENGTH),
-					p_boomIdIsStanding(-1)
+					, p_location_x(25) , p_location_y(75) , p_num_boom(PLAYER_BOMB_NUM) , p_isPrepareNextBoom(true) , p_power(PLAYER_BOMB_STRENGTH)
 {
 	//NOT GOOD SOLUTION
 	p_texture[PLAYER_MOVE_DOWN]		= "bomber_down.tga";
@@ -54,6 +53,11 @@ void Player::setPlayerLocation(int x, int y)
 void Player::setPrepateNextBoom(bool status)
 {
 	p_isPrepareNextBoom = status;
+}
+
+void Player::addIdBoomIsStanding(int id)
+{
+	p_boomIdIsStanding.push_back(id);
 }
 
 int Player::getPlayerDirection()
@@ -111,6 +115,11 @@ Boom* Player::getBoomById(int boomId)
 	return nullptr;
 }
 
+std::list<int> Player::getListIdBoomIsStanding()
+{
+	return p_boomIdIsStanding;
+}
+
 bool Player::isPrepareNextBoom()
 {
 	return p_isPrepareNextBoom;
@@ -152,7 +161,7 @@ void Player::movePlayer(int direction)
 			/*check coll player and boom with new method*/
 			// the p_boomIdIsStanding is updated in func isCollBetweenPlayerAndBoom
 			tempRec = MRectangle(p_rec.getRecX() + p_speed, p_rec.getRecY(), p_rec.getRecHeight(), p_rec.getRecWidth());
-			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(tempRec, p_boomIdIsStanding) == COLL_OK)
+			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(tempRec , p_boomIdIsStanding) == COLL_OK)
 			{
 				int distanceToEndRoad =
 					(Globals::item_size - ((int)p_rec.getRecX() + p_rec.getRecWidth() / 2) % Globals::item_size);
@@ -262,12 +271,7 @@ void Player::movePlayer(int direction)
 		break;
 	}
 
-	//update isStanding on boom of player
-	if(p_boomIdIsStanding != -1 && 
-		CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(getRectPlayer() , getBoomById(p_boomIdIsStanding)->getRect()) == COLL_NOT_OK)
-			p_boomIdIsStanding = -1;
-		
-	
+	updateIsStandingOnBoom();
 }
 
 void Player::initBoom()
@@ -294,7 +298,7 @@ void Player::initBoom()
 		{
 			p_list_boom.push_back(boom);
 			//set the id boom player is standing 
-			p_boomIdIsStanding = boom->getIdBoom();
+			addIdBoomIsStanding(boom->getIdBoom());
 			//printf("size of boom %d\n", p_list_boom.size());
 			p_isPrepareNextBoom = false;
 		}
@@ -337,7 +341,40 @@ void Player::resetData()
 	p_num_boom = PLAYER_BOMB_NUM;
 	p_isPrepareNextBoom = true;
 	p_power = PLAYER_BOMB_STRENGTH;
-	p_boomIdIsStanding = -1;
+	p_boomIdIsStanding.clear();
+}
+
+void Player::removeIdBoomIsStanding(int id)
+{
+	p_boomIdIsStanding.remove(id);
+}
+
+void Player::updateIsStandingOnBoom()
+{
+	//temp list to remove 
+	std::list<int> tempIdBoom;
+
+	//update isStanding on boom of player
+	if (p_boomIdIsStanding.size() > 0)
+	{
+		// check all boom id can stand which has out standing player => remove out of list p_boomIdIsStanding
+		for (auto id : p_boomIdIsStanding)
+		{
+			if (CollisionManager::GetInstance()->isCollBetweenPlayerAndBoom(p_rec, getBoomById(id)->getRect()) == COLL_NOT_OK)
+			{
+				tempIdBoom.push_back(id);
+			}
+		}
+	}
+
+	//remove id boom is out
+	if (p_boomIdIsStanding.size() > 0 && tempIdBoom.size() >0)
+	{
+		for (auto id : tempIdBoom)
+		{
+			removeIdBoomIsStanding(id);
+		}
+	}
 }
 
 void Player::updatePlayerWithItemPlayer(int kindItem)

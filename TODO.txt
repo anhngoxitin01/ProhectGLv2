@@ -8,9 +8,8 @@ Mục tiêu:
 	Phải làm:
 		+) tạo object pool
 		+) update powerPoint + chayj Release in game
-		+) Suy nghĩ về việc có nên để statusOnBoom khi người chơi đứng trên cả hai quả boom hay ko 
-			=> Có : chỉ set bằng false nếu người chơi ko còn va chạm với boom còn nêu strue thì bỏ qua va chạm với boom
 		+) thêm sound effect
+		+) giam toc do cuar giay tang luc
 		+) tăng khả năng di chuyển ngẫu nhiên sau một khoảng di chuyển nào đó
 			thay vì phải di chuyển đến hết mapo thì mới đổi direction
 	Nên làm:
