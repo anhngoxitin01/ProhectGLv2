@@ -10,7 +10,6 @@ Mục tiêu:
 		+) Suy nghĩ về việc có nên để statusOnBoom khi người chơi đứng trên cả hai quả boom hay ko 
 			=> Có : chỉ set bằng false nếu người chơi ko còn va chạm với boom còn nêu strue thì bỏ qua va chạm với boom
 		+) xóa score 
-		+) thay phông nền bãi biển cho màn hình chờ
 		+) thêm sound effect
 		+) check coll wb boss và boom player
 		+) thêm đọc map có itemPLayer ở map 3
