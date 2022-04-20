@@ -76,6 +76,10 @@
 #define MAP_ENERMY_SPON			36					//kí tu $
 #define MAP_NOTHING				111					//ki tu o
 #define MAP_BOSS				66					//B
+#define MAP_ITEMPLAYER_BOMB		67					//C
+#define MAP_ITEMPLAYER_BOMBSIZE	68					//D
+#define MAP_ITEMPLAYER_SHOE	69					//E
+
 
 #define MAP_ITEM_CAN_DESTROY		0				//item which can be destroy
 #define MAP_ITEM_CAN_NOT_DESTROY	1				//item which can not be destroy

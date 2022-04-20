@@ -65,6 +65,7 @@ public:
 
 	//ItemPlayer
 	std::list<ItemPlayer*> *managerItemPLayer();
+	void autoSetSponToItemPLayerFromMap();
 	void addRandomItemPlayer(MRectangle rec);
 	void checkListItemPLayer();
 

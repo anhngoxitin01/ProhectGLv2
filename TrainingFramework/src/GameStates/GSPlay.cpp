@@ -1041,8 +1041,11 @@ void GSPlay::prepareForDrawingMap()
 	ResourceManagers::GetInstance()->autoSetSponToPlayerFromMap();
 	//set spon for enermy through var (get from read text) to enermy
 	ResourceManagers::GetInstance()->autoSetSponToEnermyFromMap();
-	////set spon for boss through var (get from read text) to boss
+	//set spon for boss through var (get from read text) to boss
 	ResourceManagers::GetInstance()->autoSetSponBossFromMap();
+	//set spon for ItemPlayer
+	ResourceManagers::GetInstance()->autoSetSponToItemPLayerFromMap();
+	updateForDrawingItemPlayer();
 }
 
 void GSPlay::prepareForDrawingButtonNormal()

@@ -1,6 +1,6 @@
 #include "Map.h"
 
-Map::Map(): map_boss(nullptr)
+Map::Map() : map_boss(nullptr), map_item_player(std::list<ItemPlayer*>{})
 {
 }
 
@@ -61,9 +61,15 @@ Boss* Map::getBoss()
 	return map_boss;
 }
 
+std::list<ItemPlayer*> Map::getItemPlayer()
+{
+	return map_item_player;
+}
+
 void Map::clearData()
 {
 	map_enermies.clear();
+	map_item_player.clear();
 }
 
 
@@ -250,6 +256,39 @@ void Map::readMapFromFile(int level)
 							, Globals::item_size * 8
 							, ENERMY_MOVE_DOWN
 							, level));
+					break;
+				case MAP_ITEMPLAYER_BOMB:
+					map_items[i * 14 + j].setAllValue(
+						j * Globals::item_size + Globals::item_size / 2
+						, i * Globals::item_size + Globals::item_size / 2
+						, ""
+						, MAP_ITEM_ROAD);
+					map_item_player.push_back(
+						new ItemPlayer(
+							ITEMPL_KIND_BOMB,
+							MRectangle(j * Globals::item_size + Globals::item_size / 2, i * Globals::item_size + Globals::item_size / 2, Globals::item_size, Globals::item_size)));
+					break;
+				case MAP_ITEMPLAYER_SHOE:
+					map_items[i * 14 + j].setAllValue(
+						j * Globals::item_size + Globals::item_size / 2
+						, i * Globals::item_size + Globals::item_size / 2
+						, ""
+						, MAP_ITEM_ROAD);
+					map_item_player.push_back(
+						new ItemPlayer(
+							ITEMPL_KIND_SHOE,
+							MRectangle(j * Globals::item_size + Globals::item_size / 2, i * Globals::item_size + Globals::item_size / 2, Globals::item_size, Globals::item_size)));
+					break;
+				case MAP_ITEMPLAYER_BOMBSIZE:
+					map_items[i * 14 + j].setAllValue(
+						j * Globals::item_size + Globals::item_size / 2
+						, i * Globals::item_size + Globals::item_size / 2
+						, ""
+						, MAP_ITEM_ROAD);
+					map_item_player.push_back(
+						new ItemPlayer(
+							ITEMPL_KIND_BOMBSIZE,
+							MRectangle(j * Globals::item_size + Globals::item_size / 2, i * Globals::item_size + Globals::item_size / 2, Globals::item_size, Globals::item_size)));
 					break;
 				default:
 					printf("Can not read map");

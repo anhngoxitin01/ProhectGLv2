@@ -274,6 +274,11 @@ std::list<ItemPlayer*>* ResourceManagers::managerItemPLayer()
 	return &m_itemPlayer;
 }
 
+void ResourceManagers::autoSetSponToItemPLayerFromMap()
+{
+	m_itemPlayer = ResourceManagers::GetInstance()->managerMap()->getItemPlayer();
+}
+
 void ResourceManagers::addRandomItemPlayer(MRectangle rec)
 {
 	//auto random in range 0 - 1000 

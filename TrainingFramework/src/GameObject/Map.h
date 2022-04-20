@@ -6,6 +6,7 @@
 #include "ItemMap.h"
 #include "Enermy.h"
 #include "Boss.h"
+#include "ItemPlayer.h"
 
 
 class Map
@@ -22,6 +23,7 @@ public:
 	std::list<Enermy*>*		getSponEnermy();
 	ItemMap*	getArrayItemMap();
 	Boss*		getBoss();
+	std::list<ItemPlayer*> getItemPlayer();
 
 	void clearData();
 
@@ -37,6 +39,7 @@ private:
 	int			map_spon_player_x;
 	int			map_spon_player_y;
 
-	std::list<Enermy*>  map_enermies;
-	Boss*				map_boss;
+	std::list<Enermy*>		map_enermies;
+	Boss*					map_boss;
+	std::list<ItemPlayer*>	map_item_player;
 };
