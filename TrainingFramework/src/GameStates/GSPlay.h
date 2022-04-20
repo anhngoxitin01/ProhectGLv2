@@ -62,13 +62,11 @@ public:
 	void	prepareForDrawingWaterBoom(std::list<WaterBoom*> *listWaterBoom, int kind);
 	void	prepareForDrawingAnimationBoom();
 	void	updateDrawMap();
-	void	updateDrawScore();
 	void	updateTextDrawLevelMap();
 	void	updateDrawHeartBoss();
 
 	void    removeDrawingAnimationBoom(Boom *boom);
 	void	handlingKeyEventForPlayer(bool isMoving , int directionMove , bool isInitingBoom);
-	void	increaseScore();
 	void	setPlayerDead();
 	void	checkToNextLevel();
 	void	increaseLevel();
@@ -80,19 +78,15 @@ public:
 
 private:
 	std::shared_ptr<Sprite2D>					m_gameplayBackground;
-	std::shared_ptr<Sprite2D>					m_scoreBackground;
+	std::shared_ptr<Sprite2D>					m_gameMenuBackground;
 	std::shared_ptr<Sprite2D>					m_gameoverBackground;
 	std::shared_ptr<Sprite2D>					m_completeBackground;
-	std::shared_ptr<Text>						m_scoreText;
 	std::shared_ptr<Text>						m_levelText;
 	std::list<std::shared_ptr<GameButton>>		m_listButton;
 	int											m_state_game;
 
 	//time
 	float	m_time_update_boom;
-
-	//score
-	int		m_score;
 
 	//key_board
 	int			m_KeyPress;

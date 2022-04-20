@@ -11,7 +11,7 @@
 #include "GameButton.h"
 #include "SpriteAnimation.h"
 
-GSPlay::GSPlay() : m_time_update_boom(0.0f) , m_score(0) , m_scoreText(nullptr) , m_gameplayBackground(nullptr) , m_scoreBackground(nullptr) ,
+GSPlay::GSPlay() : m_time_update_boom(0.0f) , m_gameplayBackground(nullptr) , m_gameMenuBackground(nullptr) ,
 				m_listButton(std::list<std::shared_ptr<GameButton>>{}) , m_levelText(nullptr) , m_state_game(STATE_PLAYING) , m_completeBackground(nullptr)
 {
 	ResourceManagers::GetInstance()->managerPlayer()->setPlayerStatusLive(STATUS_LIVE);
@@ -41,7 +41,6 @@ void GSPlay::Init()
 	//draw Button
 	prepareForDrawingButtonNormal();
 	//draw Text
-	updateDrawScore();
 	updateTextDrawLevelMap();
 }
 
@@ -211,9 +210,7 @@ void GSPlay::Update(float deltaTime)
 
 void GSPlay::Draw()
 {
-	m_scoreBackground->Draw();
-	//score
-	m_scoreText->Draw();
+	m_gameMenuBackground->Draw();
 	//level map 
 	m_levelText->Draw();
 
@@ -831,9 +828,6 @@ void GSPlay::checkcollEnermyAndWaterBoom()
 		{
 			enermy->setStatus(STATUS_DEAD);
 			updateDrawEnermy(enermy);
-
-			//icrease score
-			increaseScore();
 		}
 	}
 
@@ -938,9 +932,9 @@ void GSPlay::prepareForDrawingBackgroundScore()
 	auto texture = ResourceManagers::GetInstance()->GetTexture("score_background.tga");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 
-	m_scoreBackground = std::make_shared<Sprite2D>(model, shader, texture);
-	m_scoreBackground->Set2DPosition(700 + 300/ 2, 700 / 2);
-	m_scoreBackground->SetSize(300,700);
+	m_gameMenuBackground = std::make_shared<Sprite2D>(model, shader, texture);
+	m_gameMenuBackground->Set2DPosition(700 + 300/ 2, 700 / 2);
+	m_gameMenuBackground->SetSize(300,700);
 
 }
 
@@ -1391,18 +1385,6 @@ void GSPlay::updateDrawMap()
 	}
 }
 
-void GSPlay::updateDrawScore()
-{
-	//create shader
-	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-
-	// score
-	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
-	m_scoreText = std::make_shared< Text>(shader, font, std::to_string(m_score), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
-	m_scoreText->Set2DPosition(Vector2(Globals::screenWidth - 200, Globals::screenHeight / 6));
-}
-
 void GSPlay::updateTextDrawLevelMap()
 {
 	//create shader
@@ -1412,7 +1394,7 @@ void GSPlay::updateTextDrawLevelMap()
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_levelText = std::make_shared< Text>(shader, font, "Level " + std::to_string(ResourceManagers::GetInstance()->getLevelMap() + 1), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
-	m_levelText->Set2DPosition(Vector2(Globals::screenWidth - 250, Globals::screenHeight / 4));
+	m_levelText->Set2DPosition(Vector2(Globals::screenWidth - 250, 70));
 }
 
 void GSPlay::updateDrawHeartBoss()
@@ -1462,12 +1444,6 @@ void GSPlay::handlingKeyEventForPlayer(bool isMoving, int directionMove , bool i
 	//init boom
 	if(isInittingBoom)
 		ResourceManagers::GetInstance()->managerPlayer()->initBoom();
-}
-
-void GSPlay::increaseScore()
-{
-	m_score += 100;
-	updateDrawScore();
 }
 
 void GSPlay::setPlayerDead()
@@ -1520,7 +1496,6 @@ void GSPlay::restartGame(bool isIncreaseLevel)
 	{
 		//reset level
 		ResourceManagers::GetInstance()->setLevelMap(MAP_LEVEL_1);
-		m_score = 0;
 	} 
 	//do somethng here
 	//reset all value game
