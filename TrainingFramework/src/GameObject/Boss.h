@@ -18,6 +18,9 @@ public:
 	std::list<WaterBoom*>* getListWaterBoom();
 	float	skillIsUsingSkill();
 	void	setSkillIsUsingSkill(float skill);
+	int		getHpBoss();
+	void	setHpBoss(int newHp);
+	void	decreaseHpBoss();
 
 	bool	checkTimeUseSkill();
 
@@ -32,4 +35,5 @@ private:
 	std::list<WaterBoom*>	boss_list_waterBoom;
 	float					boss_time_use_skill;
 	float					skill_boss_is_using_skill;
+	int						boss_hp;
 };

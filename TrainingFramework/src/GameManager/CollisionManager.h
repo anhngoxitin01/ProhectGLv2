@@ -28,6 +28,7 @@ public:
 	int isCollBetweenWaterBoomAndItemPlayer(MRectangle waterBoomRec);
 	int	isCollBetweenWaterBoomAndBoom(MRectangle wbRec , int timeBoomExplore);
 	int isCollBetweenWaterBoomAndPlayer(MRectangle wbRec);
+	int	isCollBetweenWaterBoomAndBoss(MRectangle wbRec);
 
 private:
 	int smoothMovingPlayer(int orient, MRectangle pl, MRectangle barrier);

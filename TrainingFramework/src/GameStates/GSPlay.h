@@ -37,6 +37,7 @@ public:
 	*/
 	void	generateLocationWaterBoom(Boom *boom);
 	void	checkcollEnermyAndWaterBoom();
+	void	checkcollWaterBoomAndBoss(Boom *boom);
 	void	checkcollWaterBoomAndPlayer(std::list<WaterBoom*> *listWaterBoom);
 	void	checkcollWaterBoomAndItemPlayer(std::list<WaterBoom*> *listWaterBoom);
 	void    checkcollForSkillBoss();
@@ -62,6 +63,7 @@ public:
 	void	updateDrawMap();
 	void	updateDrawScore();
 	void	updateTextDrawLevelMap();
+	void	updateDrawHeartBoss();
 
 	void    removeDrawingAnimationBoom(Boom *boom);
 	void	handlingKeyEventForPlayer(bool isMoving , int directionMove , bool isInitingBoom);
@@ -107,6 +109,7 @@ private:
 	//boss
 	std::map<int, std::shared_ptr<SpriteAnimation>> m_mapAniamtionBoss;
 	std::list<std::shared_ptr<Sprite2D>>			m_listBossBoomExplode;
+	std::list<std::shared_ptr<Sprite2D>>			m_listHeartBoss;
 
 	//Item Player
 	std::list<std::shared_ptr<Sprite2D>>		m_listItemPlayer;

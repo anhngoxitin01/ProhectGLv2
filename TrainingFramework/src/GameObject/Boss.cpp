@@ -1,10 +1,10 @@
 #include "Boss.h"
 
-Boss::Boss() : boss_time_use_skill(0) ,skill_boss_is_using_skill(-1.0f)
+Boss::Boss() : boss_time_use_skill(0) ,skill_boss_is_using_skill(-1.0f) , boss_hp(10)
 {
 }
 
-Boss::Boss(Enermy e) : boss_time_use_skill(0), skill_boss_is_using_skill(-1.0f)
+Boss::Boss(Enermy e) : boss_time_use_skill(0), skill_boss_is_using_skill(-1.0f) , boss_hp(10)
 {
 	e.setSpeed(1);
 	boss_enermy = e;
@@ -42,6 +42,21 @@ float Boss::skillIsUsingSkill()
 void Boss::setSkillIsUsingSkill(float skill)
 {
 	skill_boss_is_using_skill = skill;
+}
+
+int Boss::getHpBoss()
+{
+	return boss_hp;
+}
+
+void Boss::setHpBoss(int newHp)
+{
+	boss_hp = newHp;
+}
+
+void Boss::decreaseHpBoss()
+{
+	boss_hp -= 1;
 }
 
 bool Boss::checkTimeUseSkill()

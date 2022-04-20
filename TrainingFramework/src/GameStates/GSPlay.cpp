@@ -36,6 +36,9 @@ void GSPlay::Init()
 	prepareForDrawingMap();
 	//draw PLayer
 	prepareForDrawingPlayer();
+	//draw heartBoss
+	if (ResourceManagers::GetInstance()->managerBoss() != nullptr)
+		updateDrawHeartBoss();
 	//draw Button
 	prepareForDrawingButtonNormal();
 	//draw Text
@@ -253,6 +256,10 @@ void GSPlay::Draw()
 	for (auto it : m_mapAniamtionBoss)
 	{
 		it.second->Draw();
+	}
+	for (auto it : m_listHeartBoss)
+	{
+		it->Draw();
 	}
 
 	//Player 
@@ -840,6 +847,32 @@ void GSPlay::checkcollEnermyAndWaterBoom()
 			});
 }
 
+void GSPlay::checkcollWaterBoomAndBoss(Boom* boom)
+{
+	if (ResourceManagers::GetInstance()->managerBoss() != nullptr)
+	{
+		for (auto wb : *boom->getListWaterBoom())
+		{
+			if (CollisionManager::GetInstance()->isCollBetweenWaterBoomAndBoss(wb->getRect()) == COLL_OK)
+			{
+				//decrease the hp boss
+				ResourceManagers::GetInstance()->managerBoss()->decreaseHpBoss();
+			}
+		}
+
+		//check if boss has zero hp throw win game 
+
+		if (ResourceManagers::GetInstance()->managerBoss()->getHpBoss() <= 0)
+		{
+			//throw screen win game
+		}
+		else // update screen draw hp boss 
+		{
+			updateDrawHeartBoss();
+		}
+	}
+}
+
 void GSPlay::checkcollWaterBoomAndPlayer(std::list<WaterBoom*> *listWaterBoom)
 {
 	for (auto wb : *listWaterBoom)
@@ -1203,6 +1236,9 @@ void GSPlay::prepareForDrawingBoomExplore()
 
 			//check water boom coll with player
 			checkcollWaterBoomAndPlayer(it->getListWaterBoom());
+
+			//check water boom coll with boss
+			checkcollWaterBoomAndBoss(it);
 		}
 	}
 }
@@ -1342,6 +1378,38 @@ void GSPlay::updateTextDrawLevelMap()
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_levelText = std::make_shared< Text>(shader, font, "Level " + std::to_string(ResourceManagers::GetInstance()->getLevelMap() + 1), Vector4(1.0f, 0.5f, 0.0f, 1.0f), 1.5f);
 	m_levelText->Set2DPosition(Vector2(Globals::screenWidth - 250, Globals::screenHeight / 4));
+}
+
+void GSPlay::updateDrawHeartBoss()
+{
+	m_listHeartBoss.clear();
+
+	//create model , texture , shader
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("heart.tga");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+
+	//create item_map sprite2D
+	std::shared_ptr<Sprite2D> heart = std::make_shared<Sprite2D>(model, shader, texture);
+
+	printf("hp boss : %d \n", ResourceManagers::GetInstance()->managerBoss()->getHpBoss());
+
+
+	//draw heart
+	for (int i = 0; i < ResourceManagers::GetInstance()->managerBoss()->getHpBoss(); i++)
+	{
+		heart = std::make_shared<Sprite2D>(model, shader, texture);
+		heart->Set2DPosition(Vector2(Globals::screenWidth - 200 + (i%5) * 35, Globals::screenHeight / 4 + (i/5) * 35));
+		heart->SetSize(30, 30);
+		m_listHeartBoss.push_back(heart);
+	}
+
+	//draw a icon boss 
+	texture = ResourceManagers::GetInstance()->GetTexture("boss_down.tga");
+	heart = std::make_shared<Sprite2D>(model, shader, texture);
+	heart->Set2DPosition(Vector2(Globals::screenWidth - 250 , Globals::screenHeight / 4 + 20));
+	heart->SetSize(50, 70);
+	m_listHeartBoss.push_back(heart);
 }
 
 void GSPlay::removeDrawingAnimationBoom(Boom *boom)
