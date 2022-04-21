@@ -70,6 +70,7 @@ void Map::clearData()
 {
 	map_enermies.clear();
 	map_item_player.clear();
+	map_boss = nullptr;
 }
 
 

@@ -1532,7 +1532,6 @@ void GSPlay::restartGame(bool isIncreaseLevel)
 	//	//reset level
 	//	ResourceManagers::GetInstance()->setLevelMap(MAP_LEVEL_1);
 	//} 
-	//do somethng here
 	//reset all value game
 	ResourceManagers::GetInstance()->resetData();
 	m_mapAnimationBoom.clear();
